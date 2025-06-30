@@ -3,7 +3,6 @@ import MainLayout from './components/layout/MainLayout';
 import SortingPage from './pages/SortingPage';
 import DataStructuresPage from './pages/DataStructuresPage';
 import TreesPage from './pages/TreesPage';
-import GraphsPage from './pages/GraphsPage';
 import SearchPage from './pages/SearchPage';
 import PlaygroundPage from './pages/PlaygroundPage';
 import { AnimationProvider } from './contexts/AnimationContext';
@@ -19,12 +18,19 @@ function App() {
         return <DataStructuresPage />;
       case 'trees':
         return <TreesPage />;
-      case 'graphs':
-        return <GraphsPage />;
       case 'search':
         return <SearchPage />;
       case 'playground':
         return <PlaygroundPage />;
+      case 'graphs':
+        return (
+          <div className="min-h-screen bg-gradient-dark flex items-center justify-center">
+            <div className="text-center space-y-4">
+              <h1 className="text-3xl font-bold text-primary">Graph Algorithms</h1>
+              <p className="text-text-secondary">Coming soon...</p>
+            </div>
+          </div>
+        );
       case 'home':
       default:
         return (

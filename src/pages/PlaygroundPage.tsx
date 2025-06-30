@@ -3,7 +3,6 @@ import MultiLevelInputSystem from '../components/playground/MultiLevelInputSyste
 import AdvancedScenarioTesting from '../components/playground/AdvancedScenarioTesting';
 import AlgorithmCustomization from '../components/playground/AlgorithmCustomization';
 import SortingVisualization from '../components/sorting/SortingVisualization';
-import SearchVisualization from '../components/search/SearchVisualization';
 import { 
   Play, 
   Settings, 
@@ -164,12 +163,12 @@ const PlaygroundPage: React.FC = () => {
       );
     } else if (algorithmCategory === 'search') {
       return (
-        <SearchVisualization
-          algorithm={selectedAlgorithm as any}
-          initialArray={currentDataStructure.values}
-          targetValue={currentDataStructure.values?.[0] || 30}
-          onComplete={() => setIsRunning(false)}
-        />
+        <div className="bg-bg-card rounded-curvy p-12 shadow-curvy text-center">
+          <div className="text-text-muted">
+            <Target className="h-12 w-12 mx-auto mb-4 opacity-50" />
+            <p>Search algorithm visualization coming soon...</p>
+          </div>
+        </div>
       );
     } else {
       return (
