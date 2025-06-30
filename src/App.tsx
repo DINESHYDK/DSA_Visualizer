@@ -4,10 +4,11 @@ import SortingPage from './pages/SortingPage';
 import DataStructuresPage from './pages/DataStructuresPage';
 import TreesPage from './pages/TreesPage';
 import PlaygroundPage from './pages/PlaygroundPage';
+import ComplexityAnalysisPage from './pages/ComplexityAnalysisPage';
 import { AnimationProvider } from './contexts/AnimationContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees' | 'graphs' | 'playground'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees' | 'graphs' | 'playground' | 'complexity'>('home');
 
   const renderCurrentPage = () => {
     switch (currentPage) {
@@ -19,6 +20,8 @@ function App() {
         return <TreesPage />;
       case 'playground':
         return <PlaygroundPage />;
+      case 'complexity':
+        return <ComplexityAnalysisPage />;
       case 'graphs':
         return (
           <div className="min-h-screen bg-gradient-dark flex items-center justify-center">
@@ -102,8 +105,8 @@ function App() {
                   </p>
                 </div>
                 
-                <div className="bg-bg-card p-6 rounded-curvy shadow-curvy hover-lift">
-                  <h3 className="text-lg font-semibold text-primary mb-2">Performance Analysis</h3>
+                <div className="bg-bg-card p-6 rounded-curvy shadow-curvy hover-lift" onClick={() => setCurrentPage('complexity')}>
+                  <h3 className="text-lg font-semibold text-primary mb-2">Complexity Analysis</h3>
                   <p className="text-text-muted text-sm">
                     Understand time and space complexity with real-time metrics and comparison tools.
                   </p>

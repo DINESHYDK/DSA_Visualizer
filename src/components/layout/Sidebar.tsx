@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, Search, GitBranch, Layers, List, FileStack as Stack, Binary, Network, ChevronRight, ChevronDown } from 'lucide-react';
+import { BarChart3, Search, GitBranch, Layers, List, FileStack as Stack, Binary, Network, ChevronRight, ChevronDown, Calculator } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -17,7 +17,7 @@ interface SidebarSection {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const [expandedSections, setExpandedSections] = React.useState<string[]>(['sorting', 'data-structures']);
+  const [expandedSections, setExpandedSections] = React.useState<string[]>(['sorting', 'data-structures', 'trees', 'graphs']);
 
   const toggleSection = (sectionId: string) => {
     setExpandedSections(prev => 
@@ -74,6 +74,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         { name: 'BFS Traversal', path: '/graphs/bfs', description: 'Breadth-first exploration' },
         { name: 'DFS Traversal', path: '/graphs/dfs', description: 'Depth-first exploration' },
         { name: 'Dijkstra\'s Algorithm', path: '/graphs/dijkstra', description: 'Shortest path algorithm' },
+      ]
+    },
+    {
+      title: 'Educational Tools',
+      icon: <Calculator className="h-5 w-5" />,
+      items: [
+        { name: 'Complexity Analysis', path: '/complexity', description: 'Time & space complexity visualization' },
+        { name: 'Big O Calculator', path: '/complexity/calculator', description: 'Calculate operation counts' },
+        { name: 'Algorithm Comparison', path: '/complexity/comparison', description: 'Compare algorithm performance' },
       ]
     }
   ];
@@ -150,9 +159,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <p className="text-secondary/80 text-sm mb-3">
               Test algorithms with custom inputs and compare performance
             </p>
-            <button className="w-full bg-secondary hover:bg-accent text-primary px-4 py-2 rounded-curvy-sm transition-all duration-200 hover-lift">
-              Open Playground
-            </button>
+            <a href="/playground" onClick={onClose}>
+              <button className="w-full bg-secondary hover:bg-accent text-primary px-4 py-2 rounded-curvy-sm transition-all duration-200 hover-lift">
+                Open Playground
+              </button>
+            </a>
           </div>
         </div>
       </aside>
