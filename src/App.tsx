@@ -4,10 +4,11 @@ import SortingPage from './pages/SortingPage';
 import DataStructuresPage from './pages/DataStructuresPage';
 import TreesPage from './pages/TreesPage';
 import GraphsPage from './pages/GraphsPage';
+import SearchPage from './pages/SearchPage';
 import { AnimationProvider } from './contexts/AnimationContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees' | 'graphs'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees' | 'graphs' | 'search'>('home');
 
   const renderCurrentPage = () => {
     switch (currentPage) {
@@ -19,6 +20,8 @@ function App() {
         return <TreesPage />;
       case 'graphs':
         return <GraphsPage />;
+      case 'search':
+        return <SearchPage />;
       case 'home':
       default:
         return (
@@ -41,12 +44,18 @@ function App() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 justify-center items-center">
                 <button 
                   onClick={() => setCurrentPage('sorting')}
                   className="btn-primary px-6 py-3 rounded-curvy font-semibold transition-all duration-200"
                 >
                   Sorting Algorithms
+                </button>
+                <button 
+                  onClick={() => setCurrentPage('search')}
+                  className="btn-secondary px-6 py-3 rounded-curvy font-semibold transition-all duration-200"
+                >
+                  Search Algorithms
                 </button>
                 <button 
                   onClick={() => setCurrentPage('data-structures')}
