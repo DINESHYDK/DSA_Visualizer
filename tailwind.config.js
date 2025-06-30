@@ -4,40 +4,41 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Primary Colors - Updated with extracted colors
-        primary: 'var(--color-primary)', // #fece67
-        secondary: 'var(--color-secondary)', // #1e1e1f
-        accent: 'var(--color-accent)',
+        // Primary Colors - Enhanced for visibility
+        primary: 'var(--color-primary)', // #fbbf24 - Brighter yellow
+        secondary: 'var(--color-secondary)', // #1f2937 - Dark gray
+        accent: 'var(--color-accent)', // #374151 - Medium gray
         
-        // Background Colors
-        'bg-primary': 'var(--color-bg-primary)',
-        'bg-secondary': 'var(--color-bg-secondary)',
-        'bg-card': 'var(--color-bg-card)',
+        // Background Colors - Better contrast
+        'bg-primary': 'var(--color-bg-primary)', // #111827
+        'bg-secondary': 'var(--color-bg-secondary)', // #1f2937
+        'bg-card': 'var(--color-bg-card)', // #374151
         
-        // Text Colors
-        'text-primary': 'var(--color-text-primary)',
-        'text-secondary': 'var(--color-text-secondary)',
-        'text-muted': 'var(--color-text-muted)',
+        // Text Colors - High contrast
+        'text-primary': 'var(--color-text-primary)', // #f9fafb
+        'text-secondary': 'var(--color-text-secondary)', // #d1d5db
+        'text-muted': 'var(--color-text-muted)', // #9ca3af
         
         // Interactive States
-        hover: 'var(--color-hover)',
-        active: 'var(--color-active)',
-        focus: 'var(--color-focus)',
+        hover: 'var(--color-hover)', // #f59e0b
+        active: 'var(--color-active)', // #d97706
+        focus: 'var(--color-focus)', // #fbbf24
         
-        // Status Colors
-        success: 'var(--color-success)',
-        warning: 'var(--color-warning)',
-        error: 'var(--color-error)',
-        info: 'var(--color-info)',
+        // Status Colors - High contrast
+        success: 'var(--color-success)', // #10b981
+        warning: 'var(--color-warning)', // #f59e0b
+        error: 'var(--color-error)', // #ef4444
+        info: 'var(--color-info)', // #3b82f6
         
-        // Animation Colors
-        comparison: 'var(--color-comparison)',
-        swap: 'var(--color-swap)',
-        sorted: 'var(--color-sorted)',
-        current: 'var(--color-current)',
-        pivot: 'var(--color-pivot)',
-        minimum: 'var(--color-minimum)',
-        maximum: 'var(--color-maximum)',
+        // Animation Colors - Enhanced visibility
+        comparison: 'var(--color-comparison)', // #8b5cf6
+        swap: 'var(--color-swap)', // #ec4899
+        sorted: 'var(--color-sorted)', // #10b981
+        current: 'var(--color-current)', // #fbbf24
+        pivot: 'var(--color-pivot)', // #f97316
+        minimum: 'var(--color-minimum)', // #3b82f6
+        maximum: 'var(--color-maximum)', // #ef4444
+        found: 'var(--color-found)', // #059669
       },
       borderRadius: {
         'curvy': 'var(--radius-md)',

@@ -2,42 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global Color System - DSA Visualizer */
+/* Global Color System - DSA Visualizer - FIXED FOR VISIBILITY */
 :root {
-  /* Primary Colors - Extracted from Reference Image */
-  --color-primary: #fece67; /* Light Yellow (extracted) */
-  --color-secondary: #1e1e1f; /* Light Grey (extracted) */
-  --color-accent: #2a2a2b; /* Slightly lighter grey for accents */
+  /* Primary Colors - Enhanced for better visibility */
+  --color-primary: #fbbf24; /* Brighter yellow for better contrast */
+  --color-secondary: #1f2937; /* Darker gray for better contrast */
+  --color-accent: #374151; /* Medium gray for better visibility */
   
-  /* Background Colors - Based on extracted grey with variations */
-  --color-bg-primary: #0f0f10; /* Very dark grey (darker than extracted) */
-  --color-bg-secondary: #1e1e1f; /* Extracted light grey */
-  --color-bg-card: #2a2a2b; /* Lighter variation for cards */
+  /* Background Colors - Improved contrast */
+  --color-bg-primary: #111827; /* Very dark blue-gray */
+  --color-bg-secondary: #1f2937; /* Dark blue-gray */
+  --color-bg-card: #374151; /* Medium gray for cards */
   
-  /* Text Colors - Optimized for readability */
-  --color-text-primary: #ffffff; /* Pure white for primary text */
-  --color-text-secondary: #e5e5e5; /* Light grey for secondary text */
-  --color-text-muted: #a0a0a0; /* Muted grey for less important text */
+  /* Text Colors - High contrast for readability */
+  --color-text-primary: #f9fafb; /* Almost white for primary text */
+  --color-text-secondary: #d1d5db; /* Light gray for secondary text */
+  --color-text-muted: #9ca3af; /* Medium gray for muted text */
   
-  /* Interactive States - Yellow variations with proper contrast */
-  --color-hover: #ffd480; /* 20% lighter yellow for hover */
-  --color-active: #e6b84d; /* 20% darker yellow for active */
-  --color-focus: #fece67; /* Primary yellow for focus */
+  /* Interactive States - Enhanced visibility */
+  --color-hover: #f59e0b; /* Darker yellow for hover */
+  --color-active: #d97706; /* Even darker yellow for active */
+  --color-focus: #fbbf24; /* Primary yellow for focus */
   
-  /* Status Colors - Complementary to yellow theme */
-  --color-success: #4ade80; /* Green */
-  --color-warning: #fece67; /* Primary yellow */
-  --color-error: #f87171; /* Red */
-  --color-info: #60a5fa; /* Blue */
+  /* Status Colors - High contrast versions */
+  --color-success: #10b981; /* Bright green */
+  --color-warning: #f59e0b; /* Bright orange */
+  --color-error: #ef4444; /* Bright red */
+  --color-info: #3b82f6; /* Bright blue */
   
   /* Animation Colors - Enhanced for algorithm visualization */
-  --color-comparison: #a78bfa; /* Purple for comparisons */
-  --color-swap: #f472b6; /* Pink for swaps */
-  --color-sorted: #4ade80; /* Green for sorted elements */
-  --color-current: #fece67; /* Primary yellow for current element */
-  --color-pivot: #fb923c; /* Orange for pivot elements */
-  --color-minimum: #60a5fa; /* Blue for minimum elements */
-  --color-maximum: #f87171; /* Red for maximum elements */
+  --color-comparison: #8b5cf6; /* Bright purple for comparisons */
+  --color-swap: #ec4899; /* Bright pink for swaps */
+  --color-sorted: #10b981; /* Bright green for sorted elements */
+  --color-current: #fbbf24; /* Primary yellow for current element */
+  --color-pivot: #f97316; /* Bright orange for pivot elements */
+  --color-minimum: #3b82f6; /* Bright blue for minimum elements */
+  --color-maximum: #ef4444; /* Bright red for maximum elements */
+  --color-found: #059669; /* Dark green for found elements */
   
   /* Border Radius System */
   --radius-sm: 0.5rem;
@@ -46,19 +47,19 @@
   --radius-xl: 1.5rem;
   --radius-2xl: 2rem;
   
-  /* Shadow System - Enhanced with yellow glow effects */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
-  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.25);
-  --shadow-glow: 0 0 20px rgba(254, 206, 103, 0.3);
-  --shadow-glow-hover: 0 0 30px rgba(254, 206, 103, 0.4);
+  /* Shadow System - Enhanced with better visibility */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(251, 191, 36, 0.4);
+  --shadow-glow-hover: 0 0 30px rgba(251, 191, 36, 0.6);
   
-  /* Gradient Backgrounds - Updated with new color scheme (only for backgrounds) */
+  /* Gradient Backgrounds - Enhanced visibility */
   --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-active) 100%);
   --gradient-secondary: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-accent) 100%);
   --gradient-dark: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
-  --gradient-card: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(42, 42, 43, 0.8) 100%);
+  --gradient-card: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(55, 65, 81, 0.9) 100%);
 }
 
 /* Base Styles */
@@ -89,7 +90,7 @@ body {
   background-color: var(--color-accent);
 }
 
-.bg-card {
+.bg-bg-card {
   background-color: var(--color-bg-card);
 }
 
@@ -167,7 +168,7 @@ body {
   box-shadow: var(--shadow-glow-hover);
 }
 
-/* Gradient Utilities - Only for backgrounds */
+/* Gradient Utilities */
 .bg-gradient-primary {
   background: var(--gradient-primary);
 }
@@ -203,10 +204,10 @@ body {
   transform: translateY(-1px);
 }
 
-/* Button Styles - Solid colors only */
+/* Button Styles - Enhanced visibility */
 .btn-primary {
   background-color: var(--color-primary);
-  color: var(--color-secondary);
+  color: var(--color-bg-primary);
   border: none;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -221,13 +222,13 @@ body {
 .btn-secondary {
   background-color: var(--color-accent);
   color: var(--color-text-primary);
-  border: 1px solid var(--color-primary);
+  border: 2px solid var(--color-primary);
   transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
   background-color: var(--color-primary);
-  color: var(--color-secondary);
+  color: var(--color-bg-primary);
   box-shadow: var(--shadow-glow);
 }
 
@@ -273,41 +274,54 @@ body {
   }
 }
 
-/* Algorithm Visualization Colors */
+/* Algorithm Visualization Colors - Enhanced */
 .element-default {
   background-color: var(--color-accent);
-  border: 2px solid transparent;
+  border: 2px solid var(--color-text-muted);
+  color: var(--color-text-primary);
 }
 
 .element-comparing {
   background-color: var(--color-comparison);
   border: 2px solid var(--color-primary);
   box-shadow: var(--shadow-glow);
+  color: white;
 }
 
 .element-swapping {
   background-color: var(--color-swap);
   border: 2px solid var(--color-primary);
   animation: pulseGlow 0.5s ease-in-out;
+  color: white;
 }
 
 .element-sorted {
   background-color: var(--color-sorted);
   border: 2px solid var(--color-success);
+  color: white;
 }
 
 .element-current {
   background-color: var(--color-current);
   border: 2px solid var(--color-primary);
   box-shadow: var(--shadow-glow-hover);
+  color: var(--color-bg-primary);
 }
 
 .element-pivot {
   background-color: var(--color-pivot);
   border: 2px solid var(--color-primary);
+  color: white;
 }
 
-/* Custom Range Input Styling */
+.element-found {
+  background-color: var(--color-found);
+  border: 2px solid var(--color-success);
+  box-shadow: var(--shadow-glow);
+  color: white;
+}
+
+/* Custom Range Input Styling - Enhanced visibility */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
@@ -325,13 +339,14 @@ input[type="range"]::-webkit-slider-track {
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  height: 16px;
-  width: 16px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   background: var(--color-primary);
   cursor: pointer;
   box-shadow: var(--shadow-glow);
   transition: all 0.2s ease;
+  border: 2px solid var(--color-bg-primary);
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
@@ -348,12 +363,12 @@ input[type="range"]::-moz-range-track {
 }
 
 input[type="range"]::-moz-range-thumb {
-  height: 16px;
-  width: 16px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   background: var(--color-primary);
   cursor: pointer;
-  border: none;
+  border: 2px solid var(--color-bg-primary);
   box-shadow: var(--shadow-glow);
   transition: all 0.2s ease;
 }
@@ -369,11 +384,66 @@ input[type="range"]:focus {
 }
 
 input[type="range"]:focus::-webkit-slider-thumb {
-  box-shadow: var(--shadow-glow-hover), 0 0 0 2px rgba(254, 206, 103, 0.2);
+  box-shadow: var(--shadow-glow-hover), 0 0 0 3px rgba(251, 191, 36, 0.3);
 }
 
 input[type="range"]:focus::-moz-range-thumb {
-  box-shadow: var(--shadow-glow-hover), 0 0 0 2px rgba(254, 206, 103, 0.2);
+  box-shadow: var(--shadow-glow-hover), 0 0 0 3px rgba(251, 191, 36, 0.3);
+}
+
+/* Form Elements - Enhanced visibility */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  background-color: var(--color-bg-card);
+  border: 2px solid var(--color-accent);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Table styles - Enhanced visibility */
+table {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+th {
+  background-color: var(--color-accent);
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+td {
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-accent);
+}
+
+tr:hover {
+  background-color: rgba(251, 191, 36, 0.1);
+}
+
+/* Code blocks - Enhanced visibility */
+pre, code {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
 }
 
 /* Responsive Design Helpers */
@@ -387,19 +457,11 @@ input[type="range"]:focus::-moz-range-thumb {
   }
   
   .hover-lift:hover {
-    transform: none; /* Disable lift on mobile */
+    transform: none;
   }
   
   .hover-glow:hover {
-    transform: none; /* Disable glow transform on mobile */
-  }
-}
-
-/* Dark theme enhancements */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --shadow-glow: 0 0 20px rgba(254, 206, 103, 0.4);
-    --shadow-glow-hover: 0 0 30px rgba(254, 206, 103, 0.5);
+    transform: none;
   }
 }
 
@@ -408,6 +470,17 @@ input[type="range"]:focus::-moz-range-thumb {
   :root {
     --color-text-primary: #ffffff;
     --color-text-secondary: #ffffff;
-    --color-primary: #ffdd00; /* Higher contrast yellow */
+    --color-primary: #ffcc00;
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #1a1a1a;
+    --color-bg-card: #2a2a2a;
+  }
+}
+
+/* Dark theme enhancements */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --shadow-glow: 0 0 20px rgba(251, 191, 36, 0.5);
+    --shadow-glow-hover: 0 0 30px rgba(251, 191, 36, 0.7);
   }
 }
