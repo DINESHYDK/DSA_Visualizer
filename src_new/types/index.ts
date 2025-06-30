@@ -34,7 +34,8 @@ export type ElementState =
   | 'current'
   | 'pivot'
   | 'minimum'
-  | 'maximum';
+  | 'maximum'
+  | 'found';
 
 export interface SortingStep {
   type: 'compare' | 'swap' | 'set' | 'highlight';

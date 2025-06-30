@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Code, Eye, EyeOff, Maximize2, Minimize2, Copy, Check } from 'lucide-react';
 
 interface CodeDisplayProps {
-  algorithm: 'bubble' | 'selection' | 'insertion' | 'merge' | 'quick' | 'heap';
+  algorithm: 'bubble' | 'selection' | 'insertion' | 'merge' | 'quick' | 'heap' | 'linear' | 'binary';
   currentStep?: number;
   totalSteps?: number;
   currentOperation?: string;
@@ -121,6 +121,28 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
       { line: 16, code: 'if largest ≠ root:', indent: 1, explanation: 'If heap property violated' },
       { line: 17, code: 'swap(array[root], array[largest])', indent: 2, explanation: 'Swap with largest child' },
       { line: 18, code: 'heapify(array, largest, size)', indent: 2, explanation: 'Recursively heapify' }
+    ],
+    linear: [
+      { line: 1, code: 'function linearSearch(array, target):', indent: 0, explanation: 'Start of linear search algorithm' },
+      { line: 2, code: 'n = length(array)', indent: 1, explanation: 'Get the size of the array' },
+      { line: 3, code: 'for i = 0 to n-1:', indent: 1, explanation: 'Loop through each element' },
+      { line: 4, code: 'if array[i] == target:', indent: 2, explanation: 'Check if current element matches target' },
+      { line: 5, code: 'return i', indent: 3, explanation: 'Return index if found' },
+      { line: 6, code: 'return -1', indent: 1, explanation: 'Return -1 if not found' }
+    ],
+    binary: [
+      { line: 1, code: 'function binarySearch(array, target):', indent: 0, explanation: 'Start of binary search algorithm' },
+      { line: 2, code: 'left = 0', indent: 1, explanation: 'Initialize left boundary' },
+      { line: 3, code: 'right = length(array) - 1', indent: 1, explanation: 'Initialize right boundary' },
+      { line: 4, code: 'while left ≤ right:', indent: 1, explanation: 'Continue while search space exists' },
+      { line: 5, code: 'mid = (left + right) / 2', indent: 2, explanation: 'Calculate middle index' },
+      { line: 6, code: 'if array[mid] == target:', indent: 2, explanation: 'Check if middle element is target' },
+      { line: 7, code: 'return mid', indent: 3, explanation: 'Return index if found' },
+      { line: 8, code: 'else if array[mid] < target:', indent: 2, explanation: 'If middle is less than target' },
+      { line: 9, code: 'left = mid + 1', indent: 3, explanation: 'Search right half' },
+      { line: 10, code: 'else:', indent: 2, explanation: 'If middle is greater than target' },
+      { line: 11, code: 'right = mid - 1', indent: 3, explanation: 'Search left half' },
+      { line: 12, code: 'return -1', indent: 1, explanation: 'Return -1 if not found' }
     ]
   };
 
@@ -133,7 +155,7 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
     if (currentOperation.toLowerCase().includes('compar')) {
       // Highlighting comparison lines
       const comparisonLines = code.filter(line => 
-        line.code.includes('if') && (line.code.includes('>') || line.code.includes('<'))
+        line.code.includes('if') && (line.code.includes('>') || line.code.includes('<') || line.code.includes('=='))
       ).map(line => line.line);
       newActiveLines.push(...comparisonLines);
     } else if (currentOperation.toLowerCase().includes('swap')) {
@@ -166,6 +188,18 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
         line.code.includes('heapify') || line.code.includes('largest')
       ).map(line => line.line);
       newActiveLines.push(...heapLines);
+    } else if (currentOperation.toLowerCase().includes('checking') || currentOperation.toLowerCase().includes('search')) {
+      // Highlighting search lines
+      const searchLines = code.filter(line => 
+        line.code.includes('==') || line.code.includes('for') || line.code.includes('while')
+      ).map(line => line.line);
+      newActiveLines.push(...searchLines);
+    } else if (currentOperation.toLowerCase().includes('middle') || currentOperation.toLowerCase().includes('mid')) {
+      // Highlighting binary search middle calculation
+      const midLines = code.filter(line => 
+        line.code.includes('mid') || line.code.includes('left') || line.code.includes('right')
+      ).map(line => line.line);
+      newActiveLines.push(...midLines);
     }
 
     setActiveLines(newActiveLines);
@@ -181,6 +215,17 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
 
   const code = algorithmCode[algorithm] || [];
 
+  const getAlgorithmDisplayName = () => {
+    switch (algorithm) {
+      case 'linear':
+        return 'Linear Search';
+      case 'binary':
+        return 'Binary Search';
+      default:
+        return algorithm.charAt(0).toUpperCase() + algorithm.slice(1) + ' Sort';
+    }
+  };
+
   return (
     <div className={`bg-bg-card rounded-curvy shadow-curvy border border-accent/20 ${className}`}>
       {/* Header */}
@@ -188,7 +233,7 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
         <div className="flex items-center space-x-3">
           <Code className="h-5 w-5 text-primary" />
           <h3 className="text-lg font-semibold text-primary">
-            {algorithm.charAt(0).toUpperCase() + algorithm.slice(1)} Sort - Pseudocode
+            {getAlgorithmDisplayName()} - Pseudocode
           </h3>
         </div>
         

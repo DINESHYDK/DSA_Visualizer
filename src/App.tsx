@@ -3,12 +3,10 @@ import MainLayout from './components/layout/MainLayout';
 import SortingPage from './pages/SortingPage';
 import DataStructuresPage from './pages/DataStructuresPage';
 import TreesPage from './pages/TreesPage';
-import GraphsPage from './pages/GraphsPage';
-import SearchPage from './pages/SearchPage';
 import { AnimationProvider } from './contexts/AnimationContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees' | 'graphs' | 'search'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees'>('home');
 
   const renderCurrentPage = () => {
     switch (currentPage) {
@@ -18,10 +16,6 @@ function App() {
         return <DataStructuresPage />;
       case 'trees':
         return <TreesPage />;
-      case 'graphs':
-        return <GraphsPage />;
-      case 'search':
-        return <SearchPage />;
       case 'home':
       default:
         return (
@@ -40,22 +34,16 @@ function App() {
                 <p className="text-text-muted leading-relaxed">
                   Explore data structures and algorithms through beautiful, interactive visualizations. 
                   Learn by doing with our comprehensive collection of sorting algorithms, search techniques, 
-                  data structure operations, and graph algorithms.
+                  and data structure operations.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 justify-center items-center">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 justify-center items-center">
                 <button 
                   onClick={() => setCurrentPage('sorting')}
                   className="btn-primary px-6 py-3 rounded-curvy font-semibold transition-all duration-200"
                 >
                   Sorting Algorithms
-                </button>
-                <button 
-                  onClick={() => setCurrentPage('search')}
-                  className="btn-secondary px-6 py-3 rounded-curvy font-semibold transition-all duration-200"
-                >
-                  Search Algorithms
                 </button>
                 <button 
                   onClick={() => setCurrentPage('data-structures')}
@@ -68,12 +56,6 @@ function App() {
                   className="btn-secondary px-6 py-3 rounded-curvy font-semibold transition-all duration-200"
                 >
                   Tree Structures
-                </button>
-                <button 
-                  onClick={() => setCurrentPage('graphs')}
-                  className="btn-secondary px-6 py-3 rounded-curvy font-semibold transition-all duration-200"
-                >
-                  Graph Algorithms
                 </button>
               </div>
 

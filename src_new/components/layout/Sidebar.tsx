@@ -17,7 +17,7 @@ interface SidebarSection {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const [expandedSections, setExpandedSections] = React.useState<string[]>(['sorting', 'data-structures']);
+  const [expandedSections, setExpandedSections] = React.useState<string[]>(['sorting', 'data-structures', 'trees', 'graphs']);
 
   const toggleSection = (sectionId: string) => {
     setExpandedSections(prev => 
