@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart3, Search, GitBranch, Layers, List, FileStack as Stack, Binary, Network, ChevronRight, ChevronDown, Calculator } from 'lucide-react';
+import { BarChart3, Search, GitBranch, Layers, List, FileStack as Stack, Binary, Network, ChevronRight, ChevronDown, Calculator, Zap } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -17,7 +17,7 @@ interface SidebarSection {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const [expandedSections, setExpandedSections] = React.useState<string[]>(['sorting', 'data-structures', 'trees', 'graphs']);
+  const [expandedSections, setExpandedSections] = React.useState<string[]>(['sorting', 'data-structures', 'trees', 'graphs', 'educational', 'performance']);
 
   const toggleSection = (sectionId: string) => {
     setExpandedSections(prev => 
@@ -83,6 +83,16 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         { name: 'Complexity Analysis', path: '/complexity', description: 'Time & space complexity visualization' },
         { name: 'Big O Calculator', path: '/complexity/calculator', description: 'Calculate operation counts' },
         { name: 'Algorithm Comparison', path: '/complexity/comparison', description: 'Compare algorithm performance' },
+      ]
+    },
+    {
+      title: 'Performance Tools',
+      icon: <Zap className="h-5 w-5" />,
+      items: [
+        { name: 'Web Workers', path: '/performance', description: 'Background processing' },
+        { name: 'Memory Management', path: '/performance#memory', description: 'Optimize memory usage' },
+        { name: 'Progressive Rendering', path: '/performance#rendering', description: 'Efficient UI updates' },
+        { name: 'Error Handling', path: '/performance#errors', description: 'Robust error boundaries' },
       ]
     }
   ];

@@ -5,10 +5,11 @@ import DataStructuresPage from './pages/DataStructuresPage';
 import TreesPage from './pages/TreesPage';
 import PlaygroundPage from './pages/PlaygroundPage';
 import ComplexityAnalysisPage from './pages/ComplexityAnalysisPage';
+import PerformanceOptimizationPage from './pages/PerformanceOptimizationPage';
 import { AnimationProvider } from './contexts/AnimationContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees' | 'graphs' | 'playground' | 'complexity'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees' | 'graphs' | 'playground' | 'complexity' | 'performance'>('home');
 
   const renderCurrentPage = () => {
     switch (currentPage) {
@@ -22,6 +23,8 @@ function App() {
         return <PlaygroundPage />;
       case 'complexity':
         return <ComplexityAnalysisPage />;
+      case 'performance':
+        return <PerformanceOptimizationPage />;
       case 'graphs':
         return (
           <div className="min-h-screen bg-gradient-dark flex items-center justify-center">
@@ -98,17 +101,17 @@ function App() {
                   </p>
                 </div>
                 
-                <div className="bg-bg-card p-6 rounded-curvy shadow-curvy hover-lift">
-                  <h3 className="text-lg font-semibold text-primary mb-2">Custom Input Testing</h3>
-                  <p className="text-text-muted text-sm">
-                    Test algorithms with your own data sets and compare performance across different scenarios.
-                  </p>
-                </div>
-                
                 <div className="bg-bg-card p-6 rounded-curvy shadow-curvy hover-lift" onClick={() => setCurrentPage('complexity')}>
                   <h3 className="text-lg font-semibold text-primary mb-2">Complexity Analysis</h3>
                   <p className="text-text-muted text-sm">
                     Understand time and space complexity with real-time metrics and comparison tools.
+                  </p>
+                </div>
+                
+                <div className="bg-bg-card p-6 rounded-curvy shadow-curvy hover-lift" onClick={() => setCurrentPage('performance')}>
+                  <h3 className="text-lg font-semibold text-primary mb-2">Performance Optimization</h3>
+                  <p className="text-text-muted text-sm">
+                    Learn advanced techniques for optimizing application performance and memory usage.
                   </p>
                 </div>
               </div>
