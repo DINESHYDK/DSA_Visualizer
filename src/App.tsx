@@ -3,12 +3,11 @@ import MainLayout from './components/layout/MainLayout';
 import SortingPage from './pages/SortingPage';
 import DataStructuresPage from './pages/DataStructuresPage';
 import TreesPage from './pages/TreesPage';
-import SearchPage from './pages/SearchPage';
 import PlaygroundPage from './pages/PlaygroundPage';
 import { AnimationProvider } from './contexts/AnimationContext';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees' | 'graphs' | 'search' | 'playground'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'sorting' | 'data-structures' | 'trees' | 'graphs' | 'playground'>('home');
 
   const renderCurrentPage = () => {
     switch (currentPage) {
@@ -18,8 +17,6 @@ function App() {
         return <DataStructuresPage />;
       case 'trees':
         return <TreesPage />;
-      case 'search':
-        return <SearchPage />;
       case 'playground':
         return <PlaygroundPage />;
       case 'graphs':
@@ -60,12 +57,10 @@ function App() {
                 >
                   Sorting Algorithms
                 </button>
-                <button 
-                  onClick={() => setCurrentPage('search')}
-                  className="btn-secondary px-6 py-3 rounded-curvy font-semibold transition-all duration-200"
-                >
+                <div className="btn-secondary px-6 py-3 rounded-curvy font-semibold transition-all duration-200 opacity-50 cursor-not-allowed">
                   Search Algorithms
-                </button>
+                  <span className="block text-xs mt-1">Coming Soon</span>
+                </div>
                 <button 
                   onClick={() => setCurrentPage('data-structures')}
                   className="btn-secondary px-6 py-3 rounded-curvy font-semibold transition-all duration-200"
