@@ -1,477 +1,387 @@
 # DSA Visualizer - Implementation Task List
 
-## **Phase 1: Foundation & Core Setup (Weeks 1-2)**
+## Previous Work (Phases 1-4.2) — COMPLETED
 
-### **1.1 Project Architecture & Styling Foundation**
+All original feature development is complete:
+- 6 sorting algorithms (Bubble, Selection, Insertion, Merge, Quick, Heap)
+- Data structures (Array, LinkedList, Stack, Queue)
+- Tree structures (BST, Heap, AVL)
+- Graph algorithms (BFS, DFS, Dijkstra)
+- Search algorithms (Linear, Binary)
+- Interactive playground with scenario testing
+- Algorithm customization interface
+- Educational features (complexity analysis, step-by-step learning)
 
-[x] **1.1.1** Set up Global Color System & Design Foundation
+---
+
+## V2 Restructuring — LeetCode-Inspired Professional Redesign
+
+### Problems Identified in V1
+1. **Animations dumped at once** — Multiple unsynchronized setState calls, stale closures in animation loop, no CSS transitions between states
+2. **Unprofessional design** — Yellow glow effects, heavy shadows, oversized 2rem "curvy" borders
+3. **No routing** — useState-based page switching, no URLs, no browser back button
+4. **Dead code** — Entire `src_new/` duplicate directory (11 files), performance stub components never integrated
+5. **Fragmented state** — Dual AnimationContext + useAnimationEngine, 8 separate useState calls in SortingVisualization
+6. **Hardcoded dimensions** — 70px elements, 800px containers, not responsive
+7. **Type safety gaps** — `any` types scattered, duplicate SortingStep/AnimationStep definitions
+
+---
+
+## **Phase R0: Cleanup**
+
+[ ] **R0.1** Delete Dead Code
 - Priority: H
 - Dependencies: None
 - Subtasks:
-  * [x] Extract exact hex colors from reference image
-  * [x] Define CSS custom properties in index.css
-  * [x] Configure Tailwind theme extension with custom colors
-  * [x] Apply global background and text colors
-  * [x] Implement curvy border system (rounded corners)
-  * [x] Test color accessibility and contrast ratios
+  * [ ] Delete entire `src/src_new/` directory (11 unused duplicate files)
+  * [ ] Delete `src/components/performance/WebWorkerManager.tsx` (stub, never integrated)
+  * [ ] Delete `src/components/performance/ProgressiveRenderer.tsx` (stub, never integrated)
+  * [ ] Delete `src/components/performance/MemoryManager.tsx` (stub, never integrated)
+  * [ ] Delete `src/components/performance/LoadingStateManager.tsx` (stub, never integrated)
+  * [ ] Delete `src/components/performance/ResponsiveScaler.tsx` (stub, never integrated)
+  * [ ] Keep `src/components/performance/ErrorBoundary.tsx`
 
-[x] **1.1.2** Create Responsive Layout Structure
+[ ] **R0.2** Resolve Naming Conflicts & Clean References
 - Priority: H
-- Dependencies: 1.1.1
+- Dependencies: R0.1
 - Subtasks:
-  * [x] Design mobile-first responsive breakpoints
-  * [x] Create main navigation component structure
-  * [x] Implement header with logo and navigation
-  * [x] Set up main content area with sidebar layout
-  * [x] Add footer component
-  * [x] Test responsiveness across devices
+  * [ ] Rename `src/components/datastructures/ArrayVisualization.tsx` → `ArrayDataStructure.tsx`
+  * [ ] Update all imports referencing the renamed file
+  * [ ] Remove all `console.log` statements (SortingVisualization.tsx, SortingPage.tsx)
 
-[x] **1.1.3** Component Architecture Planning
-- Priority: H
-- Dependencies: 1.1.2
-- Subtasks:
-  * [x] Define component folder structure
-  * [x] Create base component interfaces/types
-  * [x] Set up shared utility functions
-  * [x] Create animation control interfaces
-  * [x] Define data structure type definitions
-  * [x] Set up context providers for global state
-
-### **1.2 Core Animation Framework**
-
-[x] **1.2.1** Animation Engine Development
-- Priority: H
-- Dependencies: 1.1.3
-- Subtasks:
-  * [x] Create animation state management system
-  * [x] Implement requestAnimationFrame loop
-  * [x] Build step-by-step execution controller
-  * [x] Create animation speed control system
-  * [x] Implement play/pause/reset functionality
-  * [x] Add forward/backward stepping capability
-
-[x] **1.2.2** Visual Element System
-- Priority: H
-- Dependencies: 1.2.1
-- Subtasks:
-  * [x] Create animated array element component
-  * [x] Build comparison highlighting system
-  * [x] Implement swap animation transitions
-  * [x] Create color-coded state indicators
-  * [x] Add smooth transition effects
-  * [x] Build element labeling system
-
-### **1.3 Basic Sorting Algorithms**
-
-[x] **1.3.1** Bubble Sort Implementation
-- Priority: H
-- Dependencies: 1.2.2
-- Subtasks:
-  * [x] Implement bubble sort algorithm logic
-  * [x] Create step-by-step state tracking
-  * [x] Add comparison and swap counters
-  * [x] Integrate with animation engine
-  * [x] Add pseudocode display with highlighting
-  * [x] Test with various input sizes
-
-[x] **1.3.2** Selection Sort Implementation
-- Priority: H
-- Dependencies: 1.3.1
-- Subtasks:
-  * [x] Implement selection sort algorithm logic
-  * [x] Create minimum element highlighting
-  * [x] Add position tracking visualization
-  * [x] Integrate comparison counters
-  * [x] Add pseudocode synchronization
-  * [x] Test edge cases (sorted, reverse sorted)
-
-[x] **1.3.3** Insertion Sort Implementation
-- Priority: H
-- Dependencies: 1.3.2
-- Subtasks:
-  * [x] Implement insertion sort algorithm logic
-  * [x] Create sorted/unsorted section visualization
-  * [x] Add element insertion animations
-  * [x] Implement shift operation visualization
-  * [x] Add pseudocode display
-  * [x] Performance testing with different inputs
-
-## **Phase 2: Core Features & User Interaction (Weeks 3-4)**
-
-### **2.1 Advanced Sorting Algorithms**
-
-[x] **2.1.1** Merge Sort Implementation
-- Priority: H
-- Dependencies: 1.3.3
-- Subtasks:
-  * [x] Implement recursive merge sort logic
-  * [x] Create divide visualization (array splitting)
-  * [x] Build merge operation animation
-  * [x] Add recursive call stack visualization
-  * [x] Implement auxiliary array display
-  * [x] Add complexity analysis display
-
-[x] **2.1.2** Quick Sort Implementation
-- Priority: H
-- Dependencies: 2.1.1
-- Subtasks:
-  * [x] Implement quicksort with pivot selection
-  * [x] Create partitioning visualization
-  * [x] Add pivot highlighting and movement
-  * [x] Implement multiple pivot strategies
-  * [x] Add recursive call visualization
-  * [x] Performance comparison with merge sort
-
-[x] **2.1.3** Heap Sort Implementation
+[ ] **R0.3** Remove Dead Pages & Routes
 - Priority: M
-- Dependencies: 2.1.2
+- Dependencies: R0.1
 - Subtasks:
-  * [x] Implement heap data structure
-  * [x] Create heapify operation visualization
-  * [x] Build heap construction animation
-  * [x] Add extract-max visualization
-  * [x] Show both tree and array representations
-  * [x] Add heap property validation display
-
-### **2.2 Interactive Control System**
-
-[x] **2.2.1** Animation Control Panel
-- Priority: H
-- Dependencies: 1.2.1
-- Subtasks:
-  * [x] Design control panel UI component
-  * [x] Implement play/pause toggle button
-  * [x] Add speed adjustment slider (0.5x to 3x)
-  * [x] Create step forward/backward buttons
-  * [x] Add skip to beginning/end functionality
-  * [x] Implement reset to initial state
-
-[x] **2.2.2** Custom Input System
-- Priority: H
-- Dependencies: 2.2.1
-- Subtasks:
-  * [x] Create array size adjustment slider
-  * [x] Build custom data input text field
-  * [x] Add input validation and error handling
-  * [x] Implement random data generation
-  * [x] Create preset scenario selection
-  * [x] Add input format help/examples
-
-[x] **2.2.3** Real-time Code Display
-- Priority: H
-- Dependencies: 2.2.2
-- Subtasks:
-  * [x] Create pseudocode display component
-  * [x] Implement current line highlighting
-  * [x] Add code-animation synchronization
-  * [x] Create expandable code explanations
-  * [x] Add syntax highlighting for readability
-  * [x] Implement code zoom/font size controls
-
-### **2.3 Basic Data Structures**
-
-[x] **2.3.1** Array Visualization
-- Priority: H
-- Dependencies: 2.2.3
-- Subtasks:
-  * [x] Create interactive array component
-  * [x] Add index display and highlighting
-  * [x] Implement insertion/deletion operations
-  * [x] Add memory layout visualization
-  * [x] Create search operation animation
-  * [x] Add array bounds checking visualization
-
-[x] **2.3.2** Linked List Implementation
-- Priority: M
-- Dependencies: 2.3.1
-- Subtasks:
-  * [x] Create node component with pointer visualization
-  * [x] Implement singly linked list operations
-  * [x] Add insertion/deletion animations
-  * [x] Create pointer movement animations
-  * [x] Add doubly linked list variant
-  * [x] Implement circular linked list option
-
-[x] **2.3.3** Stack and Queue Visualization
-- Priority: M
-- Dependencies: 2.3.2
-- Subtasks:
-  * [x] Create vertical stack visualization
-  * [x] Implement push/pop animations
-  * [x] Build horizontal queue layout
-  * [x] Add enqueue/dequeue operations
-  * [x] Create LIFO/FIFO operation highlighting
-  * [x] Add overflow/underflow error handling
-
-## **Phase 3: Advanced Algorithms & Data Structures (Weeks 5-6)**
-
-### **3.1 Tree Data Structures**
-
-[x] **3.1.1** Binary Search Tree Implementation
-- Priority: H
-- Dependencies: 2.3.3
-- Subtasks:
-  * [x] Create tree node visualization component
-  * [x] Implement BST insertion with animation
-  * [x] Add deletion operation with cases
-  * [x] Create tree traversal animations (inorder, preorder, postorder)
-  * [x] Add search path highlighting
-  * [x] Implement tree balancing visualization
-
-[x] **3.1.2** Heap Data Structure
-- Priority: M
-- Dependencies: 3.1.1
-- Subtasks:
-  * [x] Create heap tree visualization
-  * [x] Show array representation simultaneously
-  * [x] Implement heap insertion with bubbling up
-  * [x] Add extraction with bubbling down
-  * [x] Create min-heap and max-heap variants
-  * [x] Add heap property validation indicators
-
-[x] **3.1.3** AVL Tree (Optional Advanced)
-- Priority: L
-- Dependencies: 3.1.2
-- Subtasks:
-  * [x] Implement balance factor calculation
-  * [x] Create rotation animations
-  * [x] Add height tracking visualization
-  * [x] Show balance factor at each node
-  * [x] Implement automatic rebalancing
-  * [x] Compare with regular BST performance
-
-### **3.2 Graph Data Structures & Algorithms**
-
-[x] **3.2.1** Graph Representation & Visualization
-- Priority: H
-- Dependencies: 3.1.2
-- Subtasks:
-  * [x] Create interactive graph builder
-  * [x] Implement adjacency matrix representation
-  * [x] Add adjacency list representation
-  * [x] Create drag-and-drop node placement
-  * [x] Add edge weight assignment interface
-  * [x] Implement graph validation (cycles, connectivity)
-
-[x] **3.2.2** Graph Traversal Algorithms
-- Priority: H
-- Dependencies: 3.2.1
-- Subtasks:
-  * [x] Implement Breadth-First Search (BFS)
-  * [x] Create queue visualization for BFS
-  * [x] Implement Depth-First Search (DFS)
-  * [x] Add stack visualization for DFS
-  * [x] Create visited node highlighting
-  * [x] Add traversal order numbering
-
-[x] **3.2.3** Shortest Path Algorithms
-- Priority: M
-- Dependencies: 3.2.2
-- Subtasks:
-  * [x] Implement Dijkstra's algorithm
-  * [x] Create priority queue visualization
-  * [x] Add distance table updates
-  * [x] Show shortest path highlighting
-  * [x] Implement path reconstruction
-  * [x] Add algorithm step explanations
-
-### **3.3 Search Algorithms**
-
-[x] **3.3.1** Linear Search Implementation
-- Priority: M
-- Dependencies: 3.2.3
-- Subtasks:
-  * [x] Create step-by-step element checking
-  * [x] Add current position highlighting
-  * [x] Implement found/not found states
-  * [x] Add comparison counter
-  * [x] Create best/worst case scenarios
-  * [x] Add time complexity analysis
-
-[x] **3.3.2** Binary Search Implementation
-- Priority: H
-- Dependencies: 3.3.1
-- Subtasks:
-  * [x] Implement divide-and-conquer visualization
-  * [x] Create range highlighting (low, mid, high)
-  * [x] Add middle element calculation display
-  * [x] Show search space reduction
-  * [x] Add prerequisite (sorted array) validation
-  * [x] Compare performance with linear search
-  
-## **Phase 4: Interactive Playground & Advanced Features (Weeks 7-8)**
-
-### **4.1 Interactive Playground Development**
-
-[x] **4.1.1** Multi-Level Custom Input System
-- Priority: H
-- Dependencies: 3.3.2
-- Subtasks:
-  * [x] Create comma-separated value input parser
-  * [x] Build interactive element builder interface
-  * [x] Add slider-based array generation
-  * [x] Implement range-based random generation
-  * [x] Create graph structure builder interface
-  * [x] Add template selection for common structures
-
-[x] **4.1.2** Advanced Scenario Testing
-- Priority: M
-- Dependencies: 4.1.1
-- Subtasks:
-  * [x] Create edge case generator
-  * [x] Implement best/worst/average case scenarios
-  * [x] Add stress testing with large datasets
-  * [x] Create performance comparison interface
-  * [x] Add side-by-side algorithm comparison
-  * [x] Implement real-time metrics display
-
-[x] **4.1.3** Algorithm Customization Interface
-- Priority: M
-- Dependencies: 4.1.2
-- Subtasks:
-  * [x] Create pivot selection options for quicksort
-  * [x] Add traversal order modifications
-  * [x] Implement heuristic adjustments
-  * [x] Create base case modification interface
-  * [x] Add algorithm parameter controls
-  * [x] Implement custom algorithm validation
-
-### **4.2 Educational Enhancement Features**
-
-[x] **4.2.1** Complexity Analysis Integration
-- Priority: H
-- Dependencies: 4.1.3
-- Subtasks:
-  * [x] Create real-time complexity display
-  * [x] Add operation counters (comparisons, swaps)
-  * [x] Implement space complexity visualization
-  * [x] Create performance comparison charts
-  * [x] Add Big O notation explanations
-  * [x] Build complexity calculator tool
-
-[x] **4.2.2** Step-by-Step Learning System
-- Priority: M
-- Dependencies: 4.2.1
-- Subtasks:
-  * [x] Create contextual step explanations
-  * [x] Implement prediction mode interface
-  * [x] Add interactive quiz questions
-  * [x] Create progress tracking system
-  * [x] Build adaptive difficulty scaling
-  * [x] Add concept prerequisite mapping
-
-
-### **4.3 Polish & Optimization**
-
-[ ] **4.3.1** Performance Optimization
-- Priority: H
-- Dependencies: 4.2.3
-- Subtasks:
-  * [ ] Implement WebWorker for heavy computations
-  * [ ] Add progressive rendering for large datasets
-  * [ ] Optimize memory management for undo/redo
-  * [ ] Create responsive performance scaling
-  * [ ] Add loading states and progress indicators
-  * [ ] Implement error boundary components
-
-[ ] **4.3.2** Accessibility & Mobile Optimization
-- Priority: H
-- Dependencies: 4.3.1
-- Subtasks:
-  * [ ] Add keyboard navigation support
-  * [ ] Implement screen reader compatibility
-  * [ ] Create touch-friendly mobile controls
-  * [ ] Add gesture support for mobile
-  * [ ] Ensure color blindness compatibility
-  * [ ] Add high contrast mode option
-
-[ ] **4.3.3** Final Testing & Documentation
-- Priority: H
-- Dependencies: 4.3.2
-- Subtasks:
-  * [ ] Cross-browser compatibility testing
-  * [ ] Mobile device testing
-  * [ ] Performance benchmarking
-  * [ ] User acceptance testing
-  * [ ] Create user documentation/help system
-  * [ ] Add developer documentation
+  * [ ] Delete `src/pages/PerformanceOptimizationPage.tsx` (depends on deleted stubs)
+  * [ ] Remove PerformanceOptimizationPage import and route from `src/App.tsx`
 
 ---
 
-## **Current Status Summary**
+## **Phase R1: Design System — LeetCode-Inspired**
 
-### **Completion Level: ~85%**
-- ✅ **Phase 1**: Foundation & Core Setup (100%)
-- ✅ **Phase 2**: Core Features & User Interaction (100%)
-- ✅ **Phase 2.3**: Basic Data Structures (100%)
-- ✅ **Phase 3.1**: Tree Data Structures (100%)
-- ✅ **Phase 3.2**: Graph Data Structures & Algorithms (100%)
-- ✅ **Phase 3.3**: Search Algorithms (100%)
-- ✅ **Phase 4.1**: Interactive Playground Development (100%)
-- ⏳ **Phase 4.2**: Educational Enhancement Features (0%)
-- ⏳ **Phase 4.3**: Polish & Optimization (0%)
+[ ] **R1.1** New Color Token System
+- Priority: H
+- Dependencies: R0.3
+- Subtasks:
+  * [ ] Rewrite `:root` CSS custom properties in `src/index.css` with new palette:
+    - Backgrounds: `#1a1a2e` (primary), `#282828` (secondary), `#303030` (cards), `#3e3e3e` (elevated)
+    - Borders: `#3e3e3e` (default), `#525252` (hover)
+    - Text: `#eff1f6` (primary), `#eff1f6bf` (secondary), `#ffffff80` (muted)
+    - Accent: `#ffa116` (LeetCode orange)
+    - Status: `#2cbb5d` (success), `#ffc01e` (warning), `#ff375f` (error)
+    - Visualization: `#7c3aed` (compare), `#ec4899` (swap), `#2cbb5d` (sorted), `#ffa116` (active), `#f97316` (pivot)
+  * [ ] Replace border radius tokens: `4px` (sm), `6px` (md), `8px` (lg) — no more 2rem
+  * [ ] Replace shadow tokens: minimal `0 1px 2px rgba(0,0,0,0.3)` max — NO glow effects
+  * [ ] Remove all gradient custom properties
 
-### **What's Working**
-- All sorting algorithms with full visualization
-- Complete data structure implementations
-- Tree structures with advanced features
-- Graph algorithms with interactive visualization
-- Search algorithms with comprehensive testing
-- Interactive playground with multi-level input system
-- Advanced scenario testing with performance metrics
-- Algorithm customization with parameter controls
-- Real-time code display and metrics
-- Responsive design and accessibility
+[ ] **R1.2** Update Tailwind Configuration
+- Priority: H
+- Dependencies: R1.1
+- Subtasks:
+  * [ ] Replace all custom colors in `tailwind.config.js` with new token references
+  * [ ] Remove `rounded-curvy*` border radius variants
+  * [ ] Remove `shadow-curvy*` and `shadow-glow*` variants
+  * [ ] Add monospace font family (`'Fira Code', 'JetBrains Mono', monospace`)
 
-### **Ready for Production**
-- Clean, maintainable codebase
-- Comprehensive error handling
-- Beautiful, professional UI/UX
-- Educational value and usability
-- Performance optimizations
-- Cross-platform compatibility
-- Interactive playground for advanced testing
-- Comprehensive algorithm customization
-- Advanced scenario testing capabilities
+[ ] **R1.3** Rewrite Global CSS Classes
+- Priority: H
+- Dependencies: R1.2
+- Subtasks:
+  * [ ] Remove ALL old classes: `.rounded-curvy*`, `.shadow-curvy*`, `.shadow-glow*`, `.hover-lift`, `.hover-glow`, `.animate-pulse-glow`, `.bg-gradient-*`
+  * [ ] Remove conflicting utility classes that duplicate Tailwind (`.bg-primary`, `.text-primary`, `.text-secondary`, etc.)
+  * [ ] Rewrite `.btn-primary`: flat `#ffa116` bg, white text, `6px` radius, no glow
+  * [ ] Rewrite `.btn-secondary`: transparent bg, `1px` border `#3e3e3e`
+  * [ ] Rewrite `.element-*` classes with `transition: all 300ms ease` baked in
+  * [ ] Update form element styles (inputs, selects, range sliders) with new colors
+  * [ ] Update table and code block styles
 
-## **🔄 Next Steps (For Future Development)**
-
-### Phase 4.2: Educational Enhancement Features (Pending)
-- Real-time complexity analysis and visualization
-- Interactive learning system with quizzes
-- Progress tracking and adaptive difficulty
-- Collaborative features and sharing
-
-### Phase 4.3: Polish & Optimization (Pending)
-- Performance optimization with WebWorkers
-- Enhanced accessibility and mobile optimization
-- Comprehensive testing and documentation
-- Final production polish and deployment
-
-## **🎓 Educational Impact**
-
-This project now serves as a comprehensive learning platform that:
-- **Visualizes abstract concepts** making them concrete
-- **Provides hands-on experience** with algorithm implementation
-- **Enables experimentation** with different data sets and parameters
-- **Teaches performance analysis** through real metrics and testing
-- **Builds intuition** about algorithm behavior
-- **Supports different learning styles** (visual, interactive, analytical)
-- **Offers advanced playground** for comprehensive algorithm exploration
-- **Provides customization options** for deep algorithm understanding
-
-## **💡 Key Innovations**
-
-1. **Interactive Playground**: Multi-level input system with advanced scenario testing
-2. **Algorithm Customization**: Parameter controls and validation system
-3. **Comprehensive Testing Suite**: Edge cases, stress tests, and performance analysis
-4. **Synchronized Code Display**: Real-time pseudocode highlighting
-5. **Enhanced Input System**: Save/load custom test cases and configurations
-6. **Multi-View Visualizations**: Tree and array views for heaps
-7. **Performance Metrics**: Real-time complexity analysis
-8. **Educational Progression**: From basic to advanced concepts
-9. **Production-Quality Design**: Apple-level aesthetics and UX
+[ ] **R1.4** Create Reusable UI Primitive Components
+- Priority: H
+- Dependencies: R1.3
+- Subtasks:
+  * [ ] Create `src/components/ui/Card.tsx` — flat bg `#303030`, 1px border `#3e3e3e`, 8px radius
+  * [ ] Create `src/components/ui/Button.tsx` — primary (orange), secondary (ghost), danger (red) variants
+  * [ ] Create `src/components/ui/Badge.tsx` — for difficulty/status (easy/medium/hard colors)
+  * [ ] Create `src/components/ui/Tabs.tsx` — LeetCode-style underline tab navigation
 
 ---
 
-**Project Status**: Phase 4.1 Complete! The interactive playground is now fully implemented with advanced testing capabilities, algorithm customization, and comprehensive input management. The platform provides a sophisticated environment for algorithm exploration and learning. Future phases can focus on educational enhancements and final optimization.
+## **Phase R2: Infrastructure**
+
+[ ] **R2.1** Add React Router
+- Priority: H
+- Dependencies: R1.4
+- Subtasks:
+  * [ ] Install `react-router-dom` v6
+  * [ ] Rewrite `src/App.tsx` with `<BrowserRouter>`, `<Routes>`, `<Route>`
+  * [ ] Define routes: `/` (home), `/sorting` (sorting page), `/data-structures`, `/trees`, `/playground`, `/complexity`
+  * [ ] Wrap ALL routes in persistent `MainLayout` (fix: currently only home page uses it)
+
+[ ] **R2.2** Fix Layout Components for Router
+- Priority: H
+- Dependencies: R2.1
+- Subtasks:
+  * [ ] Rewrite `src/components/layout/MainLayout.tsx` to use `<Outlet>` for child rendering
+  * [ ] Rewrite `src/components/layout/Header.tsx` — replace `<a>` with `<NavLink>`, orange active underline
+  * [ ] Rewrite `src/components/layout/Sidebar.tsx` — replace `<a>` with `<NavLink>`, orange left-border active state
+  * [ ] Style all nav items with new design tokens (flat, no glow)
+
+[ ] **R2.3** Extract Home Page
+- Priority: M
+- Dependencies: R2.1
+- Subtasks:
+  * [ ] Create `src/pages/HomePage.tsx` (extract inline home page from `App.tsx`)
+  * [ ] Clean hero section: white title, muted subtitle, no gradients
+  * [ ] Flat navigation cards with 1px borders
+
+[ ] **R2.4** Consolidate State Management
+- Priority: H
+- Dependencies: R2.1
+- Subtasks:
+  * [ ] Delete `src/contexts/AnimationContext.tsx` — global animation state is wrong for per-visualization instances
+  * [ ] Remove `<AnimationProvider>` from `App.tsx`
+  * [ ] Consolidate `SortingVisualization.tsx` 8 separate `useState` calls into single `useReducer`
+  * [ ] Update all components that import from AnimationContext to use `useAnimationEngine` directly
+
+[ ] **R2.5** Fix Type System
+- Priority: M
+- Dependencies: R2.4
+- Subtasks:
+  * [ ] Remove duplicate `SortingStep` type from `src/types/index.ts` (use `AnimationStep` everywhere)
+  * [ ] Remove `any` types from `VisualizationProps.data` and `VisualElement.data`
+  * [ ] Remove unused `ThemeColors` interface
+  * [ ] Ensure `AnimationControls` type includes `goToStep` method
+
+---
+
+## **Phase R3: Animation Engine Rewrite** ← MOST CRITICAL
+
+[ ] **R3.1** Fix Animation Loop — Stale Closure Bug
+- Priority: H
+- Dependencies: R2.4
+- File: `src/hooks/useAnimationEngine.ts`
+- Subtasks:
+  * [ ] Replace `useState` for isPlaying/currentStep with `useRef` for mutable animation state
+  * [ ] Rewrite `animationLoop` callback to read from refs (not closed-over state)
+  * [ ] Sync refs to React state with single `setState` call per frame
+  * [ ] Set minimum step duration >= 350ms (must exceed CSS transition duration)
+  * [ ] Add `computeArrayStateAtStep(steps, targetStep)` for correct backward stepping
+  * [ ] Clean up RAF properly on unmount and pause
+
+[ ] **R3.2** Fix Step Handler — Single Dispatch Per Step
+- Priority: H
+- Dependencies: R3.1
+- File: `src/components/sorting/SortingVisualization.tsx`
+- Subtasks:
+  * [ ] Replace `handleStepChange` (currently 4 separate setState = 4 re-renders) with single `useReducer` dispatch
+  * [ ] New dispatch computes: elements state, highlighted indices, operation text, metrics — all in one update
+  * [ ] Implement `computeVisualizationState(stepIndex)` that derives correct array state from step data
+  * [ ] Ensure backward stepping correctly restores previous array state
+
+[ ] **R3.3** Fix AnimatedArrayElement — Pure CSS Transitions
+- Priority: H
+- Dependencies: R3.2
+- File: `src/components/animation/AnimatedArrayElement.tsx`
+- Subtasks:
+  * [ ] Remove `isAnimating` useState and useEffect timers
+  * [ ] Remove `displayValue` internal state
+  * [ ] Element visual state determined ENTIRELY by `state` prop via CSS classes
+  * [ ] CSS handles smooth transitions: `transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease`
+  * [ ] Remove inline `transform: scale(1.1) rotate(1deg)` hack
+
+[ ] **R3.4** Add Proper Swap Animation
+- Priority: M
+- Dependencies: R3.3
+- File: `src/components/animation/ArrayVisualization.tsx`
+- Subtasks:
+  * [ ] When 'swap' step is active, compute `translateX` offset for each swapping element
+  * [ ] Two-phase animation: visual translateX move (CSS transition) → actual array reorder (after transition completes)
+  * [ ] Lift swapping elements with subtle `translateY(-8px)` during swap
+
+[ ] **R3.5** Clean Up Animation Support Components
+- Priority: M
+- Dependencies: R3.3
+- Subtasks:
+  * [ ] Simplify `ComparisonHighlight.tsx` — remove pulseGlow, use subtle border/underline indicator
+  * [ ] Simplify `TransitionEffects.tsx` — remove glow effects, simplify swap/slide animations
+  * [ ] Remove `AnimationControls.tsx` if redundant with `AnimationControlPanel.tsx`
+
+---
+
+## **Phase R4: Page-by-Page Redesign**
+
+[ ] **R4.1** Global Style Migration (All Components)
+- Priority: H
+- Dependencies: R3.5
+- Subtasks:
+  * [ ] Find-and-replace across ALL files: `rounded-curvy` → `rounded-lg`
+  * [ ] Find-and-replace: `shadow-curvy` → remove or `shadow-sm`
+  * [ ] Find-and-replace: `shadow-glow` → remove entirely
+  * [ ] Find-and-replace: `hover-lift` → `hover:bg-[#3e3e3e]` or remove
+  * [ ] Find-and-replace: `bg-gradient-dark` → `bg-[var(--color-bg-primary)]`
+  * [ ] Find-and-replace: `animate-pulse-glow` → remove
+  * [ ] Find-and-replace: `bg-bg-card` → use Card component or new token
+
+[ ] **R4.2** Sorting Page Redesign
+- Priority: H
+- Dependencies: R4.1
+- Subtasks:
+  * [ ] Redesign `src/pages/SortingPage.tsx` with flat cards, consistent borders
+  * [ ] Redesign `src/components/sorting/AlgorithmComparison.tsx` — tab-style selector with orange active
+  * [ ] Redesign `src/components/sorting/CodeDisplay.tsx` — dark bg (#1e1e1e), monospace font, clean line highlighting
+  * [ ] Redesign `src/components/sorting/EnhancedCustomInputPanel.tsx` — clean inputs, orange focus
+  * [ ] Redesign `src/components/animation/AnimationControlPanel.tsx`:
+    - Flat orange play button (no glow)
+    - Thin progress bar with orange fill
+    - Clean speed slider
+    - Remove redundant status indicator section
+  * [ ] Compact metrics display — inline stats bar instead of 4 separate hover-lift cards
+
+[ ] **R4.3** Data Structures Page Redesign
+- Priority: H
+- Dependencies: R4.1
+- Subtasks:
+  * [ ] Redesign `src/pages/DataStructuresPage.tsx` with flat cards, consistent layout
+  * [ ] Update `src/components/datastructures/ArrayDataStructure.tsx` (renamed) styling
+  * [ ] Update `src/components/datastructures/LinkedListVisualization.tsx` styling
+  * [ ] Update `src/components/datastructures/StackQueueVisualization.tsx` styling
+
+[ ] **R4.4** Trees Page Redesign
+- Priority: H
+- Dependencies: R4.1
+- Subtasks:
+  * [ ] Redesign `src/pages/TreesPage.tsx` with flat cards
+  * [ ] Update `src/components/trees/BinarySearchTreeVisualization.tsx` — clean node circles, thin borders
+  * [ ] Update `src/components/trees/HeapVisualization.tsx` styling
+  * [ ] Update `src/components/trees/AVLTreeVisualization.tsx` styling
+  * [ ] Update `src/components/animation/TreeVisualization.tsx` — clean node rendering
+
+[ ] **R4.5** Playground & Complexity Pages Redesign
+- Priority: M
+- Dependencies: R4.1
+- Subtasks:
+  * [ ] Redesign `src/pages/PlaygroundPage.tsx` — consistent card/input styling
+  * [ ] Update `src/components/playground/MultiLevelInputSystem.tsx`
+  * [ ] Update `src/components/playground/AdvancedScenarioTesting.tsx`
+  * [ ] Update `src/components/playground/AlgorithmCustomization.tsx`
+  * [ ] Redesign `src/pages/ComplexityAnalysisPage.tsx` — clean card layout
+  * [ ] Update `src/components/educational/*` components styling
+
+[ ] **R4.6** Layout Polish
+- Priority: M
+- Dependencies: R4.2
+- Subtasks:
+  * [ ] Update `src/components/layout/Footer.tsx` — minimal, dark bg, single line
+  * [ ] Ensure sidebar collapses properly on mobile
+  * [ ] Verify all pages have consistent padding and max-width
+
+---
+
+## **Phase R5: Polish & Production Quality**
+
+[ ] **R5.1** Responsive Design
+- Priority: H
+- Dependencies: R4.6
+- Subtasks:
+  * [ ] Remove hardcoded 70px element widths — compute from container: `Math.max(32, Math.min(64, containerWidth / n))`
+  * [ ] Remove hardcoded 800px container widths — use ResizeObserver
+  * [ ] For large arrays (>15 elements), switch to bar-chart mode (thin vertical bars, height = value)
+  * [ ] Stack code display below visualization on mobile
+  * [ ] Test all breakpoints: 320px, 768px, 1024px, 1440px
+
+[ ] **R5.2** Accessibility
+- Priority: H
+- Dependencies: R5.1
+- Subtasks:
+  * [ ] Add `aria-label` to all interactive buttons
+  * [ ] Add `role="progressbar"` with `aria-valuenow`/`aria-valuemin`/`aria-valuemax` to progress bars
+  * [ ] Add `prefers-reduced-motion` media query to disable/simplify all animations
+  * [ ] Ensure keyboard navigation works with React Router (tab order, Enter/Space)
+  * [ ] Ensure color is not the only state indicator (add text labels or icons)
+
+[ ] **R5.3** Performance Optimization
+- Priority: M
+- Dependencies: R5.1
+- Subtasks:
+  * [ ] Add `React.memo` to `AnimatedArrayElement` (avoid re-rendering unchanged elements)
+  * [ ] Add `React.memo` to `CodeDisplay` (only re-render on step/algorithm change)
+  * [ ] Add `React.lazy` + `Suspense` for page-level code splitting in router
+  * [ ] Profile and fix any remaining unnecessary re-renders
+
+[ ] **R5.4** Final Touches
+- Priority: M
+- Dependencies: R5.3
+- Subtasks:
+  * [ ] Create `src/pages/NotFoundPage.tsx` — 404 page for unknown routes
+  * [ ] Add `document.title` updates per route
+  * [ ] Add simple page transition (fade in/out)
+  * [ ] Verify sidebar active state syncs with current route
+  * [ ] Test all keyboard shortcuts with new routing
+
+---
+
+## Dependencies to Install
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `react-router-dom` | ^6.x | Client-side routing |
+
+No other new libraries. CSS transitions over Framer Motion for performance.
+
+---
+
+## File Operations Summary
+
+| Action | Count | Details |
+|--------|-------|---------|
+| **Delete** | ~17 files | `src_new/` (11), performance stubs (5), AnimationContext (1) |
+| **Create** | ~7 files | UI primitives (4), HomePage, NotFoundPage, tokens |
+| **Modify** | ~25 files | Every component, all pages, config files, types, hooks |
+
+---
+
+## Current Status
+
+### Completion: Phase R0 (Not Started)
+
+- [ ] Phase R0: Cleanup
+- [ ] Phase R1: Design System
+- [ ] Phase R2: Infrastructure
+- [ ] Phase R3: Animation Engine Rewrite
+- [ ] Phase R4: Page-by-Page Redesign
+- [ ] Phase R5: Polish & Production Quality
+
+---
+
+## Design Reference: LeetCode Dark Mode
+
+| Element | Value |
+|---------|-------|
+| Primary BG | `#1a1a2e` |
+| Card BG | `#303030` |
+| Nav BG | `#282828` |
+| Border | `#3e3e3e` |
+| Accent | `#ffa116` (orange) |
+| Text Primary | `#eff1f6` |
+| Text Secondary | `#eff1f6bf` |
+| Text Muted | `#ffffff80` |
+| Success/Easy | `#2cbb5d` |
+| Warning/Medium | `#ffc01e` |
+| Error/Hard | `#ff375f` |
+| Border Radius | 4-8px max |
+| Shadows | Minimal, no glow |
+| Font (code) | Fira Code / JetBrains Mono |
+
+---
+
+## Verification Checklist
+
+- [ ] `npm run dev` — app loads without errors
+- [ ] Navigate all routes — proper URL updates, browser back button works
+- [ ] Run bubble sort — smooth step-by-step animation, no "dumping"
+- [ ] Test backward stepping — correct array state restoration
+- [ ] Resize browser — responsive element sizing, no overflow
+- [ ] Check all pages — consistent LeetCode-style design, no glow/curvy remnants
+- [ ] Keyboard shortcuts work — Space (play/pause), Arrow keys (step), R (reset)
+- [ ] Mobile view — sidebar collapses, controls stack properly
