@@ -57,9 +57,7 @@ const SortingPage: React.FC = () => {
               key={key}
               algorithm={selectedAlgorithm}
               initialArray={currentArray}
-              onComplete={() => {
-                console.log(`${selectedAlgorithm} sort completed!`);
-              }}
+              onComplete={() => {}}
             />
           </div>
         </div>

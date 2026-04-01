@@ -29,129 +29,130 @@ All original feature development is complete:
 
 ## **Phase R0: Cleanup**
 
-[ ] **R0.1** Delete Dead Code
+[x] **R0.1** Delete Dead Code
 - Priority: H
 - Dependencies: None
 - Subtasks:
-  * [ ] Delete entire `src/src_new/` directory (11 unused duplicate files)
-  * [ ] Delete `src/components/performance/WebWorkerManager.tsx` (stub, never integrated)
-  * [ ] Delete `src/components/performance/ProgressiveRenderer.tsx` (stub, never integrated)
-  * [ ] Delete `src/components/performance/MemoryManager.tsx` (stub, never integrated)
-  * [ ] Delete `src/components/performance/LoadingStateManager.tsx` (stub, never integrated)
-  * [ ] Delete `src/components/performance/ResponsiveScaler.tsx` (stub, never integrated)
-  * [ ] Keep `src/components/performance/ErrorBoundary.tsx`
+  * [x] Delete entire `src/src_new/` directory (11 unused duplicate files)
+  * [x] Delete `src/components/performance/WebWorkerManager.tsx` (stub, never integrated)
+  * [x] Delete `src/components/performance/ProgressiveRenderer.tsx` (stub, never integrated)
+  * [x] Delete `src/components/performance/MemoryManager.tsx` (stub, never integrated)
+  * [x] Delete `src/components/performance/LoadingStateManager.tsx` (stub, never integrated)
+  * [x] Delete `src/components/performance/ResponsiveScaler.tsx` (stub, never integrated)
+  * [x] Keep `src/components/performance/ErrorBoundary.tsx`
 
-[ ] **R0.2** Resolve Naming Conflicts & Clean References
+[x] **R0.2** Resolve Naming Conflicts & Clean References
 - Priority: H
 - Dependencies: R0.1
 - Subtasks:
-  * [ ] Rename `src/components/datastructures/ArrayVisualization.tsx` → `ArrayDataStructure.tsx`
-  * [ ] Update all imports referencing the renamed file
-  * [ ] Remove all `console.log` statements (SortingVisualization.tsx, SortingPage.tsx)
+  * [x] Rename `src/components/datastructures/ArrayVisualization.tsx` → `ArrayDataStructure.tsx`
+  * [x] Update all imports referencing the renamed file
+  * [x] Remove all `console.log` statements (SortingVisualization.tsx, SortingPage.tsx)
 
-[ ] **R0.3** Remove Dead Pages & Routes
+[x] **R0.3** Remove Dead Pages & Routes
 - Priority: M
 - Dependencies: R0.1
 - Subtasks:
-  * [ ] Delete `src/pages/PerformanceOptimizationPage.tsx` (depends on deleted stubs)
-  * [ ] Remove PerformanceOptimizationPage import and route from `src/App.tsx`
+  * [x] Delete `src/pages/PerformanceOptimizationPage.tsx` (depends on deleted stubs)
+  * [x] Remove PerformanceOptimizationPage import and route from `src/App.tsx`
 
 ---
 
 ## **Phase R1: Design System — LeetCode-Inspired**
 
-[ ] **R1.1** New Color Token System
+[x] **R1.1** New Color Token System
 - Priority: H
 - Dependencies: R0.3
 - Subtasks:
-  * [ ] Rewrite `:root` CSS custom properties in `src/index.css` with new palette:
+  * [x] Rewrite `:root` CSS custom properties in `src/index.css` with new palette:
     - Backgrounds: `#1a1a2e` (primary), `#282828` (secondary), `#303030` (cards), `#3e3e3e` (elevated)
     - Borders: `#3e3e3e` (default), `#525252` (hover)
     - Text: `#eff1f6` (primary), `#eff1f6bf` (secondary), `#ffffff80` (muted)
     - Accent: `#ffa116` (LeetCode orange)
     - Status: `#2cbb5d` (success), `#ffc01e` (warning), `#ff375f` (error)
     - Visualization: `#7c3aed` (compare), `#ec4899` (swap), `#2cbb5d` (sorted), `#ffa116` (active), `#f97316` (pivot)
-  * [ ] Replace border radius tokens: `4px` (sm), `6px` (md), `8px` (lg) — no more 2rem
-  * [ ] Replace shadow tokens: minimal `0 1px 2px rgba(0,0,0,0.3)` max — NO glow effects
-  * [ ] Remove all gradient custom properties
+  * [x] Replace border radius tokens: `4px` (sm), `6px` (md), `8px` (lg) — no more 2rem
+  * [x] Replace shadow tokens: minimal `0 1px 2px rgba(0,0,0,0.3)` max — NO glow effects
+  * [x] Remove all gradient custom properties
 
-[ ] **R1.2** Update Tailwind Configuration
+[x] **R1.2** Update Tailwind Configuration
 - Priority: H
 - Dependencies: R1.1
 - Subtasks:
-  * [ ] Replace all custom colors in `tailwind.config.js` with new token references
-  * [ ] Remove `rounded-curvy*` border radius variants
-  * [ ] Remove `shadow-curvy*` and `shadow-glow*` variants
-  * [ ] Add monospace font family (`'Fira Code', 'JetBrains Mono', monospace`)
+  * [x] Replace all custom colors in `tailwind.config.js` with new token references
+  * [x] Remove `rounded-curvy*` border radius variants
+  * [x] Remove `shadow-curvy*` and `shadow-glow*` variants
+  * [x] Add monospace font family (`'Fira Code', 'JetBrains Mono', monospace`)
 
-[ ] **R1.3** Rewrite Global CSS Classes
+[x] **R1.3** Rewrite Global CSS Classes
 - Priority: H
 - Dependencies: R1.2
 - Subtasks:
-  * [ ] Remove ALL old classes: `.rounded-curvy*`, `.shadow-curvy*`, `.shadow-glow*`, `.hover-lift`, `.hover-glow`, `.animate-pulse-glow`, `.bg-gradient-*`
-  * [ ] Remove conflicting utility classes that duplicate Tailwind (`.bg-primary`, `.text-primary`, `.text-secondary`, etc.)
-  * [ ] Rewrite `.btn-primary`: flat `#ffa116` bg, white text, `6px` radius, no glow
-  * [ ] Rewrite `.btn-secondary`: transparent bg, `1px` border `#3e3e3e`
-  * [ ] Rewrite `.element-*` classes with `transition: all 300ms ease` baked in
-  * [ ] Update form element styles (inputs, selects, range sliders) with new colors
-  * [ ] Update table and code block styles
+  * [x] Remove ALL old classes: `.rounded-curvy*`, `.shadow-curvy*`, `.shadow-glow*`, `.hover-lift`, `.hover-glow`, `.animate-pulse-glow`, `.bg-gradient-*`
+  * [x] Remove conflicting utility classes that duplicate Tailwind (`.bg-primary`, `.text-primary`, `.text-secondary`, etc.)
+  * [x] Rewrite `.btn-primary`: flat `#ffa116` bg, dark text, `6px` radius, no glow
+  * [x] Rewrite `.btn-secondary`: transparent bg, `1px` border `#3e3e3e`
+  * [x] Rewrite `.element-*` classes with `transition: 250ms ease` baked in
+  * [x] Update form element styles (inputs, selects, range sliders) with new colors
+  * [x] Update table and code block styles
 
-[ ] **R1.4** Create Reusable UI Primitive Components
+[x] **R1.4** Create Reusable UI Primitive Components
 - Priority: H
 - Dependencies: R1.3
 - Subtasks:
-  * [ ] Create `src/components/ui/Card.tsx` — flat bg `#303030`, 1px border `#3e3e3e`, 8px radius
-  * [ ] Create `src/components/ui/Button.tsx` — primary (orange), secondary (ghost), danger (red) variants
-  * [ ] Create `src/components/ui/Badge.tsx` — for difficulty/status (easy/medium/hard colors)
-  * [ ] Create `src/components/ui/Tabs.tsx` — LeetCode-style underline tab navigation
+  * [x] Create `src/components/ui/Card.tsx` — flat bg `#303030`, 1px border `#3e3e3e`, 8px radius
+  * [x] Create `src/components/ui/Button.tsx` — primary (orange), secondary (ghost), danger (red) variants
+  * [x] Create `src/components/ui/Badge.tsx` — for difficulty/status (easy/medium/hard colors)
+  * [x] Create `src/components/ui/Tabs.tsx` — LeetCode-style underline tab navigation
 
 ---
 
 ## **Phase R2: Infrastructure**
 
-[ ] **R2.1** Add React Router
+[x] **R2.1** Add React Router
 - Priority: H
 - Dependencies: R1.4
 - Subtasks:
-  * [ ] Install `react-router-dom` v6
-  * [ ] Rewrite `src/App.tsx` with `<BrowserRouter>`, `<Routes>`, `<Route>`
-  * [ ] Define routes: `/` (home), `/sorting` (sorting page), `/data-structures`, `/trees`, `/playground`, `/complexity`
-  * [ ] Wrap ALL routes in persistent `MainLayout` (fix: currently only home page uses it)
+  * [x] Install `react-router-dom` v7 (API-compatible with v6)
+  * [x] Rewrite `src/App.tsx` with `<BrowserRouter>`, `<Routes>`, `<Route>`
+  * [x] Define routes: `/` (home), `/sorting`, `/data-structures`, `/trees`, `/playground`, `/complexity`
+  * [x] Wrap ALL routes in persistent `MainLayout` via `<Outlet />`
 
-[ ] **R2.2** Fix Layout Components for Router
+[x] **R2.2** Fix Layout Components for Router
 - Priority: H
 - Dependencies: R2.1
 - Subtasks:
-  * [ ] Rewrite `src/components/layout/MainLayout.tsx` to use `<Outlet>` for child rendering
-  * [ ] Rewrite `src/components/layout/Header.tsx` — replace `<a>` with `<NavLink>`, orange active underline
-  * [ ] Rewrite `src/components/layout/Sidebar.tsx` — replace `<a>` with `<NavLink>`, orange left-border active state
-  * [ ] Style all nav items with new design tokens (flat, no glow)
+  * [x] Rewrite `src/components/layout/MainLayout.tsx` to use `<Outlet>` for child rendering
+  * [x] Rewrite `src/components/layout/Header.tsx` — replaced `<a>` with `<NavLink>`, orange active color
+  * [x] Rewrite `src/components/layout/Sidebar.tsx` — replaced `<a>` with `<NavLink>`, orange left-border active state
+  * [x] Rewrite `src/components/layout/Footer.tsx` — minimal single-row footer
+  * [x] Style all nav items with new design tokens (flat, no glow)
 
-[ ] **R2.3** Extract Home Page
+[x] **R2.3** Extract Home Page
 - Priority: M
 - Dependencies: R2.1
 - Subtasks:
-  * [ ] Create `src/pages/HomePage.tsx` (extract inline home page from `App.tsx`)
-  * [ ] Clean hero section: white title, muted subtitle, no gradients
-  * [ ] Flat navigation cards with 1px borders
+  * [x] Create `src/pages/HomePage.tsx` (extracted inline home page from `App.tsx`)
+  * [x] Clean hero section: white title, muted subtitle, no gradients
+  * [x] Flat navigation cards with 1px borders using Card/Badge UI primitives
 
-[ ] **R2.4** Consolidate State Management
+[x] **R2.4** Consolidate State Management
 - Priority: H
 - Dependencies: R2.1
 - Subtasks:
-  * [ ] Delete `src/contexts/AnimationContext.tsx` — global animation state is wrong for per-visualization instances
-  * [ ] Remove `<AnimationProvider>` from `App.tsx`
-  * [ ] Consolidate `SortingVisualization.tsx` 8 separate `useState` calls into single `useReducer`
-  * [ ] Update all components that import from AnimationContext to use `useAnimationEngine` directly
+  * [x] Delete `src/contexts/AnimationContext.tsx`
+  * [x] Remove `<AnimationProvider>` from `App.tsx`
+  * [x] Consolidated `SortingVisualization.tsx` 8 separate `useState` into single `useReducer`
+  * [x] All components already used `useAnimationEngine` directly — no other changes needed
 
-[ ] **R2.5** Fix Type System
+[x] **R2.5** Fix Type System
 - Priority: M
 - Dependencies: R2.4
 - Subtasks:
-  * [ ] Remove duplicate `SortingStep` type from `src/types/index.ts` (use `AnimationStep` everywhere)
-  * [ ] Remove `any` types from `VisualizationProps.data` and `VisualElement.data`
-  * [ ] Remove unused `ThemeColors` interface
-  * [ ] Ensure `AnimationControls` type includes `goToStep` method
+  * [x] Made `SortingStep` a type alias: `Omit<AnimationStep, 'id' | 'duration'>` (removes duplication, zero breakage)
+  * [x] Replaced `any` on `VisualElement.data` with `Record<string, unknown>`
+  * [x] Removed `VisualizationProps` (unused) and `ThemeColors` interface
+  * [x] Added `goToStep?` to `AnimationControls`
 
 ---
 
@@ -343,11 +344,11 @@ No other new libraries. CSS transitions over Framer Motion for performance.
 
 ## Current Status
 
-### Completion: Phase R0 (Not Started)
+### Completion: Phase R2 Done
 
-- [ ] Phase R0: Cleanup
-- [ ] Phase R1: Design System
-- [ ] Phase R2: Infrastructure
+- [x] Phase R0: Cleanup
+- [x] Phase R1: Design System
+- [x] Phase R2: Infrastructure
 - [ ] Phase R3: Animation Engine Rewrite
 - [ ] Phase R4: Page-by-Page Redesign
 - [ ] Phase R5: Polish & Production Quality

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ArrayDataStructure from '../components/datastructures/ArrayVisualization';
+import ArrayDataStructure from '../components/datastructures/ArrayDataStructure';
 import LinkedListVisualization from '../components/datastructures/LinkedListVisualization';
 import StackQueueVisualization from '../components/datastructures/StackQueueVisualization';
 import { Database, List, Layers, GitBranch, ArrowUp, ArrowRight } from 'lucide-react';

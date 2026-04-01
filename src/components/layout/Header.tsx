@@ -1,84 +1,81 @@
 import React from 'react';
-import { Menu, Code, BookOpen } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+import { Menu, X, Code } from 'lucide-react';
 
 interface HeaderProps {
   onMenuToggle: () => void;
   isMobileMenuOpen: boolean;
 }
 
+const navLinks = [
+  { label: 'Sorting', to: '/sorting' },
+  { label: 'Data Structures', to: '/data-structures' },
+  { label: 'Trees', to: '/trees' },
+  { label: 'Playground', to: '/playground' },
+  { label: 'Complexity', to: '/complexity' },
+];
+
 const Header: React.FC<HeaderProps> = ({ onMenuToggle, isMobileMenuOpen }) => {
   return (
-    <header className="bg-bg-secondary/95 backdrop-blur-sm border-b border-accent/20 sticky top-0 z-50">
+    <header className="bg-bg-secondary border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo and Brand */}
-          <div className="flex items-center space-x-3">
-            <div className="bg-primary p-2 rounded-curvy">
-              <Code className="h-6 w-6 text-secondary" />
+        <div className="flex items-center justify-between h-14">
+          {/* Logo */}
+          <NavLink to="/" className="flex items-center gap-2 text-text-primary hover:text-accent transition-colors duration-150">
+            <div className="bg-accent p-1.5 rounded">
+              <Code className="h-4 w-4 text-[#1a1a1a]" />
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-primary">DSA Visualizer</h1>
-              <p className="text-xs text-text-muted hidden sm:block">Interactive Algorithm Learning</p>
-            </div>
-          </div>
+            <span className="font-bold text-base">DSA Visualizer</span>
+          </NavLink>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#algorithms" className="text-text-secondary hover:text-primary transition-colors duration-200">
-              Algorithms
-            </a>
-            <a href="#data-structures" className="text-text-secondary hover:text-primary transition-colors duration-200">
-              Data Structures
-            </a>
-            <a href="#playground" className="text-text-secondary hover:text-primary transition-colors duration-200">
-              Playground
-            </a>
-            <a href="#about" className="text-text-secondary hover:text-primary transition-colors duration-200">
-              About
-            </a>
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `px-3 py-1.5 text-sm rounded transition-colors duration-150 ${
+                    isActive
+                      ? 'text-accent font-medium'
+                      : 'text-text-muted hover:text-text-secondary'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
           </nav>
 
-          {/* Help Button */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button className="flex items-center space-x-2 bg-accent hover:bg-primary hover:text-secondary text-text-primary px-4 py-2 rounded-curvy transition-all duration-200 hover-lift">
-              <BookOpen className="h-4 w-4" />
-              <span>Help</span>
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
+          {/* Mobile toggle */}
           <button
             onClick={onMenuToggle}
-            className="md:hidden p-2 rounded-curvy text-text-secondary hover:text-primary hover:bg-accent/20 transition-colors duration-200"
-            aria-label="Toggle mobile menu"
+            className="md:hidden p-2 rounded text-text-muted hover:text-text-primary hover:bg-bg-elevated transition-colors duration-150"
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
-            <Menu className="h-6 w-6" />
+            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Nav */}
         {isMobileMenuOpen && (
-          <div className="md:hidden animate-slide-up">
-            <div className="px-2 pt-2 pb-3 space-y-1 bg-bg-card rounded-curvy mt-2 shadow-curvy">
-              <a href="#algorithms" className="block px-3 py-2 text-text-secondary hover:text-primary hover:bg-accent/20 rounded-curvy-sm transition-colors duration-200">
-                Algorithms
-              </a>
-              <a href="#data-structures" className="block px-3 py-2 text-text-secondary hover:text-primary hover:bg-accent/20 rounded-curvy-sm transition-colors duration-200">
-                Data Structures
-              </a>
-              <a href="#playground" className="block px-3 py-2 text-text-secondary hover:text-primary hover:bg-accent/20 rounded-curvy-sm transition-colors duration-200">
-                Playground
-              </a>
-              <a href="#about" className="block px-3 py-2 text-text-secondary hover:text-primary hover:bg-accent/20 rounded-curvy-sm transition-colors duration-200">
-                About
-              </a>
-              <div className="border-t border-accent/20 pt-2">
-                <button className="w-full flex items-center justify-center space-x-2 bg-accent hover:bg-primary hover:text-secondary text-text-primary px-4 py-2 rounded-curvy transition-all duration-200">
-                  <BookOpen className="h-4 w-4" />
-                  <span>Help</span>
-                </button>
-              </div>
-            </div>
+          <div className="md:hidden border-t border-border py-2 animate-slide-up">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                onClick={onMenuToggle}
+                className={({ isActive }) =>
+                  `block px-3 py-2 text-sm rounded transition-colors duration-150 ${
+                    isActive
+                      ? 'text-accent font-medium bg-bg-elevated'
+                      : 'text-text-muted hover:text-text-secondary hover:bg-bg-elevated'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
           </div>
         )}
       </div>

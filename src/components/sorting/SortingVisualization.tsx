@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { useAnimationEngine } from '../../hooks/useAnimationEngine';
 import ArrayVisualization from '../animation/ArrayVisualization';
 import TreeVisualization from '../animation/TreeVisualization';
@@ -8,414 +8,349 @@ import ComparisonHighlight from '../animation/ComparisonHighlight';
 import { ArrayElement, SortingStep, AlgorithmMetrics } from '../../types';
 import { generateRandomArray } from '../../utils';
 
+// ── Types ──────────────────────────────────────────────────────────────────────
 interface SortingVisualizationProps {
   algorithm: 'bubble' | 'selection' | 'insertion' | 'merge' | 'quick' | 'heap';
   initialArray?: number[];
   onComplete?: () => void;
 }
 
+interface VizState {
+  elements: ArrayElement[];
+  steps: SortingStep[];
+  metrics: AlgorithmMetrics;
+  highlightedIndices: number[];
+  currentOperation: string;
+  startTime: number;
+  showAlgorithmInfo: boolean;
+  showCodeDisplay: boolean;
+}
+
+type VizAction =
+  | { type: 'INIT'; elements: ArrayElement[]; steps: SortingStep[]; metrics: AlgorithmMetrics }
+  | { type: 'APPLY_STEP'; stepIndex: number; now: number }
+  | { type: 'COMPLETE' }
+  | { type: 'TOGGLE_CODE' }
+  | { type: 'TOGGLE_INFO' };
+
+const initialVizState: VizState = {
+  elements: [],
+  steps: [],
+  metrics: { comparisons: 0, swaps: 0, arrayAccesses: 0, timeElapsed: 0 },
+  highlightedIndices: [],
+  currentOperation: '',
+  startTime: 0,
+  showAlgorithmInfo: false,
+  showCodeDisplay: true,
+};
+
+function vizReducer(state: VizState, action: VizAction): VizState {
+  switch (action.type) {
+    case 'INIT':
+      return {
+        ...initialVizState,
+        elements: action.elements,
+        steps: action.steps,
+        metrics: { ...action.metrics, timeElapsed: 0 },
+        startTime: Date.now(),
+        showCodeDisplay: state.showCodeDisplay,
+      };
+
+    case 'APPLY_STEP': {
+      const { stepIndex, now } = action;
+      if (stepIndex >= state.steps.length) return state;
+      const step = state.steps[stepIndex];
+
+      const elements = state.elements.map((el, idx) => {
+        let newState = el.state;
+        if (newState === 'comparing' || newState === 'swapping') newState = 'default';
+
+        if (step.indices.includes(idx)) {
+          switch (step.type) {
+            case 'compare':   newState = 'comparing'; break;
+            case 'swap':      newState = 'swapping';  break;
+            case 'set':       newState = 'sorted';    break;
+            case 'highlight': newState = stepIndex === state.steps.length - 1 ? 'sorted' : 'current'; break;
+          }
+        }
+
+        const newValue = step.values ? step.values[idx] : el.value;
+        return { ...el, value: newValue, state: newState };
+      });
+
+      return {
+        ...state,
+        elements,
+        highlightedIndices: step.indices,
+        currentOperation: step.description,
+        metrics: { ...state.metrics, timeElapsed: now - state.startTime },
+      };
+    }
+
+    case 'COMPLETE':
+      return {
+        ...state,
+        currentOperation: 'Sorting completed!',
+        highlightedIndices: [],
+        elements: state.elements.map((el) => ({ ...el, state: 'sorted' })),
+      };
+
+    case 'TOGGLE_CODE':
+      return { ...state, showCodeDisplay: !state.showCodeDisplay };
+
+    case 'TOGGLE_INFO':
+      return { ...state, showAlgorithmInfo: !state.showAlgorithmInfo };
+
+    default:
+      return state;
+  }
+}
+
+// ── Algorithm meta ─────────────────────────────────────────────────────────────
+const ALGO_META: Record<string, { name: string; description: string }> = {
+  bubble:    { name: 'Bubble Sort',    description: 'Compares adjacent elements and swaps them if they are in the wrong order.' },
+  selection: { name: 'Selection Sort', description: 'Finds the minimum element and places it at the start of the unsorted portion.' },
+  insertion: { name: 'Insertion Sort', description: 'Builds the sorted array one element at a time by inserting each into its correct position.' },
+  merge:     { name: 'Merge Sort',     description: 'Divides the array in half, sorts each half, then merges them back together.' },
+  quick:     { name: 'Quick Sort',     description: 'Selects a pivot, partitions the array around it, then recursively sorts partitions.' },
+  heap:      { name: 'Heap Sort',      description: 'Uses a binary heap to repeatedly extract the maximum element.' },
+};
+
+// ── Component ──────────────────────────────────────────────────────────────────
 export default function SortingVisualization({
   algorithm,
   initialArray,
-  onComplete
+  onComplete,
 }: SortingVisualizationProps) {
-  const [elements, setElements] = useState<ArrayElement[]>([]);
-  const [steps, setSteps] = useState<SortingStep[]>([]);
-  const [metrics, setMetrics] = useState<AlgorithmMetrics>({
-    comparisons: 0,
-    swaps: 0,
-    arrayAccesses: 0,
-    timeElapsed: 0
-  });
-  const [highlightedIndices, setHighlightedIndices] = useState<number[]>([]);
-  const [currentOperation, setCurrentOperation] = useState<string>('');
-  const [startTime, setStartTime] = useState<number>(0);
-  const [showAlgorithmInfo, setShowAlgorithmInfo] = useState(false);
-  const [showCodeDisplay, setShowCodeDisplay] = useState(true);
+  const [viz, dispatch] = useReducer(vizReducer, initialVizState);
 
-  // Initialize array and algorithm
+  // Load algorithm dynamically on mount / algorithm change
   useEffect(() => {
-    const initializeAlgorithm = async () => {
+    let cancelled = false;
+
+    const load = async () => {
       const array = initialArray || generateRandomArray(8, 10, 99);
-      
-      // Dynamic import based on algorithm
-      let sortResult;
-      let createElements;
-      
+      let sortResult: { steps: SortingStep[]; metrics: AlgorithmMetrics };
+      let createElements: (arr: number[]) => ArrayElement[];
+
       switch (algorithm) {
-        case 'bubble':
-          const { bubbleSort, createBubbleSortElements } = await import('../../algorithms/sorting/bubbleSort');
-          sortResult = bubbleSort(array);
-          createElements = createBubbleSortElements;
+        case 'bubble': {
+          const m = await import('../../algorithms/sorting/bubbleSort');
+          sortResult = m.bubbleSort(array);
+          createElements = m.createBubbleSortElements;
           break;
-        case 'selection':
-          const { selectionSort, createSelectionSortElements } = await import('../../algorithms/sorting/selectionSort');
-          sortResult = selectionSort(array);
-          createElements = createSelectionSortElements;
+        }
+        case 'selection': {
+          const m = await import('../../algorithms/sorting/selectionSort');
+          sortResult = m.selectionSort(array);
+          createElements = m.createSelectionSortElements;
           break;
-        case 'insertion':
-          const { insertionSort, createInsertionSortElements } = await import('../../algorithms/sorting/insertionSort');
-          sortResult = insertionSort(array);
-          createElements = createInsertionSortElements;
+        }
+        case 'insertion': {
+          const m = await import('../../algorithms/sorting/insertionSort');
+          sortResult = m.insertionSort(array);
+          createElements = m.createInsertionSortElements;
           break;
-        case 'merge':
-          const { mergeSort, createMergeSortElements } = await import('../../algorithms/sorting/mergeSort');
-          sortResult = mergeSort(array);
-          createElements = createMergeSortElements;
+        }
+        case 'merge': {
+          const m = await import('../../algorithms/sorting/mergeSort');
+          sortResult = m.mergeSort(array);
+          createElements = m.createMergeSortElements;
           break;
-        case 'quick':
-          const { quickSort, createQuickSortElements } = await import('../../algorithms/sorting/quickSort');
-          sortResult = quickSort(array);
-          createElements = createQuickSortElements;
+        }
+        case 'quick': {
+          const m = await import('../../algorithms/sorting/quickSort');
+          sortResult = m.quickSort(array);
+          createElements = m.createQuickSortElements;
           break;
-        case 'heap':
-          const { heapSort, createHeapSortElements } = await import('../../algorithms/sorting/heapSort');
-          sortResult = heapSort(array);
-          createElements = createHeapSortElements;
+        }
+        case 'heap': {
+          const m = await import('../../algorithms/sorting/heapSort');
+          sortResult = m.heapSort(array);
+          createElements = m.createHeapSortElements;
           break;
+        }
         default:
           throw new Error(`Unknown algorithm: ${algorithm}`);
       }
 
-      setSteps(sortResult.steps);
-      setElements(createElements(array));
-      setMetrics({
-        ...sortResult.metrics,
-        timeElapsed: 0
-      });
-      setStartTime(Date.now());
+      if (!cancelled) {
+        dispatch({
+          type: 'INIT',
+          elements: createElements(array),
+          steps: sortResult.steps,
+          metrics: sortResult.metrics,
+        });
+      }
     };
 
-    initializeAlgorithm();
+    load();
+    return () => { cancelled = true; };
   }, [algorithm, initialArray]);
 
-  // Handle step changes
-  const handleStepChange = (stepIndex: number, stepData: any) => {
-    if (!stepData || stepIndex >= steps.length) return;
-
-    const step = steps[stepIndex];
-    setCurrentOperation(step.description);
-    setHighlightedIndices(step.indices);
-
-    // Update element states based on step type
-    setElements(prevElements => {
-      return prevElements.map((element, index) => {
-        let newState = element.state;
-
-        // Reset previous states
-        if (element.state === 'comparing' || element.state === 'swapping') {
-          newState = 'default';
-        }
-
-        // Apply new states based on step
-        if (step.indices.includes(index)) {
-          switch (step.type) {
-            case 'compare':
-              newState = 'comparing';
-              break;
-            case 'swap':
-              newState = 'swapping';
-              break;
-            case 'set':
-              newState = 'sorted';
-              break;
-            case 'highlight':
-              newState = step.type === 'highlight' && stepIndex === steps.length - 1 ? 'sorted' : 'current';
-              break;
-          }
-        }
-
-        // Update value if it changed
-        const newValue = step.values ? step.values[index] : element.value;
-
-        return {
-          ...element,
-          value: newValue,
-          state: newState
-        };
-      });
-    });
-
-    // Update elapsed time
-    setMetrics(prev => ({
-      ...prev,
-      timeElapsed: Date.now() - startTime
-    }));
-  };
-
-  const handleComplete = () => {
-    setCurrentOperation('Sorting completed!');
-    setHighlightedIndices([]);
-    
-    // Mark all elements as sorted
-    setElements(prevElements =>
-      prevElements.map(element => ({
-        ...element,
-        state: 'sorted'
-      }))
-    );
-
-    onComplete?.();
-  };
-
+  // Animation engine — reads from viz.steps once they're loaded
   const { state, controls, currentStepData } = useAnimationEngine({
-    steps: steps.map((step, index) => ({
+    steps: viz.steps.map((step, index) => ({
       id: `step-${index}`,
-      type: step.type,
-      indices: step.indices,
-      values: step.values,
-      description: step.description
+      ...step,
     })),
-    onStepChange: handleStepChange,
-    onComplete: handleComplete
+    onStepChange: (stepIndex: number) => {
+      dispatch({ type: 'APPLY_STEP', stepIndex, now: Date.now() });
+    },
+    onComplete: () => {
+      dispatch({ type: 'COMPLETE' });
+      onComplete?.();
+    },
   });
 
   const getHighlightType = (): 'comparison' | 'swap' | 'highlight' => {
     if (!currentStepData) return 'highlight';
-    
-    switch (currentStepData.type) {
-      case 'compare':
-        return 'comparison';
-      case 'swap':
-        return 'swap';
-      default:
-        return 'highlight';
-    }
+    if (currentStepData.type === 'compare') return 'comparison';
+    if (currentStepData.type === 'swap') return 'swap';
+    return 'highlight';
   };
 
-  const getAlgorithmName = () => {
-    switch (algorithm) {
-      case 'bubble':
-        return 'Bubble Sort';
-      case 'selection':
-        return 'Selection Sort';
-      case 'insertion':
-        return 'Insertion Sort';
-      case 'merge':
-        return 'Merge Sort';
-      case 'quick':
-        return 'Quick Sort';
-      case 'heap':
-        return 'Heap Sort';
-      default:
-        return 'Sorting Algorithm';
-    }
-  };
-
-  const getAlgorithmDescription = () => {
-    switch (algorithm) {
-      case 'bubble':
-        return 'Compares adjacent elements and swaps them if they are in wrong order';
-      case 'selection':
-        return 'Finds the minimum element and places it at the beginning of unsorted portion';
-      case 'insertion':
-        return 'Builds the sorted array one element at a time by inserting each element into its correct position';
-      case 'merge':
-        return 'Divides the array into halves, sorts them separately, and merges them back together';
-      case 'quick':
-        return 'Selects a pivot element and partitions the array around it, then recursively sorts the partitions';
-      case 'heap':
-        return 'Uses a binary heap data structure to repeatedly extract the maximum element';
-      default:
-        return 'Sorting algorithm visualization';
-    }
-  };
+  const meta = ALGO_META[algorithm] ?? { name: 'Sorting Algorithm', description: '' };
 
   // Keyboard shortcuts
   useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      switch (event.code) {
-        case 'Space':
-          event.preventDefault();
-          if (state.isPlaying) {
-            controls.pause();
-          } else {
-            controls.play();
-          }
-          break;
-        case 'ArrowLeft':
-          event.preventDefault();
-          controls.stepBackward();
-          break;
-        case 'ArrowRight':
-          event.preventDefault();
-          controls.stepForward();
-          break;
-        case 'KeyR':
-          event.preventDefault();
-          controls.reset();
-          break;
-        case 'KeyC':
-          event.preventDefault();
-          setShowCodeDisplay(!showCodeDisplay);
-          break;
+    const handleKey = (e: KeyboardEvent) => {
+      switch (e.code) {
+        case 'Space':       e.preventDefault(); state.isPlaying ? controls.pause() : controls.play(); break;
+        case 'ArrowLeft':   e.preventDefault(); controls.stepBackward(); break;
+        case 'ArrowRight':  e.preventDefault(); controls.stepForward(); break;
+        case 'KeyR':        e.preventDefault(); controls.reset(); break;
+        case 'KeyC':        e.preventDefault(); dispatch({ type: 'TOGGLE_CODE' }); break;
       }
     };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [state.isPlaying, controls, showCodeDisplay]);
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [state.isPlaying, controls]);
 
   return (
-    <div className="space-y-6">
-      {/* Algorithm Info */}
-      <div className="bg-bg-card rounded-curvy p-4 shadow-curvy">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold text-primary mb-2">
-              {getAlgorithmName()}
-            </h3>
-            <p className="text-text-secondary text-sm">
-              {getAlgorithmDescription()}
-            </p>
-          </div>
-          <button
-            onClick={() => setShowCodeDisplay(!showCodeDisplay)}
-            className="px-4 py-2 bg-primary hover:bg-hover text-secondary rounded-curvy
-                     transition-all duration-200 hover-lift"
-          >
-            {showCodeDisplay ? 'Hide Code' : 'Show Code'}
-          </button>
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="bg-bg-card border border-border rounded-lg p-4 flex items-center justify-between">
+        <div>
+          <h3 className="font-semibold text-text-primary">{meta.name}</h3>
+          <p className="text-sm text-text-muted mt-0.5">{meta.description}</p>
         </div>
+        <button
+          onClick={() => dispatch({ type: 'TOGGLE_CODE' })}
+          className="btn-secondary px-3 py-1.5 text-sm"
+        >
+          {viz.showCodeDisplay ? 'Hide Code' : 'Show Code'}
+        </button>
       </div>
 
-      {/* Main Content Grid */}
-      <div className={`grid gap-6 ${showCodeDisplay ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}>
-        {/* Visualization Column */}
-        <div className="space-y-6">
-          {/* Visualization Area */}
-          <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      {/* Main grid */}
+      <div className={`grid gap-4 ${viz.showCodeDisplay ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}>
+        {/* Visualization column */}
+        <div className="space-y-4">
+          <div className="bg-bg-card border border-border rounded-lg p-6">
             <div className="relative">
-              {/* Conditional rendering: Tree view for Heap Sort, Array view for others */}
               {algorithm === 'heap' ? (
                 <TreeVisualization
-                  elements={elements}
-                  highlightedIndices={highlightedIndices}
+                  elements={viz.elements}
+                  highlightedIndices={viz.highlightedIndices}
                   width={800}
                   height={400}
-                  className="mb-8"
+                  className="mb-6"
                 />
               ) : (
                 <>
-                  {/* Array Visualization */}
                   <ArrayVisualization
-                    elements={elements}
-                    highlightedIndices={highlightedIndices}
+                    elements={viz.elements}
+                    highlightedIndices={viz.highlightedIndices}
                     elementWidth={70}
                     elementHeight={70}
                     gap={12}
-                    className="mb-8"
+                    className="mb-6"
                   />
-
-                  {/* Comparison Highlight Overlay */}
-                  {highlightedIndices.length > 0 && (
+                  {viz.highlightedIndices.length > 0 && (
                     <ComparisonHighlight
-                      indices={highlightedIndices}
+                      indices={viz.highlightedIndices}
                       elementWidth={70}
                       elementGap={12}
                       containerWidth={800}
                       type={getHighlightType()}
-                      label={currentOperation}
+                      label={viz.currentOperation}
                     />
                   )}
                 </>
               )}
             </div>
 
-            {/* Current Operation Display - Enhanced */}
-            <div className="mt-8 p-6 bg-gradient-to-r from-accent/10 to-primary/10 rounded-curvy border border-primary/20 min-h-[80px] flex items-center justify-center">
-              <div className="text-center">
-                <p className="text-text-primary text-base font-medium leading-relaxed">
-                  {currentOperation || 'Ready to start sorting...'}
-                </p>
-                {currentOperation && (
-                  <div className="mt-2 text-xs text-text-muted">
-                    Step {state.currentStep} of {state.totalSteps}
-                  </div>
-                )}
-              </div>
+            {/* Step description */}
+            <div className="mt-6 px-4 py-3 bg-bg-secondary border border-border rounded-lg min-h-[56px] flex items-center">
+              <p className="text-sm text-text-primary">
+                {viz.currentOperation || 'Ready to start — press Play or use arrow keys to step.'}
+              </p>
+              {viz.currentOperation && (
+                <span className="ml-auto text-xs text-text-muted whitespace-nowrap pl-4">
+                  {state.currentStep}/{state.totalSteps}
+                </span>
+              )}
             </div>
           </div>
 
-          {/* Enhanced Animation Control Panel */}
+          {/* Controls */}
           <AnimationControlPanel
             state={state}
             controls={controls}
-            showStepControls={true}
-            showSpeedControl={true}
-            showProgressBar={true}
-            showStatusIndicator={true}
-            showAdvancedControls={true}
-            onInfoClick={() => setShowAlgorithmInfo(!showAlgorithmInfo)}
-            onSettingsClick={() => {
-              // Future: Open advanced settings modal
-              console.log('Advanced settings clicked');
-            }}
+            showStepControls
+            showSpeedControl
+            showProgressBar
+            showStatusIndicator
+            showAdvancedControls
+            onInfoClick={() => dispatch({ type: 'TOGGLE_INFO' })}
+            onSettingsClick={() => {}}
           />
 
-          {/* Metrics Display - Enhanced */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-bg-card rounded-curvy p-4 shadow-curvy text-center hover-lift">
-              <div className="text-2xl font-bold text-primary">{metrics.comparisons}</div>
-              <div className="text-sm text-text-muted">Comparisons</div>
-              <div className="w-full bg-accent/20 rounded-curvy h-1 mt-2">
-                <div className="h-full bg-primary rounded-curvy" style={{ width: '60%' }} />
+          {/* Metrics */}
+          <div className="grid grid-cols-4 gap-3">
+            {[
+              { label: 'Comparisons',    value: viz.metrics.comparisons,    color: 'text-comparison' },
+              { label: 'Swaps',          value: viz.metrics.swaps,          color: 'text-swap' },
+              { label: 'Array Accesses', value: viz.metrics.arrayAccesses,  color: 'text-info' },
+              { label: 'Time',           value: `${(viz.metrics.timeElapsed / 1000).toFixed(1)}s`, color: 'text-success' },
+            ].map(({ label, value, color }) => (
+              <div key={label} className="bg-bg-card border border-border rounded-lg p-3 text-center">
+                <div className={`text-xl font-bold font-mono ${color}`}>{value}</div>
+                <div className="text-xs text-text-muted mt-1">{label}</div>
               </div>
-            </div>
-            <div className="bg-bg-card rounded-curvy p-4 shadow-curvy text-center hover-lift">
-              <div className="text-2xl font-bold text-swap">{metrics.swaps}</div>
-              <div className="text-sm text-text-muted">Swaps</div>
-              <div className="w-full bg-accent/20 rounded-curvy h-1 mt-2">
-                <div className="h-full bg-swap rounded-curvy" style={{ width: '40%' }} />
-              </div>
-            </div>
-            <div className="bg-bg-card rounded-curvy p-4 shadow-curvy text-center hover-lift">
-              <div className="text-2xl font-bold text-info">{metrics.arrayAccesses}</div>
-              <div className="text-sm text-text-muted">Array Accesses</div>
-              <div className="w-full bg-accent/20 rounded-curvy h-1 mt-2">
-                <div className="h-full bg-info rounded-curvy" style={{ width: '80%' }} />
-              </div>
-            </div>
-            <div className="bg-bg-card rounded-curvy p-4 shadow-curvy text-center hover-lift">
-              <div className="text-2xl font-bold text-success">{(metrics.timeElapsed / 1000).toFixed(1)}s</div>
-              <div className="text-sm text-text-muted">Time Elapsed</div>
-              <div className="w-full bg-accent/20 rounded-curvy h-1 mt-2">
-                <div className="h-full bg-success rounded-curvy" style={{ width: '30%' }} />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Code Display Column */}
-        {showCodeDisplay && (
-          <div className="space-y-6">
-            <CodeDisplay
-              algorithm={algorithm}
-              currentStep={state.currentStep}
-              totalSteps={state.totalSteps}
-              currentOperation={currentOperation}
-            />
-          </div>
+        {/* Code column */}
+        {viz.showCodeDisplay && (
+          <CodeDisplay
+            algorithm={algorithm}
+            currentStep={state.currentStep}
+            totalSteps={state.totalSteps}
+            currentOperation={viz.currentOperation}
+          />
         )}
       </div>
 
-      {/* Algorithm Information Panel */}
-      {showAlgorithmInfo && (
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy border border-primary/20 animate-slide-up">
-          <h4 className="text-lg font-semibold text-primary mb-4">Algorithm Details</h4>
+      {/* Algorithm info panel */}
+      {viz.showAlgorithmInfo && (
+        <div className="bg-bg-card border border-border rounded-lg p-6 animate-slide-up">
+          <h4 className="font-semibold text-text-primary mb-4">Algorithm Details</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <h5 className="font-medium text-text-primary mb-2">Time Complexity</h5>
               <ul className="space-y-1 text-text-muted">
-                <li>Best: O(n) - O(n²)</li>
-                <li>Average: O(n log n) - O(n²)</li>
-                <li>Worst: O(n log n) - O(n²)</li>
+                <li>Best: O(n) – O(n²)</li>
+                <li>Average: O(n log n) – O(n²)</li>
+                <li>Worst: O(n log n) – O(n²)</li>
               </ul>
             </div>
             <div>
               <h5 className="font-medium text-text-primary mb-2">Properties</h5>
               <ul className="space-y-1 text-text-muted">
-                <li>Space: O(1) - O(n)</li>
+                <li>Space: O(1) – O(n)</li>
                 <li>Stable: Varies by algorithm</li>
                 <li>In-place: Varies by algorithm</li>
               </ul>

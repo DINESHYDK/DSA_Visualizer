@@ -1,4 +1,6 @@
+// ============================================================
 // Animation Types
+// ============================================================
 export interface AnimationState {
   isPlaying: boolean;
   isPaused: boolean;
@@ -16,17 +18,13 @@ export interface AnimationControls {
   skipToEnd: () => void;
   skipToBeginning: () => void;
   setSpeed: (speed: number) => void;
+  goToStep?: (step: number) => void;
 }
 
-// Data Structure Types
-export interface ArrayElement {
-  value: number;
-  id: string;
-  state: ElementState;
-  index: number;
-}
-
-export type ElementState = 
+// ============================================================
+// Array / Sorting Types
+// ============================================================
+export type ElementState =
   | 'default'
   | 'comparing'
   | 'swapping'
@@ -34,16 +32,39 @@ export type ElementState =
   | 'current'
   | 'pivot'
   | 'minimum'
-  | 'maximum';
+  | 'maximum'
+  | 'found';
 
-export interface SortingStep {
-  type: 'compare' | 'swap' | 'set' | 'highlight';
+export interface ArrayElement {
+  value: number;
+  id: string;
+  state: ElementState;
+  index: number;
+}
+
+// Single canonical step type used by both sorting algorithms and the animation engine
+export interface AnimationStep {
+  id: string;
+  type: 'compare' | 'swap' | 'set' | 'highlight' | 'mark';
   indices: number[];
   values?: number[];
   description: string;
+  duration?: number;
 }
 
-// Algorithm Types
+// Alias used by sorting algorithm files (they don't carry id/duration)
+export type SortingStep = Omit<AnimationStep, 'id' | 'duration'>;
+
+export interface AlgorithmMetrics {
+  comparisons: number;
+  swaps: number;
+  arrayAccesses: number;
+  timeElapsed: number;
+}
+
+// ============================================================
+// Algorithm Info
+// ============================================================
 export interface AlgorithmInfo {
   name: string;
   description: string;
@@ -57,14 +78,18 @@ export interface AlgorithmInfo {
   inPlace: boolean;
 }
 
-export interface AlgorithmMetrics {
-  comparisons: number;
-  swaps: number;
-  arrayAccesses: number;
-  timeElapsed: number;
-}
+// ============================================================
+// Tree Types
+// ============================================================
+export type NodeState =
+  | 'default'
+  | 'current'
+  | 'visited'
+  | 'comparing'
+  | 'found'
+  | 'inserting'
+  | 'deleting';
 
-// Tree Node Types
 export interface TreeNode {
   id: string;
   value: number;
@@ -76,16 +101,11 @@ export interface TreeNode {
   state: NodeState;
 }
 
-export type NodeState = 
-  | 'default'
-  | 'current'
-  | 'visited'
-  | 'comparing'
-  | 'found'
-  | 'inserting'
-  | 'deleting';
-
+// ============================================================
 // Graph Types
+// ============================================================
+export type EdgeState = 'default' | 'active' | 'visited' | 'shortest-path';
+
 export interface GraphNode {
   id: string;
   label: string;
@@ -104,19 +124,9 @@ export interface GraphEdge {
   state: EdgeState;
 }
 
-export type EdgeState = 
-  | 'default'
-  | 'active'
-  | 'visited'
-  | 'shortest-path';
-
-// Component Props Types
-export interface VisualizationProps {
-  data: any[];
-  animationState: AnimationState;
-  onAnimationUpdate: (state: Partial<AnimationState>) => void;
-}
-
+// ============================================================
+// Component Props
+// ============================================================
 export interface ControlPanelProps {
   animationState: AnimationState;
   controls: AnimationControls;
@@ -124,7 +134,9 @@ export interface ControlPanelProps {
   algorithmInfo?: AlgorithmInfo;
 }
 
+// ============================================================
 // Input Types
+// ============================================================
 export interface CustomInputConfig {
   arraySize: number;
   minValue: number;
@@ -133,45 +145,30 @@ export interface CustomInputConfig {
   customValues?: number[];
 }
 
-// Theme Types
-export interface ThemeColors {
-  primary: string;
-  secondary: string;
-  accent: string;
-  background: string;
-  text: string;
-  success: string;
-  warning: string;
-  error: string;
-}
-
-// Animation Engine Types
-export interface AnimationStep {
-  id: string;
-  type: 'compare' | 'swap' | 'set' | 'highlight' | 'mark';
-  indices: number[];
-  values?: number[];
-  description: string;
-  duration?: number;
-}
-
+// ============================================================
+// Animation Engine
+// ============================================================
 export interface AnimationEngine {
   state: AnimationState;
   controls: AnimationControls;
   currentStepData: AnimationStep | null;
 }
 
+// ============================================================
 // Visual Element Types
+// ============================================================
 export interface VisualElement {
   id: string;
   type: 'array-element' | 'tree-node' | 'graph-node' | 'graph-edge';
   position: { x: number; y: number };
   size: { width: number; height: number };
   state: ElementState | NodeState | EdgeState;
-  data: any;
+  data: Record<string, unknown>;
 }
 
+// ============================================================
 // Transition Types
+// ============================================================
 export interface TransitionConfig {
   duration: number;
   easing: 'linear' | 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out';
