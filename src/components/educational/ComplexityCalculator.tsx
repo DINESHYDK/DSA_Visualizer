@@ -140,7 +140,7 @@ const ComplexityCalculator: React.FC<ComplexityCalculatorProps> = ({
   };
 
   return (
-    <div className={`bg-bg-card rounded-curvy p-6 shadow-curvy ${className}`}>
+    <div className={`bg-bg-card rounded-lg p-6 shadow-sm ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
@@ -151,7 +151,7 @@ const ComplexityCalculator: React.FC<ComplexityCalculatorProps> = ({
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setShowExplanation(!showExplanation)}
-            className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                      transition-colors duration-200"
             title={showExplanation ? "Hide Explanation" : "Show Explanation"}
           >
@@ -164,7 +164,7 @@ const ComplexityCalculator: React.FC<ComplexityCalculatorProps> = ({
               setComplexityClass('n');
               setConstant(1);
             }}
-            className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                      transition-colors duration-200"
             title="Reset"
           >
@@ -175,7 +175,7 @@ const ComplexityCalculator: React.FC<ComplexityCalculatorProps> = ({
 
       {/* Explanation */}
       {showExplanation && (
-        <div className="bg-primary/10 rounded-curvy p-4 border border-primary/20 mb-6">
+        <div className="bg-accent/10 rounded-lg p-4 border border-border mb-6">
           <p className="text-sm text-text-secondary">
             This calculator helps you understand how different complexity classes scale with input size.
             Adjust the parameters below to see how the number of operations changes.
@@ -195,8 +195,8 @@ const ComplexityCalculator: React.FC<ComplexityCalculatorProps> = ({
             onChange={(e) => setInputSize(Math.max(1, parseInt(e.target.value) || 1))}
             min="1"
             max="1000000"
-            className="w-full p-3 bg-accent/20 border border-accent/40 rounded-curvy
-                     text-text-primary focus:border-primary focus:ring-1 focus:ring-primary/20"
+            className="w-full p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
+                     text-text-primary focus:border-accent focus:ring-1 focus:ring-primary/20"
           />
         </div>
         
@@ -207,8 +207,8 @@ const ComplexityCalculator: React.FC<ComplexityCalculatorProps> = ({
           <select
             value={complexityClass}
             onChange={(e) => setComplexityClass(e.target.value)}
-            className="w-full p-3 bg-accent/20 border border-accent/40 rounded-curvy
-                     text-text-primary focus:border-primary focus:ring-1 focus:ring-primary/20"
+            className="w-full p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
+                     text-text-primary focus:border-accent focus:ring-1 focus:ring-primary/20"
           >
             <option value="1">O(1) - Constant</option>
             <option value="log_n">O(log n) - Logarithmic</option>
@@ -230,14 +230,14 @@ const ComplexityCalculator: React.FC<ComplexityCalculatorProps> = ({
             onChange={(e) => setConstant(Math.max(1, parseInt(e.target.value) || 1))}
             min="1"
             max="100"
-            className="w-full p-3 bg-accent/20 border border-accent/40 rounded-curvy
-                     text-text-primary focus:border-primary focus:ring-1 focus:ring-primary/20"
+            className="w-full p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
+                     text-text-primary focus:border-accent focus:ring-1 focus:ring-primary/20"
           />
         </div>
       </div>
 
       {/* Result */}
-      <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20 mb-6">
+      <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border mb-6">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
             <Clock className="h-5 w-5 text-primary" />
@@ -274,9 +274,9 @@ const ComplexityCalculator: React.FC<ComplexityCalculatorProps> = ({
                 </span>
               </div>
               
-              <div className="w-full bg-accent/20 rounded-curvy h-4 overflow-hidden">
+              <div className="w-full bg-bg-elevated/50 rounded-lg h-4 overflow-hidden">
                 <div
-                  className={`h-full rounded-curvy transition-all duration-300 ${
+                  className={`h-full rounded-lg transition-all duration-300 ${
                     complexity === 'O(1)' ? 'bg-success' :
                     complexity === 'O(log n)' ? 'bg-success' :
                     complexity === 'O(n)' ? 'bg-warning' :
@@ -295,7 +295,7 @@ const ComplexityCalculator: React.FC<ComplexityCalculatorProps> = ({
       </div>
 
       {/* Practical Implications */}
-      <div className="mt-6 bg-accent/10 rounded-curvy p-4 border border-accent/20">
+      <div className="mt-6 bg-bg-elevated/20 rounded-lg p-4 border border-border">
         <h4 className="font-medium text-text-primary mb-3">Practical Implications</h4>
         
         <div className="space-y-3 text-sm">

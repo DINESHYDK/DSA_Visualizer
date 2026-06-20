@@ -78,7 +78,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       
       // Default error UI
       return (
-        <div className="bg-error/10 rounded-curvy p-6 border border-error/30 shadow-curvy">
+        <div className="bg-error/10 rounded-lg p-6 border border-error/30 shadow-sm">
           <div className="flex items-center space-x-3 mb-4">
             <AlertCircle className="h-6 w-6 text-error" />
             <h3 className="text-xl font-semibold text-error">Something went wrong</h3>
@@ -89,7 +89,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           </p>
           
           {this.state.error && (
-            <div className="bg-bg-secondary/50 rounded-curvy p-4 mb-4">
+            <div className="bg-bg-secondary/50 rounded-lg p-4 mb-4">
               <div className="text-error font-medium mb-2">Error:</div>
               <div className="text-text-secondary font-mono text-sm">
                 {this.state.error.toString()}
@@ -100,8 +100,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           <div className="flex items-center justify-between">
             <button
               onClick={this.resetErrorBoundary}
-              className="px-4 py-2 bg-primary hover:bg-hover text-bg-primary rounded-curvy
-                       transition-all duration-200 hover-lift font-medium"
+              className="px-4 py-2 bg-primary hover:bg-accent-hover text-bg-primary rounded-lg
+                       transition-all duration-200 font-medium"
             >
               <RefreshCw className="h-4 w-4 inline mr-2" />
               Reset Component
@@ -124,7 +124,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           </div>
           
           {this.state.showDetails && this.state.errorInfo && (
-            <div className="mt-4 bg-bg-secondary/50 rounded-curvy p-4 overflow-auto max-h-64">
+            <div className="mt-4 bg-bg-secondary/50 rounded-lg p-4 overflow-auto max-h-64">
               <div className="text-text-secondary font-medium mb-2">Component Stack:</div>
               <pre className="text-text-muted font-mono text-xs whitespace-pre-wrap">
                 {this.state.errorInfo.componentStack}

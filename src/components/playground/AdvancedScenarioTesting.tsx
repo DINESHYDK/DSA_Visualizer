@@ -333,7 +333,7 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Header */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-primary mb-2">Advanced Scenario Testing</h2>
@@ -354,7 +354,7 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
       </div>
 
       {/* Controls */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-medium text-text-primary">Test Controls</h3>
           
@@ -363,8 +363,8 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="p-2 bg-accent/20 border border-accent/40 rounded-curvy text-text-primary
-                       focus:border-primary focus:ring-1 focus:ring-primary/20"
+              className="p-2 bg-bg-elevated/50 border border-border-hover rounded-lg text-text-primary
+                       focus:border-accent focus:ring-1 focus:ring-primary/20"
             >
               <option value="all">All Categories</option>
               <option value="best-case">Best Case</option>
@@ -384,8 +384,8 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
                 min="100"
                 max="10000"
                 step="100"
-                className="w-20 p-2 bg-accent/20 border border-accent/40 rounded-curvy text-text-primary
-                         focus:border-primary focus:ring-1 focus:ring-primary/20"
+                className="w-20 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg text-text-primary
+                         focus:border-accent focus:ring-1 focus:ring-primary/20"
               />
             </div>
           </div>
@@ -395,9 +395,9 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
           <button
             onClick={runAllTests}
             disabled={isRunning || filteredTestCases.length === 0}
-            className="px-6 py-3 bg-primary hover:bg-hover text-bg-primary rounded-curvy
+            className="px-6 py-3 bg-primary hover:bg-accent-hover text-bg-primary rounded-lg
                      disabled:opacity-50 disabled:cursor-not-allowed
-                     transition-all duration-200 hover-lift font-medium"
+                     transition-all duration-200 font-medium"
           >
             {isRunning ? (
               <>
@@ -415,8 +415,8 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
           <button
             onClick={resetTests}
             disabled={isRunning}
-            className="px-4 py-3 bg-accent hover:bg-primary hover:text-bg-primary 
-                     text-text-primary rounded-curvy transition-all duration-200 hover-lift font-medium"
+            className="px-4 py-3 bg-accent hover:bg-accent-hover hover:text-bg-primary 
+                     text-text-primary rounded-lg transition-all duration-200 font-medium"
           >
             <RotateCcw className="h-4 w-4 inline mr-2" />
             Reset
@@ -430,7 +430,7 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
 
       {/* Performance Metrics */}
       {performanceMetrics && (
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
           <h3 className="text-lg font-medium text-text-primary mb-4">Performance Summary</h3>
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -466,9 +466,9 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
               <span>Success Rate</span>
               <span>{((performanceMetrics.passedTests / performanceMetrics.totalTests) * 100).toFixed(1)}%</span>
             </div>
-            <div className="w-full bg-accent/20 rounded-curvy h-3">
+            <div className="w-full bg-bg-elevated/50 rounded-lg h-3">
               <div
-                className="h-full bg-success rounded-curvy transition-all duration-500"
+                className="h-full bg-success rounded-lg transition-all duration-500"
                 style={{
                   width: `${(performanceMetrics.passedTests / performanceMetrics.totalTests) * 100}%`
                 }}
@@ -479,7 +479,7 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
       )}
 
       {/* Test Cases */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-medium text-text-primary mb-4">Test Cases</h3>
         
         <div className="space-y-4">
@@ -490,14 +490,14 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
             return (
               <div
                 key={testCase.id}
-                className={`p-4 rounded-curvy border transition-all duration-200 ${
+                className={`p-4 rounded-lg border transition-all duration-200 ${
                   isCurrentTest 
-                    ? 'border-primary bg-primary/10 shadow-glow' 
+                    ? 'border-accent bg-accent/10 ' 
                     : result?.passed 
                       ? 'border-success/40 bg-success/5'
                       : result?.passed === false
                         ? 'border-error/40 bg-error/5'
-                        : 'border-accent/40 bg-accent/5'
+                        : 'border-border-hover bg-accent/5'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -541,9 +541,9 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
                     <button
                       onClick={() => runSingleTest(testCase)}
                       disabled={isRunning}
-                      className="px-3 py-2 bg-info hover:bg-info/80 text-white rounded-curvy
+                      className="px-3 py-2 bg-info hover:bg-info/80 text-white rounded-lg
                                disabled:opacity-50 disabled:cursor-not-allowed
-                               transition-all duration-200 hover-lift text-sm"
+                               transition-all duration-200 text-sm"
                     >
                       <Play className="h-3 w-3" />
                     </button>
@@ -552,7 +552,7 @@ const AdvancedScenarioTesting: React.FC<AdvancedScenarioTestingProps> = ({
 
                 {/* Error Message */}
                 {result?.errorMessage && (
-                  <div className="mt-3 p-3 bg-error/10 border border-error/20 rounded-curvy">
+                  <div className="mt-3 p-3 bg-error/10 border border-error/20 rounded-lg">
                     <div className="flex items-center space-x-2 text-error text-sm">
                       <XCircle className="h-4 w-4" />
                       <span>{result.errorMessage}</span>

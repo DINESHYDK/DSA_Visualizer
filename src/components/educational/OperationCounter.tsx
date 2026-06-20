@@ -299,7 +299,7 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
   const currentOps = getCurrentOperations();
 
   return (
-    <div className={`bg-bg-card rounded-curvy p-6 shadow-curvy ${className}`}>
+    <div className={`bg-bg-card rounded-lg p-6 shadow-sm ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
@@ -310,7 +310,7 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                      transition-colors duration-200"
             title={isPlaying ? "Pause" : "Play"}
           >
@@ -319,7 +319,7 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
           
           <button
             onClick={() => setCurrentStepIndex(0)}
-            className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                      transition-colors duration-200"
             title="Reset"
           >
@@ -330,7 +330,7 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
 
       {/* Current Operation */}
       {operationSteps.length > 0 && (
-        <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20 mb-6">
+        <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border mb-6">
           <div className="flex items-center space-x-2 mb-2">
             {getOperationTypeIcon(operationSteps[currentStepIndex]?.type || 'other')}
             <h4 className={`font-medium ${getOperationTypeColor(operationSteps[currentStepIndex]?.type || 'other')}`}>
@@ -359,9 +359,9 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
             </div>
           </div>
           
-          <div className="w-full bg-accent/20 rounded-curvy h-4 overflow-hidden">
+          <div className="w-full bg-bg-elevated/50 rounded-lg h-4 overflow-hidden">
             <div
-              className="h-full bg-comparison rounded-curvy transition-all duration-300"
+              className="h-full bg-comparison rounded-lg transition-all duration-300"
               style={{
                 width: `${getPercentage(currentOps.comparisons, expectedOperations.comparisons)}%`
               }}
@@ -387,9 +387,9 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
               </div>
             </div>
             
-            <div className="w-full bg-accent/20 rounded-curvy h-4 overflow-hidden">
+            <div className="w-full bg-bg-elevated/50 rounded-lg h-4 overflow-hidden">
               <div
-                className="h-full bg-swap rounded-curvy transition-all duration-300"
+                className="h-full bg-swap rounded-lg transition-all duration-300"
                 style={{
                   width: `${getPercentage(currentOps.swaps, expectedOperations.swaps || 1)}%`
                 }}
@@ -415,9 +415,9 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
             </div>
           </div>
           
-          <div className="w-full bg-accent/20 rounded-curvy h-4 overflow-hidden">
+          <div className="w-full bg-bg-elevated/50 rounded-lg h-4 overflow-hidden">
             <div
-              className="h-full bg-info rounded-curvy transition-all duration-300"
+              className="h-full bg-info rounded-lg transition-all duration-300"
               style={{
                 width: `${getPercentage(currentOps.arrayAccesses, expectedOperations.arrayAccesses)}%`
               }}
@@ -431,7 +431,7 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
         </div>
 
         {/* Total Operations */}
-        <div className="space-y-2 pt-2 border-t border-accent/20">
+        <div className="space-y-2 pt-2 border-t border-border">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <Zap className="h-4 w-4 text-primary" />
@@ -442,9 +442,9 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
             </div>
           </div>
           
-          <div className="w-full bg-accent/20 rounded-curvy h-4 overflow-hidden">
+          <div className="w-full bg-bg-elevated/50 rounded-lg h-4 overflow-hidden">
             <div
-              className="h-full bg-primary rounded-curvy transition-all duration-300"
+              className="h-full bg-primary rounded-lg transition-all duration-300"
               style={{
                 width: `${getPercentage(
                   currentOps.comparisons + (currentOps.swaps || 0) + currentOps.arrayAccesses,
@@ -457,7 +457,7 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
       </div>
 
       {/* Theoretical vs. Actual */}
-      <div className="mt-6 bg-primary/10 rounded-curvy p-4 border border-primary/20">
+      <div className="mt-6 bg-accent/10 rounded-lg p-4 border border-border">
         <h4 className="font-medium text-primary mb-3">Theoretical vs. Actual Performance</h4>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -515,8 +515,8 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
           <button
             onClick={() => setCurrentStepIndex(Math.max(0, currentStepIndex - 1))}
             disabled={currentStepIndex === 0}
-            className="px-3 py-2 bg-accent hover:bg-primary hover:text-bg-primary 
-                     text-text-primary rounded-curvy transition-all duration-200
+            className="px-3 py-2 bg-accent hover:bg-accent-hover hover:text-bg-primary 
+                     text-text-primary rounded-lg transition-all duration-200
                      disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ArrowLeft className="h-4 w-4 inline mr-1" />
@@ -530,8 +530,8 @@ const OperationCounter: React.FC<OperationCounterProps> = ({
           <button
             onClick={() => setCurrentStepIndex(Math.min(operationSteps.length - 1, currentStepIndex + 1))}
             disabled={currentStepIndex === operationSteps.length - 1}
-            className="px-3 py-2 bg-accent hover:bg-primary hover:text-bg-primary 
-                     text-text-primary rounded-curvy transition-all duration-200
+            className="px-3 py-2 bg-accent hover:bg-accent-hover hover:text-bg-primary 
+                     text-text-primary rounded-lg transition-all duration-200
                      disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Next

@@ -407,7 +407,7 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Header */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-primary mb-2">Interactive Playground</h2>
@@ -419,14 +419,14 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title="Advanced Settings"
             >
               <Settings className="h-5 w-5" />
             </button>
             
-            <label className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            <label className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                            cursor-pointer transition-colors duration-200" title="Import Scenarios">
               <Upload className="h-5 w-5" />
               <input
@@ -440,7 +440,7 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
             <button
               onClick={exportScenarios}
               disabled={savedScenarios.length === 0}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        disabled:opacity-50 disabled:cursor-not-allowed
                        transition-colors duration-200"
               title="Export Scenarios"
@@ -452,7 +452,7 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
       </div>
 
       {/* Data Structure Type Selection */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-medium text-text-primary mb-4">Data Structure Type</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -460,10 +460,10 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
             <button
               key={type.id}
               onClick={() => handleTypeChange(type.id)}
-              className={`p-4 rounded-curvy border-2 transition-all duration-200 text-left hover-lift ${
+              className={`p-4 rounded-lg border-2 transition-all duration-200 text-left ${
                 selectedType === type.id
-                  ? 'bg-primary/20 border-primary text-primary shadow-glow'
-                  : 'bg-accent/20 border-accent/40 text-text-secondary hover:bg-primary/10 hover:border-primary/60'
+                  ? 'bg-accent/20 border-accent text-primary '
+                  : 'bg-bg-elevated/50 border-border-hover text-text-secondary hover:bg-accent-hover/10 hover:border-accent/60'
               }`}
             >
               <div className="flex items-center space-x-3 mb-2">
@@ -481,7 +481,7 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
       {/* Configuration Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Custom Input */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
           <h3 className="text-lg font-medium text-text-primary mb-4">Custom Configuration</h3>
           
           <div className="space-y-4">
@@ -501,7 +501,7 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
                   setCurrentConfig(newConfig);
                   onDataStructureChange(newConfig);
                 }}
-                className="w-full h-3 bg-accent rounded-curvy appearance-none cursor-pointer
+                className="w-full h-3 bg-accent rounded-lg appearance-none cursor-pointer
                          focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
             </div>
@@ -515,9 +515,9 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
                 value={customInput}
                 onChange={(e) => handleCustomInput(e.target.value)}
                 placeholder="Enter comma-separated values (e.g., 64, 34, 25, 12, 22, 11, 90)"
-                className="w-full p-3 bg-accent/20 border border-accent/40 rounded-curvy
+                className="w-full p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
                          text-text-primary placeholder-text-muted resize-none
-                         focus:border-primary focus:ring-1 focus:ring-primary/20"
+                         focus:border-accent focus:ring-1 focus:ring-primary/20"
                 rows={3}
               />
               
@@ -533,8 +533,8 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
             <div className="flex space-x-2">
               <button
                 onClick={generateRandomData}
-                className="flex-1 px-4 py-2 bg-info hover:bg-info/80 text-white rounded-curvy
-                         transition-all duration-200 hover-lift font-medium"
+                className="flex-1 px-4 py-2 bg-info hover:bg-info/80 text-white rounded-lg
+                         transition-all duration-200 font-medium"
               >
                 <Shuffle className="h-4 w-4 inline mr-2" />
                 Random
@@ -549,8 +549,8 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
                     onDataStructureChange(newConfig);
                   }
                 }}
-                className="flex-1 px-4 py-2 bg-success hover:bg-success/80 text-white rounded-curvy
-                         transition-all duration-200 hover-lift font-medium"
+                className="flex-1 px-4 py-2 bg-success hover:bg-success/80 text-white rounded-lg
+                         transition-all duration-200 font-medium"
               >
                 <Target className="h-4 w-4 inline mr-2" />
                 Sort
@@ -560,7 +560,7 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
         </div>
 
         {/* Save/Load Scenarios */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
           <h3 className="text-lg font-medium text-text-primary mb-4">Scenario Management</h3>
           
           <div className="space-y-4">
@@ -571,23 +571,23 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
                 value={scenarioName}
                 onChange={(e) => setScenarioName(e.target.value)}
                 placeholder="Scenario name..."
-                className="flex-1 p-2 bg-accent/20 border border-accent/40 rounded-curvy
+                className="flex-1 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
                          text-text-primary placeholder-text-muted
-                         focus:border-primary focus:ring-1 focus:ring-primary/20"
+                         focus:border-accent focus:ring-1 focus:ring-primary/20"
               />
               <button
                 onClick={saveCurrentScenario}
                 disabled={!scenarioName.trim()}
-                className="px-4 py-2 bg-primary hover:bg-hover text-bg-primary rounded-curvy
+                className="px-4 py-2 bg-primary hover:bg-accent-hover text-bg-primary rounded-lg
                          disabled:opacity-50 disabled:cursor-not-allowed
-                         transition-all duration-200 hover-lift font-medium"
+                         transition-all duration-200 font-medium"
               >
                 <Save className="h-4 w-4" />
               </button>
             </div>
 
             {/* Current Configuration Display */}
-            <div className="p-3 bg-accent/10 rounded-curvy border border-accent/20">
+            <div className="p-3 bg-bg-elevated/20 rounded-lg border border-border">
               <div className="text-sm">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-text-muted">Current:</span>
@@ -609,7 +609,7 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
       </div>
 
       {/* Predefined Scenarios */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-medium text-text-primary mb-4">Predefined Test Scenarios</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -618,13 +618,13 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
             .map((scenario) => (
               <div
                 key={scenario.id}
-                className="p-4 bg-accent/10 rounded-curvy border border-accent/20 hover:bg-primary/10 
-                         hover:border-primary/40 transition-all duration-200 cursor-pointer"
+                className="p-4 bg-bg-elevated/20 rounded-lg border border-border hover:bg-accent-hover/10 
+                         hover:border-accent/40 transition-all duration-200 cursor-pointer"
                 onClick={() => loadScenario(scenario)}
               >
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-medium text-text-primary">{scenario.name}</h4>
-                  <span className={`text-xs px-2 py-1 rounded-curvy ${
+                  <span className={`text-xs px-2 py-1 rounded-lg ${
                     scenario.category === 'basic' ? 'bg-info/20 text-info' :
                     scenario.category === 'edge-case' ? 'bg-warning/20 text-warning' :
                     scenario.category === 'performance' ? 'bg-error/20 text-error' :
@@ -644,14 +644,14 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
 
       {/* Saved Scenarios */}
       {savedScenarios.length > 0 && (
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
           <h3 className="text-lg font-medium text-text-primary mb-4">Saved Scenarios</h3>
           
           <div className="space-y-2 max-h-64 overflow-y-auto">
             {savedScenarios.map((scenario) => (
               <div
                 key={scenario.id}
-                className="flex items-center justify-between p-3 bg-accent/10 rounded-curvy border border-accent/20"
+                className="flex items-center justify-between p-3 bg-bg-elevated/20 rounded-lg border border-border"
               >
                 <div className="flex-1 cursor-pointer" onClick={() => loadScenario(scenario)}>
                   <div className="flex items-center space-x-2">
@@ -675,7 +675,7 @@ const MultiLevelInputSystem: React.FC<MultiLevelInputSystemProps> = ({
 
       {/* Advanced Settings */}
       {showAdvanced && (
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy border border-primary/20">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm border border-border">
           <h3 className="text-lg font-medium text-primary mb-4">Advanced Configuration</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

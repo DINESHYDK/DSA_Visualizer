@@ -327,8 +327,8 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Header */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
-        <h2 className="text-2xl font-semibold text-primary mb-2">Array Data Structure</h2>
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
+        <h2 className="text-2xl font-semibold text-text-primary mb-2">Array Data Structure</h2>
         <p className="text-text-secondary">
           Interactive array with insertion, deletion, search, and update operations. 
           Watch how elements are accessed by index and how operations affect memory layout.
@@ -336,7 +336,7 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
       </div>
 
       {/* Array Visualization */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="space-y-6">
           {/* Memory Layout Visualization */}
           <div>
@@ -392,7 +392,7 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
           </div>
 
           {/* Current Operation Display */}
-          <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20 min-h-[60px] flex items-center justify-center">
+          <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border min-h-[60px] flex items-center justify-center">
             <p className="text-text-primary text-center">
               {currentOperation || 'Select an operation to begin...'}
             </p>
@@ -403,7 +403,7 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
       {/* Controls */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Operation Controls */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
           <h3 className="text-lg font-medium text-text-primary mb-4">Array Operations</h3>
           
           <div className="space-y-4">
@@ -416,25 +416,25 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
                   value={newValue}
                   onChange={(e) => setNewValue(e.target.value)}
                   placeholder="Value"
-                  className="flex-1 p-2 bg-accent/20 border border-accent/40 rounded-curvy
+                  className="flex-1 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
                            text-text-primary placeholder-text-muted
-                           focus:border-primary focus:ring-1 focus:ring-primary/20"
+                           focus:border-accent focus:ring-1 focus:ring-accent/20"
                 />
                 <input
                   type="number"
                   value={insertIndex}
                   onChange={(e) => setInsertIndex(e.target.value)}
                   placeholder="Index (optional)"
-                  className="w-24 p-2 bg-accent/20 border border-accent/40 rounded-curvy
+                  className="w-24 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
                            text-text-primary placeholder-text-muted
-                           focus:border-primary focus:ring-1 focus:ring-primary/20"
+                           focus:border-accent focus:ring-1 focus:ring-accent/20"
                 />
                 <button
                   onClick={insertElement}
                   disabled={!newValue || elements.length >= maxSize || isAnimating}
-                  className="px-4 py-2 bg-primary hover:bg-hover text-secondary rounded-curvy
+                  className="px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg
                            disabled:opacity-50 disabled:cursor-not-allowed
-                           transition-all duration-200 hover-lift"
+                           transition-all duration-200"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
@@ -450,16 +450,16 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                   placeholder="Value to search"
-                  className="flex-1 p-2 bg-accent/20 border border-accent/40 rounded-curvy
+                  className="flex-1 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
                            text-text-primary placeholder-text-muted
-                           focus:border-primary focus:ring-1 focus:ring-primary/20"
+                           focus:border-accent focus:ring-1 focus:ring-accent/20"
                 />
                 <button
                   onClick={searchElement}
                   disabled={!searchValue || isAnimating}
-                  className="px-4 py-2 bg-info hover:bg-info/80 text-white rounded-curvy
+                  className="px-4 py-2 bg-info hover:bg-info/80 text-white rounded-lg
                            disabled:opacity-50 disabled:cursor-not-allowed
-                           transition-all duration-200 hover-lift"
+                           transition-all duration-200"
                 >
                   <Search className="h-4 w-4" />
                 </button>
@@ -468,7 +468,7 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
 
             {/* Selected Element Operations */}
             {selectedIndex >= 0 && selectedIndex < elements.length && (
-              <div className="p-4 bg-primary/10 rounded-curvy border border-primary/20">
+              <div className="p-4 bg-accent/10 rounded-lg border border-border">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-primary">
                     Selected: Index {selectedIndex} (Value: {elements[selectedIndex].value})
@@ -479,9 +479,9 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
                   <input
                     type="number"
                     placeholder="New value"
-                    className="flex-1 p-2 bg-accent/20 border border-accent/40 rounded-curvy
+                    className="flex-1 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
                              text-text-primary placeholder-text-muted
-                             focus:border-primary focus:ring-1 focus:ring-primary/20"
+                             focus:border-accent focus:ring-1 focus:ring-accent/20"
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
                         const newVal = parseInt((e.target as HTMLInputElement).value);
@@ -495,9 +495,9 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
                   <button
                     onClick={() => deleteElement(selectedIndex)}
                     disabled={isAnimating}
-                    className="px-4 py-2 bg-error hover:bg-error/80 text-white rounded-curvy
+                    className="px-4 py-2 bg-error hover:bg-error/80 text-white rounded-lg
                              disabled:opacity-50 disabled:cursor-not-allowed
-                             transition-all duration-200 hover-lift"
+                             transition-all duration-200"
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -508,8 +508,8 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
             {/* Reset */}
             <button
               onClick={resetArray}
-              className="w-full px-4 py-2 bg-accent hover:bg-primary hover:text-secondary 
-                       text-text-primary rounded-curvy transition-all duration-200 hover-lift"
+              className="w-full px-4 py-2 bg-accent hover:bg-accent-hover hover:text-secondary 
+                       text-text-primary rounded-lg transition-all duration-200"
             >
               <RotateCcw className="h-4 w-4 inline mr-2" />
               Reset Array
@@ -526,7 +526,7 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
           />
           
           {/* Array Properties */}
-          <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+          <div className="bg-bg-card rounded-lg p-6 shadow-sm">
             <h3 className="text-lg font-medium text-text-primary mb-4">Array Properties</h3>
             
             <div className="space-y-3 text-sm">
@@ -548,7 +548,7 @@ const ArrayDataStructure: React.FC<ArrayVisualizationProps> = ({
               </div>
             </div>
             
-            <div className="mt-4 p-3 bg-accent/10 rounded-curvy">
+            <div className="mt-4 p-3 bg-bg-elevated/20 rounded-lg">
               <p className="text-xs text-text-muted">
                 Arrays provide constant-time access to elements by index but require 
                 linear time for insertion and deletion due to element shifting.

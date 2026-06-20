@@ -466,8 +466,8 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
             <select
               value={parameter.value}
               onChange={(e) => updateParameter(parameter.id, e.target.value)}
-              className="w-full p-3 bg-accent/20 border border-accent/40 rounded-curvy
-                       text-text-primary focus:border-primary focus:ring-1 focus:ring-primary/20"
+              className="w-full p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
+                       text-text-primary focus:border-accent focus:ring-1 focus:ring-primary/20"
             >
               {parameter.options?.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -491,7 +491,7 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
               step={parameter.step}
               value={parameter.value}
               onChange={(e) => updateParameter(parameter.id, parseInt(e.target.value))}
-              className="w-full h-3 bg-accent rounded-curvy appearance-none cursor-pointer
+              className="w-full h-3 bg-accent rounded-lg appearance-none cursor-pointer
                        focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
             <div className="flex justify-between text-xs text-text-muted mt-1">
@@ -514,8 +514,8 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
               min={parameter.min}
               max={parameter.max}
               step={parameter.step}
-              className="w-full p-3 bg-accent/20 border border-accent/40 rounded-curvy
-                       text-text-primary focus:border-primary focus:ring-1 focus:ring-primary/20"
+              className="w-full p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
+                       text-text-primary focus:border-accent focus:ring-1 focus:ring-primary/20"
             />
           </div>
         );
@@ -527,7 +527,7 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
 
   if (!config) {
     return (
-      <div className={`bg-bg-card rounded-curvy p-6 shadow-curvy ${className}`}>
+      <div className={`bg-bg-card rounded-lg p-6 shadow-sm ${className}`}>
         <div className="text-center text-text-muted">
           Loading configuration...
         </div>
@@ -538,7 +538,7 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Header */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-primary mb-2">Algorithm Customization</h2>
@@ -548,14 +548,14 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title="Advanced Settings"
             >
               <Settings className="h-5 w-5" />
             </button>
             
-            <label className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            <label className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                            cursor-pointer transition-colors duration-200" title="Import Configuration">
               <Upload className="h-5 w-5" />
               <input
@@ -568,7 +568,7 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
             
             <button
               onClick={exportConfiguration}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title="Export Configuration"
             >
@@ -579,7 +579,7 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
       </div>
 
       {/* Parameters */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-medium text-text-primary mb-4">Algorithm Parameters</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -598,9 +598,9 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
           <button
             onClick={validateConfiguration}
             disabled={isValidating}
-            className="px-4 py-2 bg-info hover:bg-info/80 text-white rounded-curvy
+            className="px-4 py-2 bg-info hover:bg-info/80 text-white rounded-lg
                      disabled:opacity-50 disabled:cursor-not-allowed
-                     transition-all duration-200 hover-lift font-medium"
+                     transition-all duration-200 font-medium"
           >
             {isValidating ? (
               <>
@@ -617,8 +617,8 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
 
           <button
             onClick={resetToDefaults}
-            className="px-4 py-2 bg-accent hover:bg-primary hover:text-bg-primary 
-                     text-text-primary rounded-curvy transition-all duration-200 hover-lift font-medium"
+            className="px-4 py-2 bg-accent hover:bg-accent-hover hover:text-bg-primary 
+                     text-text-primary rounded-lg transition-all duration-200 font-medium"
           >
             <RotateCcw className="h-4 w-4 inline mr-2" />
             Reset to Defaults
@@ -634,7 +634,7 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
 
         {/* Validation Errors */}
         {validationErrors.length > 0 && (
-          <div className="mt-4 p-4 bg-error/10 border border-error/20 rounded-curvy">
+          <div className="mt-4 p-4 bg-error/10 border border-error/20 rounded-lg">
             <div className="flex items-center space-x-2 text-error mb-2">
               <AlertCircle className="h-4 w-4" />
               <span className="font-medium">Validation Errors:</span>
@@ -649,7 +649,7 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
       </div>
 
       {/* Save/Load Configurations */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <h3 className="text-lg font-medium text-text-primary mb-4">Configuration Management</h3>
         
         <div className="space-y-4">
@@ -660,16 +660,16 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
               value={configName}
               onChange={(e) => setConfigName(e.target.value)}
               placeholder="Configuration name..."
-              className="flex-1 p-3 bg-accent/20 border border-accent/40 rounded-curvy
+              className="flex-1 p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
                        text-text-primary placeholder-text-muted
-                       focus:border-primary focus:ring-1 focus:ring-primary/20"
+                       focus:border-accent focus:ring-1 focus:ring-primary/20"
             />
             <button
               onClick={saveConfiguration}
               disabled={!configName.trim()}
-              className="px-4 py-3 bg-primary hover:bg-hover text-bg-primary rounded-curvy
+              className="px-4 py-3 bg-primary hover:bg-accent-hover text-bg-primary rounded-lg
                        disabled:opacity-50 disabled:cursor-not-allowed
-                       transition-all duration-200 hover-lift font-medium"
+                       transition-all duration-200 font-medium"
             >
               <Save className="h-4 w-4" />
             </button>
@@ -682,7 +682,7 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
               {savedConfigs.map((savedConfig) => (
                 <div
                   key={savedConfig.id}
-                  className="flex items-center justify-between p-3 bg-accent/10 rounded-curvy border border-accent/20"
+                  className="flex items-center justify-between p-3 bg-bg-elevated/20 rounded-lg border border-border"
                 >
                   <div className="flex-1 cursor-pointer" onClick={() => loadConfiguration(savedConfig)}>
                     <h5 className="font-medium text-text-primary">{savedConfig.name}</h5>
@@ -704,7 +704,7 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
 
       {/* Advanced Settings */}
       {showAdvanced && (
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy border border-primary/20">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm border border-border">
           <h3 className="text-lg font-medium text-primary mb-4">Advanced Settings</h3>
           
           <div className="space-y-6">
@@ -715,9 +715,9 @@ const AlgorithmCustomization: React.FC<AlgorithmCustomizationProps> = ({
                 value={config.customCode || ''}
                 onChange={(e) => setConfig({ ...config, customCode: e.target.value })}
                 placeholder="Enter custom algorithm implementation (JavaScript)..."
-                className="w-full h-32 p-3 bg-accent/20 border border-accent/40 rounded-curvy
+                className="w-full h-32 p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
                          text-text-primary placeholder-text-muted font-mono text-sm
-                         focus:border-primary focus:ring-1 focus:ring-primary/20"
+                         focus:border-accent focus:ring-1 focus:ring-primary/20"
               />
               <p className="text-xs text-text-muted mt-2">
                 Custom code will override default implementation. Use with caution.

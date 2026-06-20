@@ -47,7 +47,7 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
   };
 
   return (
-    <div className={`bg-bg-card rounded-curvy p-4 shadow-curvy ${className}`}>
+    <div className={`bg-bg-card rounded-lg p-4 shadow-sm ${className}`}>
       <div className="flex flex-col space-y-4">
         {/* Main Controls */}
         <div className="flex items-center justify-center space-x-2">
@@ -55,7 +55,7 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
           <button
             onClick={controls.skipToBeginning}
             disabled={disabled || state.currentStep === 0}
-            className="p-2 rounded-curvy bg-accent hover:bg-primary hover:text-secondary 
+            className="p-2 rounded-lg bg-accent hover:bg-accent-hover hover:text-secondary 
                      disabled:opacity-50 disabled:cursor-not-allowed
                      transition-all duration-200 text-text-primary"
             title="Skip to Beginning"
@@ -68,7 +68,7 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
             <button
               onClick={controls.stepBackward}
               disabled={disabled || state.currentStep === 0}
-              className="p-2 rounded-curvy bg-accent hover:bg-primary hover:text-secondary 
+              className="p-2 rounded-lg bg-accent hover:bg-accent-hover hover:text-secondary 
                        disabled:opacity-50 disabled:cursor-not-allowed
                        transition-all duration-200 text-text-primary"
               title="Step Backward"
@@ -81,9 +81,9 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
           <button
             onClick={getPlayPauseAction()}
             disabled={disabled}
-            className="p-3 rounded-curvy bg-primary hover:bg-hover text-secondary 
+            className="p-3 rounded-lg bg-primary hover:bg-accent-hover text-secondary 
                      disabled:opacity-50 disabled:cursor-not-allowed
-                     transition-all duration-200 shadow-glow hover:shadow-glow-hover"
+                     transition-all duration-200  hover:"
             title={state.isPlaying ? 'Pause' : 'Play'}
           >
             {getPlayPauseIcon()}
@@ -94,7 +94,7 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
             <button
               onClick={controls.stepForward}
               disabled={disabled || state.currentStep >= state.totalSteps}
-              className="p-2 rounded-curvy bg-accent hover:bg-primary hover:text-secondary 
+              className="p-2 rounded-lg bg-accent hover:bg-accent-hover hover:text-secondary 
                        disabled:opacity-50 disabled:cursor-not-allowed
                        transition-all duration-200 text-text-primary"
               title="Step Forward"
@@ -107,7 +107,7 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
           <button
             onClick={controls.skipToEnd}
             disabled={disabled || state.currentStep >= state.totalSteps}
-            className="p-2 rounded-curvy bg-accent hover:bg-primary hover:text-secondary 
+            className="p-2 rounded-lg bg-accent hover:bg-accent-hover hover:text-secondary 
                      disabled:opacity-50 disabled:cursor-not-allowed
                      transition-all duration-200 text-text-primary"
             title="Skip to End"
@@ -119,7 +119,7 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
           <button
             onClick={controls.reset}
             disabled={disabled}
-            className="p-2 rounded-curvy bg-error hover:bg-error/80 text-white 
+            className="p-2 rounded-lg bg-error hover:bg-error/80 text-white 
                      disabled:opacity-50 disabled:cursor-not-allowed
                      transition-all duration-200"
             title="Reset"
@@ -134,7 +134,7 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
             <span>Step {state.currentStep}</span>
             <span>of {state.totalSteps}</span>
           </div>
-          <div className="w-full bg-accent rounded-curvy h-2 overflow-hidden">
+          <div className="w-full bg-accent rounded-lg h-2 overflow-hidden">
             <div
               className="h-full bg-primary transition-all duration-300 ease-out"
               style={{
@@ -166,7 +166,7 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
                 value={state.speed}
                 onChange={handleSpeedChange}
                 disabled={disabled}
-                className="w-full h-2 bg-accent rounded-curvy appearance-none cursor-pointer
+                className="w-full h-2 bg-accent rounded-lg appearance-none cursor-pointer
                          focus:outline-none focus:ring-2 focus:ring-primary/20
                          disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
@@ -175,7 +175,7 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
               />
               {/* Custom thumb */}
               <div 
-                className="absolute top-1/2 w-4 h-4 bg-primary rounded-full shadow-glow transform -translate-y-1/2 pointer-events-none transition-all duration-200"
+                className="absolute top-1/2 w-4 h-4 bg-primary rounded-full  transform -translate-y-1/2 pointer-events-none transition-all duration-200"
                 style={{
                   left: `calc(${((state.speed - 0.1) / (3.0 - 0.1)) * 100}% - 8px)`
                 }}

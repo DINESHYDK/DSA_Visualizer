@@ -98,7 +98,7 @@ const CustomInputPanel: React.FC<CustomInputPanelProps> = ({
   ];
 
   return (
-    <div className="bg-bg-card rounded-curvy p-6 shadow-curvy space-y-6">
+    <div className="bg-bg-card rounded-lg p-6 shadow-sm space-y-6">
       <div>
         <h3 className="text-lg font-semibold text-primary mb-4">Customize Input Data</h3>
         
@@ -119,10 +119,10 @@ const CustomInputPanel: React.FC<CustomInputPanelProps> = ({
             max={maxSize}
             value={arraySize}
             onChange={(e) => handleSizeChange(parseInt(e.target.value))}
-            className="w-full h-2 bg-accent rounded-curvy appearance-none cursor-pointer
+            className="w-full h-2 bg-accent rounded-lg appearance-none cursor-pointer
                      slider-thumb:appearance-none slider-thumb:h-4 slider-thumb:w-4 
                      slider-thumb:rounded-full slider-thumb:bg-primary 
-                     slider-thumb:cursor-pointer slider-thumb:shadow-glow"
+                     slider-thumb:cursor-pointer slider-thumb:"
           />
           
           <div className="flex justify-between text-xs text-text-muted">
@@ -141,10 +141,10 @@ const CustomInputPanel: React.FC<CustomInputPanelProps> = ({
             <button
               key={preset.id}
               onClick={() => generatePresetArray(preset.id)}
-              className={`p-3 rounded-curvy border transition-all duration-200 text-left ${
+              className={`p-3 rounded-lg border transition-all duration-200 text-left ${
                 activePreset === preset.id
-                  ? 'bg-primary/20 border-primary text-primary'
-                  : 'bg-accent/20 border-accent/40 text-text-secondary hover:bg-primary/10 hover:border-primary/60'
+                  ? 'bg-accent/20 border-accent text-primary'
+                  : 'bg-bg-elevated/50 border-border-hover text-text-secondary hover:bg-accent-hover/10 hover:border-accent/60'
               }`}
             >
               <div className="flex items-center space-x-2 mb-1">
@@ -165,9 +165,9 @@ const CustomInputPanel: React.FC<CustomInputPanelProps> = ({
             value={customInput}
             onChange={(e) => handleCustomInput(e.target.value)}
             placeholder="Enter comma-separated numbers (e.g., 64, 34, 25, 12, 22, 11, 90)"
-            className="w-full p-3 bg-accent/20 border border-accent/40 rounded-curvy
+            className="w-full p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
                      text-text-primary placeholder-text-muted resize-none
-                     focus:border-primary focus:ring-1 focus:ring-primary/20
+                     focus:border-accent focus:ring-1 focus:ring-primary/20
                      transition-colors duration-200"
             rows={3}
           />
@@ -183,7 +183,7 @@ const CustomInputPanel: React.FC<CustomInputPanelProps> = ({
       </div>
 
       {/* Value Range Info */}
-      <div className="bg-accent/10 rounded-curvy p-3 border border-accent/20">
+      <div className="bg-bg-elevated/20 rounded-lg p-3 border border-border">
         <div className="flex justify-between items-center text-sm">
           <span className="text-text-muted">Value Range:</span>
           <span className="text-text-secondary font-medium">{minValue} - {maxValue}</span>

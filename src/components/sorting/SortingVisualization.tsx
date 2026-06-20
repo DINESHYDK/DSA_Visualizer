@@ -16,6 +16,7 @@ interface SortingVisualizationProps {
 }
 
 interface VizState {
+  initialElements: ArrayElement[]; // pristine copy — used for backward-step replay
   elements: ArrayElement[];
   steps: SortingStep[];
   metrics: AlgorithmMetrics;
@@ -28,12 +29,14 @@ interface VizState {
 
 type VizAction =
   | { type: 'INIT'; elements: ArrayElement[]; steps: SortingStep[]; metrics: AlgorithmMetrics }
+  | { type: 'RESET_ELEMENTS' }
   | { type: 'APPLY_STEP'; stepIndex: number; now: number }
   | { type: 'COMPLETE' }
   | { type: 'TOGGLE_CODE' }
   | { type: 'TOGGLE_INFO' };
 
 const initialVizState: VizState = {
+  initialElements: [],
   elements: [],
   steps: [],
   metrics: { comparisons: 0, swaps: 0, arrayAccesses: 0, timeElapsed: 0 },
@@ -49,11 +52,22 @@ function vizReducer(state: VizState, action: VizAction): VizState {
     case 'INIT':
       return {
         ...initialVizState,
+        initialElements: action.elements,
         elements: action.elements,
         steps: action.steps,
         metrics: { ...action.metrics, timeElapsed: 0 },
         startTime: Date.now(),
         showCodeDisplay: state.showCodeDisplay,
+      };
+
+    // Called by the engine before replaying steps 0..N for backward navigation.
+    // Resets visual state to the unsorted starting position.
+    case 'RESET_ELEMENTS':
+      return {
+        ...state,
+        elements: state.initialElements.map(el => ({ ...el, state: 'default' as const })),
+        highlightedIndices: [],
+        currentOperation: '',
       };
 
     case 'APPLY_STEP': {
@@ -63,7 +77,10 @@ function vizReducer(state: VizState, action: VizAction): VizState {
 
       const elements = state.elements.map((el, idx) => {
         let newState = el.state;
-        if (newState === 'comparing' || newState === 'swapping') newState = 'default';
+        // Only reset transient states — keep 'sorted' so already-sorted elements stay green
+        if (newState === 'comparing' || newState === 'swapping' || newState === 'current' || newState === 'pivot') {
+          newState = 'default';
+        }
 
         if (step.indices.includes(idx)) {
           switch (step.type) {
@@ -71,9 +88,11 @@ function vizReducer(state: VizState, action: VizAction): VizState {
             case 'swap':      newState = 'swapping';  break;
             case 'set':       newState = 'sorted';    break;
             case 'highlight': newState = stepIndex === state.steps.length - 1 ? 'sorted' : 'current'; break;
+            case 'mark':      newState = 'pivot';     break;
           }
         }
 
+        // Use the step's value snapshot if provided (gives correct values after swaps)
         const newValue = step.values ? step.values[idx] : el.value;
         return { ...el, value: newValue, state: newState };
       });
@@ -90,9 +109,9 @@ function vizReducer(state: VizState, action: VizAction): VizState {
     case 'COMPLETE':
       return {
         ...state,
-        currentOperation: 'Sorting completed!',
+        currentOperation: 'Sorting complete!',
         highlightedIndices: [],
-        elements: state.elements.map((el) => ({ ...el, state: 'sorted' })),
+        elements: state.elements.map((el) => ({ ...el, state: 'sorted' as const })),
       };
 
     case 'TOGGLE_CODE':
@@ -200,6 +219,11 @@ export default function SortingVisualization({
     onComplete: () => {
       dispatch({ type: 'COMPLETE' });
       onComplete?.();
+    },
+    // onReset enables correct backward stepping:
+    // the engine calls this before replaying steps 0..target
+    onReset: () => {
+      dispatch({ type: 'RESET_ELEMENTS' });
     },
   });
 

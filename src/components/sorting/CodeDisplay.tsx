@@ -182,13 +182,13 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
   const code = algorithmCode[algorithm] || [];
 
   return (
-    <div className={`bg-bg-card rounded-curvy shadow-curvy border border-accent/20 ${className}`}>
+    <div className={`bg-bg-card rounded-lg border border-border ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-accent/20">
+      <div className="flex items-center justify-between p-4 border-b border-border">
         <div className="flex items-center space-x-3">
-          <Code className="h-5 w-5 text-primary" />
-          <h3 className="text-lg font-semibold text-primary">
-            {algorithm.charAt(0).toUpperCase() + algorithm.slice(1)} Sort - Pseudocode
+          <Code className="h-5 w-5 text-accent" />
+          <h3 className="text-base font-semibold text-text-primary">
+            {algorithm.charAt(0).toUpperCase() + algorithm.slice(1)} Sort — Pseudocode
           </h3>
         </div>
         
@@ -196,7 +196,7 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
           {/* Copy Button */}
           <button
             onClick={copyCode}
-            className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                      transition-colors duration-200"
             title="Copy Code"
           >
@@ -206,7 +206,7 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
           {/* Toggle Explanations */}
           <button
             onClick={() => setShowExplanations(!showExplanations)}
-            className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                      transition-colors duration-200"
             title={showExplanations ? "Hide Explanations" : "Show Explanations"}
           >
@@ -216,7 +216,7 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
           {/* Expand/Collapse */}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                      transition-colors duration-200"
             title={isExpanded ? "Collapse" : "Expand"}
           >
@@ -226,76 +226,70 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
       </div>
 
       {/* Progress Indicator */}
-      <div className="px-4 py-2 bg-accent/10 border-b border-accent/20">
-        <div className="flex justify-between items-center text-sm">
-          <span className="text-text-muted">Execution Progress:</span>
-          <span className="text-primary font-medium">
-            Step {currentStep} of {totalSteps}
-          </span>
+      <div className="px-4 py-2 bg-bg-elevated/10 border-b border-border">
+        <div className="flex justify-between items-center text-xs text-text-muted mb-1.5">
+          <span>Step {currentStep} of {totalSteps}</span>
+          <span>{totalSteps > 0 ? Math.round((currentStep / totalSteps) * 100) : 0}%</span>
         </div>
-        <div className="w-full bg-accent/20 rounded-curvy h-1 mt-2">
+        <div className="w-full bg-bg-elevated rounded-full h-1">
           <div
-            className="h-full bg-primary rounded-curvy transition-all duration-300"
-            style={{
-              width: `${totalSteps > 0 ? (currentStep / totalSteps) * 100 : 0}%`
-            }}
+            className="h-full bg-accent rounded-full transition-all duration-300"
+            style={{ width: `${totalSteps > 0 ? (currentStep / totalSteps) * 100 : 0}%` }}
           />
         </div>
       </div>
 
       {/* Current Operation */}
       {currentOperation && (
-        <div className="px-4 py-3 bg-primary/10 border-b border-primary/20">
+        <div className="px-4 py-2 bg-accent/10 border-b border-border">
           <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-            <span className="text-sm font-medium text-primary">Current Operation:</span>
+            <div className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
+            <span className="text-xs font-medium text-accent">Current:</span>
+            <p className="text-xs text-text-primary">{currentOperation}</p>
           </div>
-          <p className="text-sm text-text-primary mt-1">{currentOperation}</p>
         </div>
       )}
 
       {/* Code Display */}
-      <div className={`transition-all duration-300 ${isExpanded ? 'max-h-none' : 'max-h-96'} overflow-y-auto`}>
-        <div className="p-4 font-mono text-sm">
+      <div className={`transition-all duration-300 ${isExpanded ? 'max-h-none' : 'max-h-96'} overflow-y-auto bg-[#1e1e1e]`}>
+        <div className="p-3 font-mono text-sm">
           {code.map((line, index) => (
-            <div key={index} className="group">
+            <div key={index}>
               <div
-                className={`flex items-start space-x-3 py-1 px-2 rounded transition-all duration-200 ${
+                className={`flex items-start space-x-3 py-0.5 px-2 rounded-sm transition-colors duration-150 ${
                   activeLines.includes(line.line)
-                    ? 'bg-primary/20 border-l-4 border-primary shadow-glow'
-                    : 'hover:bg-accent/10'
+                    ? 'bg-accent/15 border-l-2 border-accent'
+                    : 'border-l-2 border-transparent hover:bg-white/5'
                 }`}
               >
                 {/* Line Number */}
-                <span className="text-text-muted text-xs w-6 text-right flex-shrink-0 mt-0.5">
+                <span className="text-text-muted/50 text-xs w-5 text-right flex-shrink-0 mt-0.5 select-none">
                   {line.code ? line.line : ''}
                 </span>
-                
+
                 {/* Code */}
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <pre
-                    className={`text-text-primary whitespace-pre-wrap ${
-                      activeLines.includes(line.line) ? 'font-semibold text-primary' : ''
+                    className={`whitespace-pre-wrap break-all ${
+                      activeLines.includes(line.line)
+                        ? 'text-accent font-medium'
+                        : 'text-text-primary/90'
                     }`}
                     style={{ paddingLeft: `${line.indent * 16}px` }}
                   >
                     {line.code}
                   </pre>
-                  
+
                   {/* Explanation */}
                   {showExplanations && line.explanation && (
-                    <div className="text-xs text-text-muted mt-1 italic">
+                    <div
+                      className="text-xs text-text-muted/60 italic"
+                      style={{ paddingLeft: `${line.indent * 16}px` }}
+                    >
                       // {line.explanation}
                     </div>
                   )}
                 </div>
-                
-                {/* Active Indicator */}
-                {activeLines.includes(line.line) && (
-                  <div className="flex-shrink-0 mt-1">
-                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                  </div>
-                )}
               </div>
             </div>
           ))}
@@ -303,14 +297,10 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
       </div>
 
       {/* Footer */}
-      <div className="px-4 py-3 border-t border-accent/20 bg-accent/5">
-        <div className="flex justify-between items-center text-xs text-text-muted">
-          <span>
-            {activeLines.length > 0 ? `${activeLines.length} line(s) active` : 'No active lines'}
-          </span>
-          <span>
-            {code.filter(line => line.code).length} lines total
-          </span>
+      <div className="px-4 py-2 border-t border-border">
+        <div className="flex justify-between items-center text-xs text-text-muted/60">
+          <span>{activeLines.length > 0 ? `${activeLines.length} line(s) active` : 'No active lines'}</span>
+          <span>{code.filter(line => line.code).length} lines</span>
         </div>
       </div>
     </div>

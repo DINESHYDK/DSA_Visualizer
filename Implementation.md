@@ -158,93 +158,94 @@ All original feature development is complete:
 
 ## **Phase R3: Animation Engine Rewrite** ← MOST CRITICAL
 
-[ ] **R3.1** Fix Animation Loop — Stale Closure Bug
+> Split into two parts. Part 1 = engine fix (this chat). Part 2 = element visuals + swap animation (next chat).
+
+### R3 — Part 1: Fix the Engine
+
+[x] **R3.2** Fix Step Handler — Single Dispatch Per Step *(completed in R2.4)*
+- File: `src/components/sorting/SortingVisualization.tsx`
+- Already done: 8 useState → single useReducer, one dispatch per step
+
+[x] **R3.1** Fix Animation Loop — Stale Closure Bug
 - Priority: H
 - Dependencies: R2.4
 - File: `src/hooks/useAnimationEngine.ts`
+- Root cause: `animationLoop` closes over stale `state.isPlaying` / `state.currentStep` from useState — the RAF callback never sees updated values, so all steps fire in the same frame.
 - Subtasks:
-  * [ ] Replace `useState` for isPlaying/currentStep with `useRef` for mutable animation state
-  * [ ] Rewrite `animationLoop` callback to read from refs (not closed-over state)
-  * [ ] Sync refs to React state with single `setState` call per frame
-  * [ ] Set minimum step duration >= 350ms (must exceed CSS transition duration)
-  * [ ] Add `computeArrayStateAtStep(steps, targetStep)` for correct backward stepping
-  * [ ] Clean up RAF properly on unmount and pause
+  * [x] Replace `useState` for isPlaying/currentStep with `useRef` for mutable animation state
+  * [x] Rewrote `tick` callback with empty dep array — reads exclusively from refs (never stale)
+  * [x] Single `setUiState` per tick for UI re-render only
+  * [x] Minimum step duration = 400ms (longer than CSS transition 250ms)
+  * [x] `stepBackward`: calls `onReset()` then replays steps 0→target (React 18 batches into one re-render)
+  * [x] RAF cancelled on pause, reset, unmount, and algorithm change
+  * [x] Added `onReset` callback prop to engine, wired into `SortingVisualization` via new `RESET_ELEMENTS` reducer action
+  * [x] Stored `initialElements` in VizState so reset has a clean starting point
 
-[ ] **R3.2** Fix Step Handler — Single Dispatch Per Step
-- Priority: H
-- Dependencies: R3.1
-- File: `src/components/sorting/SortingVisualization.tsx`
-- Subtasks:
-  * [ ] Replace `handleStepChange` (currently 4 separate setState = 4 re-renders) with single `useReducer` dispatch
-  * [ ] New dispatch computes: elements state, highlighted indices, operation text, metrics — all in one update
-  * [ ] Implement `computeVisualizationState(stepIndex)` that derives correct array state from step data
-  * [ ] Ensure backward stepping correctly restores previous array state
+---
 
-[ ] **R3.3** Fix AnimatedArrayElement — Pure CSS Transitions
+### R3 — Part 2: Element Visuals + Swap Animation *(completed)*
+
+[x] **R3.3** Fix AnimatedArrayElement — Pure CSS Transitions
 - Priority: H
-- Dependencies: R3.2
 - File: `src/components/animation/AnimatedArrayElement.tsx`
 - Subtasks:
-  * [ ] Remove `isAnimating` useState and useEffect timers
-  * [ ] Remove `displayValue` internal state
-  * [ ] Element visual state determined ENTIRELY by `state` prop via CSS classes
-  * [ ] CSS handles smooth transitions: `transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease`
-  * [ ] Remove inline `transform: scale(1.1) rotate(1deg)` hack
+  * [x] Removed internal `isAnimating` useState and useEffect timers
+  * [x] Removed `displayValue` state — value comes directly from props
+  * [x] Visual state driven entirely by `state` prop → `stateClass` map → CSS class
+  * [x] Removed inline `transform: scale(1.1) rotate(1deg)` hack
+  * [x] Added `style` prop passthrough so parent can inject translateX for swap animation
 
-[ ] **R3.4** Add Proper Swap Animation
+[x] **R3.4** Simplified Swap Animation *(brought back — educational value)*
 - Priority: M
-- Dependencies: R3.3
 - File: `src/components/animation/ArrayVisualization.tsx`
 - Subtasks:
-  * [ ] When 'swap' step is active, compute `translateX` offset for each swapping element
-  * [ ] Two-phase animation: visual translateX move (CSS transition) → actual array reorder (after transition completes)
-  * [ ] Lift swapping elements with subtle `translateY(-8px)` during swap
+  * [x] Detects the two elements in 'swapping' state, computes their translateX offsets based on stride (elementWidth + gap)
+  * [x] Applies `translateX(offset) translateY(-8px)` via inline style during swap — elements visually cross past each other
+  * [x] Clears transform after 270ms via setTimeout (CSS transition = 250ms)
+  * [x] `zIndex: 10` on swapping elements so they render above neighbours
 
-[ ] **R3.5** Clean Up Animation Support Components
-- Priority: M
-- Dependencies: R3.3
-- Subtasks:
-  * [ ] Simplify `ComparisonHighlight.tsx` — remove pulseGlow, use subtle border/underline indicator
-  * [ ] Simplify `TransitionEffects.tsx` — remove glow effects, simplify swap/slide animations
-  * [ ] Remove `AnimationControls.tsx` if redundant with `AnimationControlPanel.tsx`
+> **Cut items (confirmed):**
+> - ~~R3.5 ComparisonHighlight / TransitionEffects rewrite~~ — cosmetic, no visual understanding benefit
 
 ---
 
 ## **Phase R4: Page-by-Page Redesign**
 
-[ ] **R4.1** Global Style Migration (All Components)
+[x] **R4.6** Layout Polish *(completed in R2.2)*
+- Footer rewritten to single-row minimal bar
+- Sidebar collapses on mobile via translate-x
+- All pages now wrapped in consistent MainLayout
+
+[x] **R4.1** Global Style Migration (All Components) *(completed alongside R3 Part 2)*
 - Priority: H
-- Dependencies: R3.5
 - Subtasks:
-  * [ ] Find-and-replace across ALL files: `rounded-curvy` → `rounded-lg`
-  * [ ] Find-and-replace: `shadow-curvy` → remove or `shadow-sm`
-  * [ ] Find-and-replace: `shadow-glow` → remove entirely
-  * [ ] Find-and-replace: `hover-lift` → `hover:bg-[#3e3e3e]` or remove
-  * [ ] Find-and-replace: `bg-gradient-dark` → `bg-[var(--color-bg-primary)]`
-  * [ ] Find-and-replace: `animate-pulse-glow` → remove
-  * [ ] Find-and-replace: `bg-bg-card` → use Card component or new token
+  * [x] `rounded-curvy` / variants → `rounded-lg` / `rounded-md` / etc. (sed across all tsx)
+  * [x] `shadow-curvy` / variants → `shadow-sm` / `shadow-md` (sed)
+  * [x] `shadow-glow` / `shadow-glow-hover` → removed (sed)
+  * [x] `hover-lift` → removed (sed)
+  * [x] `bg-gradient-dark` → `bg-bg-primary` (sed)
+  * [x] `animate-pulse-glow` → removed (sed)
+  * [x] `bg-primary/X` → `bg-accent/X`, `border-primary` → `border-accent` (sed)
+  * [x] `bg-accent/20` (old gray tint) → `bg-bg-elevated/50` (sed)
+  * [x] `hover:bg-primary` → `hover:bg-accent-hover` (sed)
+  * [x] Removed redundant `min-h-screen bg-bg-primary` + `max-w-7xl` wrapper divs from all 5 pages (MainLayout already provides both)
 
 [ ] **R4.2** Sorting Page Redesign
 - Priority: H
 - Dependencies: R4.1
 - Subtasks:
-  * [ ] Redesign `src/pages/SortingPage.tsx` with flat cards, consistent borders
-  * [ ] Redesign `src/components/sorting/AlgorithmComparison.tsx` — tab-style selector with orange active
-  * [ ] Redesign `src/components/sorting/CodeDisplay.tsx` — dark bg (#1e1e1e), monospace font, clean line highlighting
-  * [ ] Redesign `src/components/sorting/EnhancedCustomInputPanel.tsx` — clean inputs, orange focus
-  * [ ] Redesign `src/components/animation/AnimationControlPanel.tsx`:
-    - Flat orange play button (no glow)
-    - Thin progress bar with orange fill
-    - Clean speed slider
-    - Remove redundant status indicator section
-  * [ ] Compact metrics display — inline stats bar instead of 4 separate hover-lift cards
+  * [ ] Redesign `src/pages/SortingPage.tsx` — flat cards, consistent borders
+  * [ ] Redesign `src/components/sorting/AlgorithmComparison.tsx` — use `Tabs` UI primitive for algorithm selector
+  * [ ] Redesign `src/components/sorting/CodeDisplay.tsx` — dark bg `#1e1e1e`, `font-mono`, clean line highlighting
+  * [ ] Redesign `src/components/sorting/EnhancedCustomInputPanel.tsx` — clean inputs, orange focus ring
+  * [ ] Redesign `src/components/animation/AnimationControlPanel.tsx` — flat orange play button, thin progress bar, clean speed slider, remove status indicator section
 
 [ ] **R4.3** Data Structures Page Redesign
 - Priority: H
 - Dependencies: R4.1
 - Subtasks:
-  * [ ] Redesign `src/pages/DataStructuresPage.tsx` with flat cards, consistent layout
-  * [ ] Update `src/components/datastructures/ArrayDataStructure.tsx` (renamed) styling
+  * [ ] Redesign `src/pages/DataStructuresPage.tsx` — flat cards
+  * [ ] Update `src/components/datastructures/ArrayDataStructure.tsx` styling
   * [ ] Update `src/components/datastructures/LinkedListVisualization.tsx` styling
   * [ ] Update `src/components/datastructures/StackQueueVisualization.tsx` styling
 
@@ -252,83 +253,69 @@ All original feature development is complete:
 - Priority: H
 - Dependencies: R4.1
 - Subtasks:
-  * [ ] Redesign `src/pages/TreesPage.tsx` with flat cards
+  * [ ] Redesign `src/pages/TreesPage.tsx` — flat cards
   * [ ] Update `src/components/trees/BinarySearchTreeVisualization.tsx` — clean node circles, thin borders
   * [ ] Update `src/components/trees/HeapVisualization.tsx` styling
   * [ ] Update `src/components/trees/AVLTreeVisualization.tsx` styling
-  * [ ] Update `src/components/animation/TreeVisualization.tsx` — clean node rendering
+  * [ ] Update `src/components/animation/TreeVisualization.tsx` — clean SVG node rendering
 
 [ ] **R4.5** Playground & Complexity Pages Redesign
 - Priority: M
 - Dependencies: R4.1
 - Subtasks:
   * [ ] Redesign `src/pages/PlaygroundPage.tsx` — consistent card/input styling
-  * [ ] Update `src/components/playground/MultiLevelInputSystem.tsx`
-  * [ ] Update `src/components/playground/AdvancedScenarioTesting.tsx`
-  * [ ] Update `src/components/playground/AlgorithmCustomization.tsx`
+  * [ ] Update `src/components/playground/*` styling (MultiLevelInputSystem, AdvancedScenarioTesting, AlgorithmCustomization)
   * [ ] Redesign `src/pages/ComplexityAnalysisPage.tsx` — clean card layout
-  * [ ] Update `src/components/educational/*` components styling
-
-[ ] **R4.6** Layout Polish
-- Priority: M
-- Dependencies: R4.2
-- Subtasks:
-  * [ ] Update `src/components/layout/Footer.tsx` — minimal, dark bg, single line
-  * [ ] Ensure sidebar collapses properly on mobile
-  * [ ] Verify all pages have consistent padding and max-width
+  * [ ] Update `src/components/educational/*` styling
 
 ---
 
 ## **Phase R5: Polish & Production Quality**
 
-[ ] **R5.1** Responsive Design
+[ ] **R5.1** Responsive Design *(simplified — no ResizeObserver)*
 - Priority: H
-- Dependencies: R4.6
+- Dependencies: R4.5
+- Approach: CSS flexbox + percentage widths instead of JS-measured containers. Simpler, no layout jank.
 - Subtasks:
-  * [ ] Remove hardcoded 70px element widths — compute from container: `Math.max(32, Math.min(64, containerWidth / n))`
-  * [ ] Remove hardcoded 800px container widths — use ResizeObserver
-  * [ ] For large arrays (>15 elements), switch to bar-chart mode (thin vertical bars, height = value)
-  * [ ] Stack code display below visualization on mobile
-  * [ ] Test all breakpoints: 320px, 768px, 1024px, 1440px
+  * [ ] Replace hardcoded `elementWidth={70}`, `elementHeight={70}` — use `w-full flex` layout so elements size by container
+  * [ ] Replace hardcoded `containerWidth={800}` in ComparisonHighlight — derive from element count and flex gap
+  * [ ] Grid layout: code display stacks below visualization on screens < 1024px (already `lg:grid-cols-2`)
+  * [ ] Verify sidebar toggle works on mobile
 
-[ ] **R5.2** Accessibility
-- Priority: H
-- Dependencies: R5.1
-- Subtasks:
-  * [ ] Add `aria-label` to all interactive buttons
-  * [ ] Add `role="progressbar"` with `aria-valuenow`/`aria-valuemin`/`aria-valuemax` to progress bars
-  * [ ] Add `prefers-reduced-motion` media query to disable/simplify all animations
-  * [ ] Ensure keyboard navigation works with React Router (tab order, Enter/Space)
-  * [ ] Ensure color is not the only state indicator (add text labels or icons)
+> **Cut:** ~~ResizeObserver~~ — CSS flex handles this cleanly. ~~Bar-chart mode for large arrays~~ — out of scope.
 
-[ ] **R5.3** Performance Optimization
+[ ] **R5.2** Accessibility *(simplified — labels only)*
 - Priority: M
 - Dependencies: R5.1
+- Note: `prefers-reduced-motion` already handled in R1 (`index.css`).
 - Subtasks:
-  * [ ] Add `React.memo` to `AnimatedArrayElement` (avoid re-rendering unchanged elements)
-  * [ ] Add `React.memo` to `CodeDisplay` (only re-render on step/algorithm change)
-  * [ ] Add `React.lazy` + `Suspense` for page-level code splitting in router
-  * [ ] Profile and fix any remaining unnecessary re-renders
+  * [ ] Add `aria-label` to all icon-only buttons (play, pause, step forward/back, reset)
+  * [ ] Verify keyboard shortcuts still work (Space, Arrow keys, R, C) — should be fine post-router
 
-[ ] **R5.4** Final Touches
+> **Cut:** ~~progressbar ARIA~~ — verbose, no real-world benefit for a portfolio project. ~~Color-only state indicators~~ — text description already shown below the array.
+
+> **Cut entirely:**
+> - ~~R5.3 React.memo / React.lazy~~ — premature optimization, arrays are small, React is fast enough
+> - ~~R5.4 page transition fade in/out~~ — visual fluff
+
+[ ] **R5.3** Final Touches *(kept, lightweight)*
 - Priority: M
-- Dependencies: R5.3
+- Dependencies: R5.2
 - Subtasks:
-  * [ ] Create `src/pages/NotFoundPage.tsx` — 404 page for unknown routes
-  * [ ] Add `document.title` updates per route
-  * [ ] Add simple page transition (fade in/out)
-  * [ ] Verify sidebar active state syncs with current route
-  * [ ] Test all keyboard shortcuts with new routing
+  * [ ] Create `src/pages/NotFoundPage.tsx` — simple 404 with link back to home
+  * [ ] Add `document.title` updates per route (e.g., "Sorting — DSA Visualizer")
+  * [ ] Verify sidebar active state syncs with current route (NavLink already handles this)
+  * [ ] Final cross-browser smoke test
 
 ---
 
-## Dependencies to Install
+## Dependencies Installed
 
 | Package | Version | Purpose |
 |---------|---------|---------|
-| `react-router-dom` | ^6.x | Client-side routing |
+| `react-router-dom` | v7.13.2 | Client-side routing ✓ |
 
-No other new libraries. CSS transitions over Framer Motion for performance.
+No other new libraries. CSS transitions over Framer Motion.
 
 ---
 
@@ -336,21 +323,23 @@ No other new libraries. CSS transitions over Framer Motion for performance.
 
 | Action | Count | Details |
 |--------|-------|---------|
-| **Delete** | ~17 files | `src_new/` (11), performance stubs (5), AnimationContext (1) |
-| **Create** | ~7 files | UI primitives (4), HomePage, NotFoundPage, tokens |
-| **Modify** | ~25 files | Every component, all pages, config files, types, hooks |
+| **Deleted** | 17 files | `src_new/` (11), performance stubs (5), AnimationContext (1) ✓ |
+| **Created** | 6 files | UI primitives (4), HomePage, NotFoundPage (pending) ✓ partial |
+| **Remaining** | ~15 files | useAnimationEngine, AnimatedArrayElement, ArrayVisualization, all page/component files |
 
 ---
 
 ## Current Status
 
-### Completion: Phase R2 Done
+### Completion: Phase R3 + R4.1 Done
 
 - [x] Phase R0: Cleanup
 - [x] Phase R1: Design System
 - [x] Phase R2: Infrastructure
-- [ ] Phase R3: Animation Engine Rewrite
-- [ ] Phase R4: Page-by-Page Redesign
+- [x] Phase R3 Part 1: Fix animation engine stale closure
+- [x] Phase R3 Part 2: Element visuals + swap animation
+- [x] Phase R4.1: Global style migration (all old class names replaced)
+- [ ] Phase R4.2–R4.5: Per-page redesigns ← **next**
 - [ ] Phase R5: Polish & Production Quality
 
 ---

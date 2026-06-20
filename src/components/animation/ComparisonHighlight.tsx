@@ -65,8 +65,8 @@ const ComparisonHighlight: React.FC<ComparisonHighlightProps> = ({
         {label && (
           <div
             className="absolute -top-6 left-1/2 transform -translate-x-1/2
-                     text-xs font-medium px-2 py-1 rounded-curvy-sm
-                     bg-bg-card text-text-primary shadow-curvy"
+                     text-xs font-medium px-2 py-1 rounded
+                     bg-bg-card text-text-primary shadow-sm"
             style={{ color: highlightColor }}
           >
             {label}
@@ -120,8 +120,8 @@ const ComparisonHighlight: React.FC<ComparisonHighlightProps> = ({
         {/* Label */}
         {label && (
           <div
-            className="absolute -top-8 text-xs font-medium px-2 py-1 rounded-curvy-sm
-                     bg-bg-card text-text-primary shadow-curvy"
+            className="absolute -top-8 text-xs font-medium px-2 py-1 rounded
+                     bg-bg-card text-text-primary shadow-sm"
             style={{
               left: `${(leftPos + rightPos) / 2}px`,
               transform: 'translateX(-50%)',

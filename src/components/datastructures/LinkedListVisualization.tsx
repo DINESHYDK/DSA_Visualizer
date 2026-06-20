@@ -375,13 +375,13 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
   const getNodeColor = (node: ListNode) => {
     switch (node.state) {
       case 'current':
-        return 'bg-current border-primary';
+        return 'bg-current border-accent';
       case 'comparing':
-        return 'bg-comparison border-primary animate-pulse-glow';
+        return 'bg-comparison border-accent ';
       case 'found':
         return 'bg-sorted border-success';
       case 'inserting':
-        return 'bg-primary border-primary';
+        return 'bg-accent/20 border-accent';
       case 'deleting':
         return 'bg-error border-error';
       default:
@@ -392,8 +392,8 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Header */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
-        <h2 className="text-2xl font-semibold text-primary mb-2">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
+        <h2 className="text-2xl font-semibold text-text-primary mb-2">
           {listType === 'singly' ? 'Singly' : listType === 'doubly' ? 'Doubly' : 'Circular'} Linked List
         </h2>
         <p className="text-text-secondary">
@@ -403,16 +403,16 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
       </div>
 
       {/* Linked List Visualization */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="space-y-6">
           <h3 className="text-lg font-medium text-text-primary">Node Structure</h3>
           
           {/* Head pointer */}
           <div className="flex items-center space-x-4">
-            <div className="bg-primary/20 border border-primary rounded-curvy px-3 py-2">
-              <span className="text-primary font-medium">HEAD</span>
+            <div className="bg-accent/20 border border-accent rounded-lg px-3 py-2">
+              <span className="text-accent font-medium">HEAD</span>
             </div>
-            <ArrowRight className="h-4 w-4 text-primary" />
+            <ArrowRight className="h-4 w-4 text-accent" />
           </div>
 
           {/* Nodes visualization */}
@@ -423,10 +423,10 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
                   {/* Node */}
                   <div
                     className={`
-                      relative border-2 rounded-curvy p-4 cursor-pointer
-                      transition-all duration-300 hover-lift
+                      relative border-2 rounded-lg p-4 cursor-pointer
+                      transition-all duration-300
                       ${getNodeColor(node)}
-                      ${selectedNodeId === node.id ? 'ring-2 ring-primary ring-offset-2 ring-offset-bg-primary' : ''}
+                      ${selectedNodeId === node.id ? 'ring-2 ring-accent ring-offset-2 ring-offset-bg-primary' : ''}
                     `}
                     onClick={() => setSelectedNodeId(selectedNodeId === node.id ? '' : node.id)}
                   >
@@ -457,19 +457,19 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
                     
                     {/* State indicator */}
                     {node.state !== 'default' && (
-                      <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-primary animate-pulse" />
+                      <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-accent animate-pulse" />
                     )}
                   </div>
 
                   {/* Arrow to next node */}
                   {node.next && (
-                    <ArrowRight className="h-6 w-6 text-primary flex-shrink-0" />
+                    <ArrowRight className="h-6 w-6 text-accent flex-shrink-0" />
                   )}
                   
                   {/* Circular indicator */}
                   {listType === 'circular' && index === nodes.length - 1 && nodes.length > 1 && (
                     <div className="flex items-center space-x-2">
-                      <div className="text-primary text-sm">↺</div>
+                      <div className="text-accent text-sm">↺</div>
                       <span className="text-xs text-text-muted">to HEAD</span>
                     </div>
                   )}
@@ -478,7 +478,7 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
               
               {/* NULL terminator for non-circular lists */}
               {listType !== 'circular' && nodes.length > 0 && (
-                <div className="bg-accent/20 border border-accent rounded-curvy px-3 py-2">
+                <div className="bg-bg-elevated/50 border border-accent rounded-lg px-3 py-2">
                   <span className="text-text-muted font-mono">NULL</span>
                 </div>
               )}
@@ -486,7 +486,7 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
           </div>
 
           {/* Current Operation Display */}
-          <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20 min-h-[60px] flex items-center justify-center">
+          <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border min-h-[60px] flex items-center justify-center">
             <p className="text-text-primary text-center">
               {currentOperation || 'Select an operation to begin...'}
             </p>
@@ -497,7 +497,7 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
       {/* Controls */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Operation Controls */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
           <h3 className="text-lg font-medium text-text-primary mb-4">List Operations</h3>
           
           <div className="space-y-4">
@@ -510,25 +510,25 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
                   value={newValue}
                   onChange={(e) => setNewValue(e.target.value)}
                   placeholder="Value"
-                  className="flex-1 p-2 bg-accent/20 border border-accent/40 rounded-curvy
+                  className="flex-1 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
                            text-text-primary placeholder-text-muted
-                           focus:border-primary focus:ring-1 focus:ring-primary/20"
+                           focus:border-accent focus:ring-1 focus:ring-accent/20"
                 />
                 <input
                   type="number"
                   value={insertPosition}
                   onChange={(e) => setInsertPosition(e.target.value)}
                   placeholder="Position"
-                  className="w-24 p-2 bg-accent/20 border border-accent/40 rounded-curvy
+                  className="w-24 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
                            text-text-primary placeholder-text-muted
-                           focus:border-primary focus:ring-1 focus:ring-primary/20"
+                           focus:border-accent focus:ring-1 focus:ring-accent/20"
                 />
                 <button
                   onClick={insertNode}
                   disabled={!newValue || isAnimating}
-                  className="px-4 py-2 bg-primary hover:bg-hover text-secondary rounded-curvy
+                  className="px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg
                            disabled:opacity-50 disabled:cursor-not-allowed
-                           transition-all duration-200 hover-lift"
+                           transition-all duration-200"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
@@ -544,16 +544,16 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                   placeholder="Value to search"
-                  className="flex-1 p-2 bg-accent/20 border border-accent/40 rounded-curvy
+                  className="flex-1 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
                            text-text-primary placeholder-text-muted
-                           focus:border-primary focus:ring-1 focus:ring-primary/20"
+                           focus:border-accent focus:ring-1 focus:ring-accent/20"
                 />
                 <button
                   onClick={searchNode}
                   disabled={!searchValue || isAnimating}
-                  className="px-4 py-2 bg-info hover:bg-info/80 text-white rounded-curvy
+                  className="px-4 py-2 bg-info hover:bg-info/80 text-white rounded-lg
                            disabled:opacity-50 disabled:cursor-not-allowed
-                           transition-all duration-200 hover-lift"
+                           transition-all duration-200"
                 >
                   <Search className="h-4 w-4" />
                 </button>
@@ -564,16 +564,16 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
             <button
               onClick={traverseList}
               disabled={nodes.length === 0 || isAnimating}
-              className="w-full px-4 py-2 bg-success hover:bg-success/80 text-white rounded-curvy
+              className="w-full px-4 py-2 bg-success hover:bg-success/80 text-white rounded-lg
                        disabled:opacity-50 disabled:cursor-not-allowed
-                       transition-all duration-200 hover-lift"
+                       transition-all duration-200"
             >
               Traverse List
             </button>
 
             {/* Selected Node Operations */}
             {selectedNodeId && (
-              <div className="p-4 bg-primary/10 rounded-curvy border border-primary/20">
+              <div className="p-4 bg-accent/10 rounded-lg border border-border">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-primary">
                     Selected Node: {nodes.find(n => n.id === selectedNodeId)?.value}
@@ -589,9 +589,9 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
                     }
                   }}
                   disabled={isAnimating}
-                  className="w-full px-4 py-2 bg-error hover:bg-error/80 text-white rounded-curvy
+                  className="w-full px-4 py-2 bg-error hover:bg-error/80 text-white rounded-lg
                            disabled:opacity-50 disabled:cursor-not-allowed
-                           transition-all duration-200 hover-lift"
+                           transition-all duration-200"
                 >
                   <Trash2 className="h-4 w-4 inline mr-2" />
                   Delete Node
@@ -602,8 +602,8 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
             {/* Reset */}
             <button
               onClick={resetList}
-              className="w-full px-4 py-2 bg-accent hover:bg-primary hover:text-secondary 
-                       text-text-primary rounded-curvy transition-all duration-200 hover-lift"
+              className="w-full px-4 py-2 bg-accent hover:bg-accent-hover hover:text-secondary 
+                       text-text-primary rounded-lg transition-all duration-200"
             >
               <RotateCcw className="h-4 w-4 inline mr-2" />
               Reset List
@@ -620,7 +620,7 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
           />
           
           {/* List Properties */}
-          <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+          <div className="bg-bg-card rounded-lg p-6 shadow-sm">
             <h3 className="text-lg font-medium text-text-primary mb-4">List Properties</h3>
             
             <div className="space-y-3 text-sm">
@@ -642,7 +642,7 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
               </div>
             </div>
             
-            <div className="mt-4 p-3 bg-accent/10 rounded-curvy">
+            <div className="mt-4 p-3 bg-bg-elevated/20 rounded-lg">
               <p className="text-xs text-text-muted">
                 *O(1) insertion/deletion when you have a reference to the node. 
                 O(n) if you need to traverse to find the position.
@@ -652,11 +652,11 @@ const LinkedListVisualization: React.FC<LinkedListVisualizationProps> = ({
             <div className="mt-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-text-muted">Current Length:</span>
-                <span className="text-primary font-medium">{nodes.length} nodes</span>
+                <span className="text-accent font-medium">{nodes.length} nodes</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-text-muted">Memory Usage:</span>
-                <span className="text-primary font-medium">{nodes.length * 8} bytes</span>
+                <span className="text-accent font-medium">{nodes.length * 8} bytes</span>
               </div>
             </div>
           </div>

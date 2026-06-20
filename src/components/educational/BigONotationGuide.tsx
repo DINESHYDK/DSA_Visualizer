@@ -173,7 +173,7 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
       {/* Complexity Classes */}
       <div className="space-y-4">
         {complexityClasses.map((complexity, index) => (
-          <div key={index} className="bg-accent/10 rounded-curvy p-4 border border-accent/20">
+          <div key={index} className="bg-bg-elevated/20 rounded-lg p-4 border border-border">
             <div className="flex items-center space-x-2 mb-2">
               <span className={`font-mono font-bold text-lg ${complexity.color}`}>{complexity.name}</span>
               <span className="text-text-secondary font-medium">{complexity.description}</span>
@@ -191,7 +191,7 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
             </div>
             
             {/* Simple Visualization */}
-            <div className="mt-3 h-16 bg-bg-secondary/30 rounded-curvy relative overflow-hidden">
+            <div className="mt-3 h-16 bg-bg-secondary/30 rounded-lg relative overflow-hidden">
               <div className="absolute inset-0 flex items-end">
                 {complexity.graph.map((point, i) => {
                   const x = (point.x / 100) * 100;
@@ -215,13 +215,13 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
       </div>
 
       {/* Growth Rate Comparison */}
-      <div className="bg-primary/10 rounded-curvy p-4 border border-primary/20">
+      <div className="bg-accent/10 rounded-lg p-4 border border-border">
         <h5 className="font-medium text-primary mb-3">Growth Rate Comparison</h5>
         
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-accent/20">
+              <tr className="border-b border-border">
                 <th className="text-left py-2 px-3 text-text-secondary font-semibold">Complexity</th>
                 <th className="text-left py-2 px-3 text-text-secondary font-semibold">n=10</th>
                 <th className="text-left py-2 px-3 text-text-secondary font-semibold">n=100</th>
@@ -289,7 +289,7 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
       {/* Space Complexity Classes */}
       <div className="space-y-4">
         {spaceComplexityExamples.map((complexity, index) => (
-          <div key={index} className="bg-accent/10 rounded-curvy p-4 border border-accent/20">
+          <div key={index} className="bg-bg-elevated/20 rounded-lg p-4 border border-border">
             <div className="flex items-center space-x-2 mb-2">
               <span className={`font-mono font-bold text-lg ${complexity.color}`}>{complexity.name}</span>
               <span className="text-text-secondary font-medium">{complexity.description}</span>
@@ -310,7 +310,7 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
       </div>
 
       {/* Space vs Time Tradeoffs */}
-      <div className="bg-primary/10 rounded-curvy p-4 border border-primary/20">
+      <div className="bg-accent/10 rounded-lg p-4 border border-border">
         <h5 className="font-medium text-primary mb-3">Space-Time Tradeoffs</h5>
         
         <div className="space-y-3 text-sm text-text-secondary">
@@ -351,13 +351,13 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
       
       {/* Algorithm Examples */}
       {algorithmExamples.map((category, index) => (
-        <div key={index} className="bg-accent/10 rounded-curvy p-4 border border-accent/20">
+        <div key={index} className="bg-bg-elevated/20 rounded-lg p-4 border border-border">
           <h5 className="font-medium text-text-primary mb-3">{category.name}</h5>
           
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-accent/20">
+                <tr className="border-b border-border">
                   <th className="text-left py-2 px-3 text-text-secondary font-semibold">Algorithm</th>
                   <th className="text-left py-2 px-3 text-text-secondary font-semibold">Time Complexity</th>
                   <th className="text-left py-2 px-3 text-text-secondary font-semibold">Space Complexity</th>
@@ -380,7 +380,7 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
       ))}
 
       {/* Practical Advice */}
-      <div className="bg-primary/10 rounded-curvy p-4 border border-primary/20">
+      <div className="bg-accent/10 rounded-lg p-4 border border-border">
         <h5 className="font-medium text-primary mb-3">Practical Complexity Analysis</h5>
         
         <div className="space-y-3 text-sm text-text-secondary">
@@ -403,9 +403,9 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
 
   return (
     <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-bg-primary p-4 overflow-auto' : ''} ${className}`}>
-      <div className={`bg-bg-card rounded-curvy shadow-curvy ${isFullscreen ? 'h-full overflow-auto' : ''}`}>
+      <div className={`bg-bg-card rounded-lg shadow-sm ${isFullscreen ? 'h-full overflow-auto' : ''}`}>
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-accent/20">
+        <div className="flex items-center justify-between p-6 border-b border-border">
           <div className="flex items-center space-x-3">
             <HelpCircle className="h-6 w-6 text-primary" />
             <h3 className="text-xl font-semibold text-primary">Big O Notation Guide</h3>
@@ -414,7 +414,7 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setExpanded(!expanded)}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title={expanded ? "Collapse" : "Expand"}
             >
@@ -423,7 +423,7 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
             
             <button
               onClick={toggleFullscreen}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
             >
@@ -433,14 +433,14 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
         </div>
 
         {/* Tabs */}
-        <div className="flex space-x-1 bg-accent/20 rounded-curvy p-1 m-6">
+        <div className="flex space-x-1 bg-bg-elevated/50 rounded-lg p-1 m-6">
           <button
             onClick={() => setActiveTab('time')}
-            className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-curvy
+            className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg
                      transition-all duration-200 font-medium ${
               activeTab === 'time'
-                ? 'bg-primary text-bg-primary shadow-glow'
-                : 'text-text-secondary hover:text-text-primary hover:bg-accent/40'
+                ? 'bg-primary text-bg-primary '
+                : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
             }`}
           >
             <Clock className="h-4 w-4" />
@@ -449,11 +449,11 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
           
           <button
             onClick={() => setActiveTab('space')}
-            className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-curvy
+            className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg
                      transition-all duration-200 font-medium ${
               activeTab === 'space'
-                ? 'bg-primary text-bg-primary shadow-glow'
-                : 'text-text-secondary hover:text-text-primary hover:bg-accent/40'
+                ? 'bg-primary text-bg-primary '
+                : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
             }`}
           >
             <Zap className="h-4 w-4" />
@@ -462,11 +462,11 @@ const BigONotationGuide: React.FC<BigONotationGuideProps> = ({
           
           <button
             onClick={() => setActiveTab('examples')}
-            className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-curvy
+            className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg
                      transition-all duration-200 font-medium ${
               activeTab === 'examples'
-                ? 'bg-primary text-bg-primary shadow-glow'
-                : 'text-text-secondary hover:text-text-primary hover:bg-accent/40'
+                ? 'bg-primary text-bg-primary '
+                : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
             }`}
           >
             <BarChart3 className="h-4 w-4" />

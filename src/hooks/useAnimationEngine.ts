@@ -1,207 +1,245 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { AnimationState } from '../types';
+import { AnimationState, AnimationStep } from '../types';
 
-interface AnimationStep {
-  id: string;
-  type: 'compare' | 'swap' | 'set' | 'highlight' | 'mark';
-  indices: number[];
-  values?: number[];
-  description: string;
-  duration?: number;
-}
+// ─────────────────────────────────────────────────────────────────────────────
+// The previous implementation had a stale-closure bug:
+//   animationLoop was memoized with useCallback and closed over
+//   state.isPlaying / state.currentStep from useState. Because the callback
+//   was recreated every time those values changed, the RAF was constantly
+//   cancelled and restarted — causing all steps to fire in the same frame.
+//
+// Fix: ALL mutable animation state lives in refs. The tick function has an
+//   empty dependency array and reads exclusively from refs (never stale).
+//   React state is updated once per tick, purely for triggering UI re-renders.
+// ─────────────────────────────────────────────────────────────────────────────
 
 interface UseAnimationEngineProps {
   steps: AnimationStep[];
   initialSpeed?: number;
-  onStepChange?: (step: number, stepData: AnimationStep) => void;
+  onStepChange?: (stepIndex: number, stepData: AnimationStep) => void;
   onComplete?: () => void;
+  /** Called before replaying all steps during backward navigation.
+   *  If provided, backward step will reset to initial state and replay
+   *  steps 0..target for correct array reconstruction. */
+  onReset?: () => void;
 }
 
 export const useAnimationEngine = ({
   steps,
   initialSpeed = 1.0,
   onStepChange,
-  onComplete
+  onComplete,
+  onReset,
 }: UseAnimationEngineProps) => {
-  const [state, setState] = useState<AnimationState>({
-    isPlaying: false,
-    isPaused: false,
-    speed: initialSpeed,
+
+  // ── Mutable refs — read by RAF, never stale ──────────────────────────────
+  const isPlayingRef    = useRef(false);
+  const currentStepRef  = useRef(0);
+  const speedRef        = useRef(initialSpeed);
+  const rafRef          = useRef<number | null>(null);
+  const lastTickTimeRef = useRef(0);
+
+  // Keep callback refs current without triggering re-creates of tick
+  const stepsRef        = useRef(steps);
+  const onStepChangeRef = useRef(onStepChange);
+  const onCompleteRef   = useRef(onComplete);
+  const onResetRef      = useRef(onReset);
+
+  useEffect(() => { stepsRef.current = steps; },               [steps]);
+  useEffect(() => { onStepChangeRef.current = onStepChange; }, [onStepChange]);
+  useEffect(() => { onCompleteRef.current = onComplete; },     [onComplete]);
+  useEffect(() => { onResetRef.current = onReset; },           [onReset]);
+
+  // ── React state — used only for rendering ────────────────────────────────
+  const [uiState, setUiState] = useState<AnimationState>({
+    isPlaying:   false,
+    isPaused:    false,
+    speed:       initialSpeed,
     currentStep: 0,
-    totalSteps: steps.length,
+    totalSteps:  steps.length,
   });
 
-  const animationRef = useRef<number | null>(null);
-  const lastStepTimeRef = useRef<number>(0);
-  const stepDurationRef = useRef<number>(1000); // Base duration in ms
-
-  // Calculate step duration based on speed
-  const calculateStepDuration = useCallback((speed: number): number => {
-    const baseDuration = 1000; // 1 second base
-    return Math.max(100, baseDuration / speed); // Min 100ms, max based on speed
-  }, []);
-
-  // Update step duration when speed changes
+  // Keep totalSteps in sync if steps array changes (e.g. algorithm switch)
   useEffect(() => {
-    stepDurationRef.current = calculateStepDuration(state.speed);
-  }, [state.speed, calculateStepDuration]);
+    setUiState(prev => ({ ...prev, totalSteps: steps.length, currentStep: 0 }));
+    currentStepRef.current = 0;
+    isPlayingRef.current   = false;
+    cancelRaf();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [steps.length]);
 
-  // Animation loop using requestAnimationFrame
-  const animationLoop = useCallback((timestamp: number) => {
-    if (!state.isPlaying || state.currentStep >= steps.length) {
+  // ── RAF helpers ──────────────────────────────────────────────────────────
+  function cancelRaf() {
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  }
+
+  // ── Core tick — EMPTY dep array: reads only refs, never stale ────────────
+  const tick = useCallback((timestamp: number) => {
+    if (!isPlayingRef.current) return;
+
+    const currentSteps = stepsRef.current;
+    const step         = currentStepRef.current;
+
+    if (step >= currentSteps.length) {
+      // Reached the end
+      isPlayingRef.current = false;
+      setUiState(prev => ({ ...prev, isPlaying: false, isPaused: false }));
+      onCompleteRef.current?.();
       return;
     }
 
-    if (timestamp - lastStepTimeRef.current >= stepDurationRef.current) {
-      const nextStep = state.currentStep + 1;
-      
-      setState(prev => ({
-        ...prev,
-        currentStep: nextStep
-      }));
+    // Minimum duration = 400ms so CSS transitions (250ms) complete before next step
+    const duration = Math.max(400, 1000 / speedRef.current);
 
-      // Notify about step change
-      if (onStepChange && steps[state.currentStep]) {
-        onStepChange(state.currentStep, steps[state.currentStep]);
-      }
+    if (timestamp - lastTickTimeRef.current >= duration) {
+      // Fire callback with current step
+      onStepChangeRef.current?.(step, currentSteps[step]);
 
-      // Check if animation is complete
-      if (nextStep >= steps.length) {
-        setState(prev => ({
-          ...prev,
-          isPlaying: false,
-          isPaused: false
-        }));
-        
-        if (onComplete) {
-          onComplete();
-        }
+      const next = step + 1;
+      currentStepRef.current  = next;
+      lastTickTimeRef.current = timestamp;
+
+      // Update UI state (single setState per tick)
+      setUiState(prev => ({ ...prev, currentStep: next }));
+
+      if (next >= currentSteps.length) {
+        isPlayingRef.current = false;
+        setUiState(prev => ({ ...prev, isPlaying: false, isPaused: false }));
+        onCompleteRef.current?.();
         return;
       }
-
-      lastStepTimeRef.current = timestamp;
     }
 
-    animationRef.current = requestAnimationFrame(animationLoop);
-  }, [state.isPlaying, state.currentStep, steps, onStepChange, onComplete]);
+    rafRef.current = requestAnimationFrame(tick);
+  }, []); // ← intentionally empty — all reads are via refs
 
-  // Start animation loop
-  useEffect(() => {
-    if (state.isPlaying) {
-      lastStepTimeRef.current = performance.now();
-      animationRef.current = requestAnimationFrame(animationLoop);
+  // ── Controls ─────────────────────────────────────────────────────────────
+
+  const play = useCallback(() => {
+    if (currentStepRef.current >= stepsRef.current.length) return; // already done
+    isPlayingRef.current  = true;
+    lastTickTimeRef.current = performance.now() - 1000; // fire first step immediately
+    setUiState(prev => ({ ...prev, isPlaying: true, isPaused: false }));
+    cancelRaf();
+    rafRef.current = requestAnimationFrame(tick);
+  }, [tick]);
+
+  const pause = useCallback(() => {
+    isPlayingRef.current = false;
+    cancelRaf();
+    setUiState(prev => ({ ...prev, isPlaying: false, isPaused: true }));
+  }, []);
+
+  const reset = useCallback(() => {
+    isPlayingRef.current   = false;
+    currentStepRef.current = 0;
+    cancelRaf();
+    onResetRef.current?.();
+    setUiState(prev => ({
+      ...prev,
+      isPlaying:   false,
+      isPaused:    false,
+      currentStep: 0,
+    }));
+  }, []);
+
+  const stepForward = useCallback(() => {
+    const step = currentStepRef.current;
+    const currentSteps = stepsRef.current;
+    if (step >= currentSteps.length) return;
+
+    isPlayingRef.current = false;
+    cancelRaf();
+
+    onStepChangeRef.current?.(step, currentSteps[step]);
+    const next = step + 1;
+    currentStepRef.current = next;
+    setUiState(prev => ({ ...prev, isPlaying: false, isPaused: true, currentStep: next }));
+
+    if (next >= currentSteps.length) {
+      setUiState(prev => ({ ...prev, isPaused: false }));
+      onCompleteRef.current?.();
+    }
+  }, []);
+
+  const stepBackward = useCallback(() => {
+    const step = currentStepRef.current;
+    if (step === 0) return;
+
+    isPlayingRef.current = false;
+    cancelRaf();
+
+    const target = step - 1;
+    currentStepRef.current = target;
+
+    if (onResetRef.current) {
+      // Replay from step 0 → target so the visualizer can reconstruct correct state.
+      // React 18 batches all synchronous setState calls — only one re-render occurs.
+      onResetRef.current();
+      const currentSteps = stepsRef.current;
+      for (let i = 0; i <= target; i++) {
+        onStepChangeRef.current?.(i, currentSteps[i]);
+      }
     } else {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-        animationRef.current = null;
+      // Fallback for components that don't provide onReset (best-effort)
+      const currentSteps = stepsRef.current;
+      onStepChangeRef.current?.(target, currentSteps[target]);
+    }
+
+    setUiState(prev => ({ ...prev, isPlaying: false, isPaused: true, currentStep: target }));
+  }, []);
+
+  const skipToEnd = useCallback(() => {
+    isPlayingRef.current   = false;
+    cancelRaf();
+    const end = stepsRef.current.length;
+    currentStepRef.current = end;
+    setUiState(prev => ({ ...prev, isPlaying: false, isPaused: false, currentStep: end }));
+    onCompleteRef.current?.();
+  }, []);
+
+  const skipToBeginning = useCallback(() => {
+    isPlayingRef.current   = false;
+    cancelRaf();
+    currentStepRef.current = 0;
+    onResetRef.current?.();
+    setUiState(prev => ({ ...prev, isPlaying: false, isPaused: false, currentStep: 0 }));
+  }, []);
+
+  const setSpeed = useCallback((speed: number) => {
+    const clamped = Math.max(0.25, Math.min(4.0, speed));
+    speedRef.current = clamped;
+    setUiState(prev => ({ ...prev, speed: clamped }));
+  }, []);
+
+  const goToStep = useCallback((targetStep: number) => {
+    const clamped = Math.max(0, Math.min(targetStep, stepsRef.current.length));
+    isPlayingRef.current   = false;
+    cancelRaf();
+    currentStepRef.current = clamped;
+
+    if (onResetRef.current) {
+      onResetRef.current();
+      const currentSteps = stepsRef.current;
+      for (let i = 0; i <= clamped - 1; i++) {
+        onStepChangeRef.current?.(i, currentSteps[i]);
       }
     }
 
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [state.isPlaying, animationLoop]);
+    setUiState(prev => ({ ...prev, isPlaying: false, isPaused: true, currentStep: clamped }));
+  }, []);
 
-  // Control functions
-  const controls = {
-    play: useCallback(() => {
-      setState(prev => ({
-        ...prev,
-        isPlaying: true,
-        isPaused: false
-      }));
-    }, []),
+  // Cleanup on unmount
+  useEffect(() => () => cancelRaf(), []);
 
-    pause: useCallback(() => {
-      setState(prev => ({
-        ...prev,
-        isPlaying: false,
-        isPaused: true
-      }));
-    }, []),
-
-    reset: useCallback(() => {
-      setState(prev => ({
-        ...prev,
-        isPlaying: false,
-        isPaused: false,
-        currentStep: 0
-      }));
-    }, []),
-
-    stepForward: useCallback(() => {
-      setState(prev => {
-        const nextStep = Math.min(prev.currentStep + 1, steps.length);
-        
-        // Notify about step change
-        if (onStepChange && steps[prev.currentStep]) {
-          onStepChange(prev.currentStep, steps[prev.currentStep]);
-        }
-
-        return {
-          ...prev,
-          currentStep: nextStep,
-          isPlaying: false,
-          isPaused: true
-        };
-      });
-    }, [steps, onStepChange]),
-
-    stepBackward: useCallback(() => {
-      setState(prev => ({
-        ...prev,
-        currentStep: Math.max(prev.currentStep - 1, 0),
-        isPlaying: false,
-        isPaused: true
-      }));
-    }, []),
-
-    skipToEnd: useCallback(() => {
-      setState(prev => ({
-        ...prev,
-        currentStep: steps.length,
-        isPlaying: false,
-        isPaused: false
-      }));
-      
-      if (onComplete) {
-        onComplete();
-      }
-    }, [steps.length, onComplete]),
-
-    skipToBeginning: useCallback(() => {
-      setState(prev => ({
-        ...prev,
-        currentStep: 0,
-        isPlaying: false,
-        isPaused: false
-      }));
-    }, []),
-
-    setSpeed: useCallback((speed: number) => {
-      const clampedSpeed = Math.max(0.1, Math.min(3.0, speed));
-      setState(prev => ({
-        ...prev,
-        speed: clampedSpeed
-      }));
-    }, []),
-
-    goToStep: useCallback((step: number) => {
-      const clampedStep = Math.max(0, Math.min(step, steps.length));
-      setState(prev => ({
-        ...prev,
-        currentStep: clampedStep,
-        isPlaying: false,
-        isPaused: true
-      }));
-    }, [steps.length])
-  };
+  const controls = { play, pause, reset, stepForward, stepBackward, skipToEnd, skipToBeginning, setSpeed, goToStep };
 
   return {
-    state,
+    state: uiState,
     controls,
-    currentStepData: steps[state.currentStep] || null
+    currentStepData: stepsRef.current[uiState.currentStep] ?? null,
   };
 };

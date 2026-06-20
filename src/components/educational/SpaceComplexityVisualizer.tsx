@@ -224,7 +224,7 @@ const SpaceComplexityVisualizer: React.FC<SpaceComplexityVisualizerProps> = ({
   };
 
   return (
-    <div className={`bg-bg-card rounded-curvy p-6 shadow-curvy ${className}`}>
+    <div className={`bg-bg-card rounded-lg p-6 shadow-sm ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
@@ -235,7 +235,7 @@ const SpaceComplexityVisualizer: React.FC<SpaceComplexityVisualizerProps> = ({
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setShowExplanations(!showExplanations)}
-            className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                      transition-colors duration-200"
             title={showExplanations ? "Hide Explanations" : "Show Explanations"}
           >
@@ -244,7 +244,7 @@ const SpaceComplexityVisualizer: React.FC<SpaceComplexityVisualizerProps> = ({
           
           <button
             onClick={resetAnimation}
-            className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                      transition-colors duration-200"
             title="Reset Animation"
           >
@@ -254,7 +254,7 @@ const SpaceComplexityVisualizer: React.FC<SpaceComplexityVisualizerProps> = ({
       </div>
 
       {/* Algorithm Space Complexity */}
-      <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20 mb-6">
+      <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border mb-6">
         <div className="flex items-center justify-between mb-3">
           <h4 className="font-medium text-text-primary">
             {algorithm.charAt(0).toUpperCase() + algorithm.slice(1)} Sort - Space Complexity
@@ -298,9 +298,9 @@ const SpaceComplexityVisualizer: React.FC<SpaceComplexityVisualizerProps> = ({
                 <span className="text-sm text-text-secondary">{formatBytes(block.size)}</span>
               </div>
               
-              <div className="w-full bg-accent/20 rounded-curvy h-8 overflow-hidden">
+              <div className="w-full bg-bg-elevated/50 rounded-lg h-8 overflow-hidden">
                 <div
-                  className={`h-full ${block.color} rounded-curvy transition-all duration-500 flex items-center px-3`}
+                  className={`h-full ${block.color} rounded-lg transition-all duration-500 flex items-center px-3`}
                   style={{
                     width: `${Math.max(5, getPercentage(block.size))}%`
                   }}
@@ -327,8 +327,8 @@ const SpaceComplexityVisualizer: React.FC<SpaceComplexityVisualizerProps> = ({
         <div className="flex justify-center mt-6">
           <button
             onClick={getNextAnimationStep}
-            className="px-4 py-2 bg-primary hover:bg-hover text-bg-primary rounded-curvy
-                     transition-all duration-200 hover-lift font-medium"
+            className="px-4 py-2 bg-primary hover:bg-accent-hover text-bg-primary rounded-lg
+                     transition-all duration-200 font-medium"
           >
             Next Step
           </button>
@@ -337,7 +337,7 @@ const SpaceComplexityVisualizer: React.FC<SpaceComplexityVisualizerProps> = ({
 
       {/* Space Complexity Explanation */}
       {showExplanations && (
-        <div className="mt-8 bg-primary/10 rounded-curvy p-4 border border-primary/20">
+        <div className="mt-8 bg-accent/10 rounded-lg p-4 border border-border">
           <div className="flex items-center space-x-2 mb-3">
             <HelpCircle className="h-5 w-5 text-primary" />
             <h5 className="font-medium text-primary">Understanding Space Complexity</h5>

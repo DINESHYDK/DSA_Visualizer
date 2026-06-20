@@ -306,7 +306,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
 
   if (!algorithmData) {
     return (
-      <div className={`bg-bg-card rounded-curvy p-6 shadow-curvy ${className}`}>
+      <div className={`bg-bg-card rounded-lg p-6 shadow-sm ${className}`}>
         <div className="text-center text-text-muted">
           Loading complexity analysis...
         </div>
@@ -316,9 +316,9 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
 
   return (
     <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-bg-primary p-4 overflow-auto' : ''} ${className}`}>
-      <div className={`bg-bg-card rounded-curvy shadow-curvy ${isFullscreen ? 'h-full overflow-auto' : ''}`}>
+      <div className={`bg-bg-card rounded-lg shadow-sm ${isFullscreen ? 'h-full overflow-auto' : ''}`}>
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-accent/20">
+        <div className="flex items-center justify-between p-6 border-b border-border">
           <div className="flex items-center space-x-3">
             <BarChart3 className="h-6 w-6 text-primary" />
             <h3 className="text-xl font-semibold text-primary">Complexity Analysis</h3>
@@ -327,7 +327,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setShowExplanations(!showExplanations)}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title={showExplanations ? "Hide Explanations" : "Show Explanations"}
             >
@@ -336,7 +336,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
             
             <button
               onClick={() => setExpanded(!expanded)}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title={expanded ? "Collapse" : "Expand"}
             >
@@ -345,7 +345,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
             
             <button
               onClick={toggleFullscreen}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
             >
@@ -364,7 +364,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Time Complexity */}
-              <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20">
+              <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border">
                 <div className="flex items-center space-x-2 mb-3">
                   <Clock className="h-5 w-5 text-primary" />
                   <h5 className="font-medium text-text-primary">Time Complexity</h5>
@@ -394,7 +394,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
                 </div>
                 
                 {showExplanations && (
-                  <div className="mt-4 p-3 bg-bg-secondary/30 rounded-curvy text-xs text-text-muted">
+                  <div className="mt-4 p-3 bg-bg-secondary/30 rounded-lg text-xs text-text-muted">
                     <p className="mb-2">
                       <span className="font-medium text-text-secondary">Time Complexity</span> measures how the runtime of an algorithm grows as the input size increases.
                     </p>
@@ -406,7 +406,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
               </div>
 
               {/* Space Complexity & Operations */}
-              <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20">
+              <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border">
                 <div className="flex items-center space-x-2 mb-3">
                   <MemoryStick className="h-5 w-5 text-info" />
                   <h5 className="font-medium text-text-primary">Space & Operations</h5>
@@ -445,7 +445,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
                 </div>
                 
                 {showExplanations && (
-                  <div className="mt-4 p-3 bg-bg-secondary/30 rounded-curvy text-xs text-text-muted">
+                  <div className="mt-4 p-3 bg-bg-secondary/30 rounded-lg text-xs text-text-muted">
                     <p className="mb-2">
                       <span className="font-medium text-text-secondary">Space Complexity</span> measures the additional memory an algorithm needs as input size increases.
                     </p>
@@ -458,7 +458,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
             </div>
 
             {/* Real-time Metrics */}
-            <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20">
+            <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border">
               <div className="flex items-center space-x-2 mb-3">
                 <Zap className="h-5 w-5 text-warning" />
                 <h5 className="font-medium text-text-primary">Real-time Performance Metrics</h5>
@@ -473,9 +473,9 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
                       {algorithmData.operations.comparisons.toLocaleString()}
                     </span>
                   </div>
-                  <div className="w-full bg-accent/20 rounded-curvy h-2">
+                  <div className="w-full bg-bg-elevated/50 rounded-lg h-2">
                     <div
-                      className="h-full bg-comparison rounded-curvy transition-all duration-500"
+                      className="h-full bg-comparison rounded-lg transition-all duration-500"
                       style={{
                         width: `${getOperationPercentage(algorithmData.operations.comparisons, getMaxOperations())}%`
                       }}
@@ -499,9 +499,9 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
                         {algorithmData.operations.swaps.toLocaleString()}
                       </span>
                     </div>
-                    <div className="w-full bg-accent/20 rounded-curvy h-2">
+                    <div className="w-full bg-bg-elevated/50 rounded-lg h-2">
                       <div
-                        className="h-full bg-swap rounded-curvy transition-all duration-500"
+                        className="h-full bg-swap rounded-lg transition-all duration-500"
                         style={{
                           width: `${getOperationPercentage(algorithmData.operations.swaps, getMaxOperations() / 2)}%`
                         }}
@@ -518,9 +518,9 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
                       {(algorithmData.executionTime / 1000).toFixed(2)}s
                     </span>
                   </div>
-                  <div className="w-full bg-accent/20 rounded-curvy h-2">
+                  <div className="w-full bg-bg-elevated/50 rounded-lg h-2">
                     <div
-                      className="h-full bg-success rounded-curvy transition-all duration-500"
+                      className="h-full bg-success rounded-lg transition-all duration-500"
                       style={{
                         width: `${getOperationPercentage(algorithmData.executionTime, 5000)}%`
                       }}
@@ -533,7 +533,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
 
           {/* Big O Notation Explanation */}
           {showExplanations && (
-            <div className="bg-primary/10 rounded-curvy p-4 border border-primary/20">
+            <div className="bg-accent/10 rounded-lg p-4 border border-border">
               <div className="flex items-center space-x-2 mb-3">
                 <HelpCircle className="h-5 w-5 text-primary" />
                 <h5 className="font-medium text-primary">Understanding Big O Notation</h5>
@@ -594,7 +594,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-accent/20">
+                    <tr className="border-b border-border">
                       <th className="text-left py-3 px-4 text-text-secondary font-semibold">Algorithm</th>
                       <th className="text-left py-3 px-4 text-text-secondary font-semibold">Best Case</th>
                       <th className="text-left py-3 px-4 text-text-secondary font-semibold">Average Case</th>
@@ -606,7 +606,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
                   </thead>
                   <tbody>
                     {/* Current Algorithm */}
-                    <tr className="border-b border-accent/10 bg-primary/10">
+                    <tr className="border-b border-accent/10 bg-accent/10">
                       <td className="py-3 px-4 font-medium text-primary">{algorithmData.name}</td>
                       <td className="py-3 px-4 font-mono">{algorithmData.timeComplexity.best}</td>
                       <td className="py-3 px-4 font-mono">{algorithmData.timeComplexity.average}</td>
@@ -633,7 +633,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
               </div>
 
               {/* Comparison Chart */}
-              <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20">
+              <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border">
                 <h5 className="font-medium text-text-primary mb-4">Comparison Chart</h5>
                 
                 <div className="space-y-4">
@@ -649,9 +649,9 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
                       <div className="space-y-1">
                         <div className="flex items-center space-x-2">
                           <span className="text-sm font-medium text-primary w-24">{algorithmData.name}</span>
-                          <div className="flex-1 bg-accent/20 rounded-curvy h-6 overflow-hidden">
+                          <div className="flex-1 bg-bg-elevated/50 rounded-lg h-6 overflow-hidden">
                             <div
-                              className="h-full bg-primary rounded-curvy flex items-center px-2 text-xs text-bg-primary font-medium"
+                              className="h-full bg-primary rounded-lg flex items-center px-2 text-xs text-bg-primary font-medium"
                               style={{
                                 width: `${getOperationPercentage(algorithmData.operations.comparisons, getMaxOperations())}%`
                               }}
@@ -667,9 +667,9 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
                         <div key={index} className="space-y-1">
                           <div className="flex items-center space-x-2">
                             <span className="text-sm font-medium text-text-secondary w-24">{data.name}</span>
-                            <div className="flex-1 bg-accent/20 rounded-curvy h-6 overflow-hidden">
+                            <div className="flex-1 bg-bg-elevated/50 rounded-lg h-6 overflow-hidden">
                               <div
-                                className="h-full bg-info/70 rounded-curvy flex items-center px-2 text-xs text-bg-primary font-medium"
+                                className="h-full bg-info/70 rounded-lg flex items-center px-2 text-xs text-bg-primary font-medium"
                                 style={{
                                   width: `${getOperationPercentage(data.operations.comparisons, getMaxOperations())}%`
                                 }}
@@ -686,7 +686,7 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
               </div>
 
               {/* Complexity Calculator */}
-              <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20">
+              <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border">
                 <h5 className="font-medium text-text-primary mb-3">Complexity Calculator</h5>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -698,8 +698,8 @@ const ComplexityAnalysis: React.FC<ComplexityAnalysisProps> = ({
                       type="number"
                       value={inputSize}
                       readOnly
-                      className="w-full p-2 bg-accent/20 border border-accent/40 rounded-curvy
-                               text-text-primary focus:border-primary focus:ring-1 focus:ring-primary/20"
+                      className="w-full p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
+                               text-text-primary focus:border-accent focus:ring-1 focus:ring-primary/20"
                     />
                   </div>
                   

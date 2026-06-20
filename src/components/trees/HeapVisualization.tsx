@@ -400,10 +400,10 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Header */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-primary mb-2">
+            <h2 className="text-2xl font-semibold text-text-primary mb-2">
               {heapType === 'max' ? 'Max' : 'Min'} Heap
             </h2>
             <p className="text-text-secondary">
@@ -415,16 +415,16 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setViewMode(viewMode === 'tree' ? 'array' : 'tree')}
-              className="px-4 py-2 bg-info hover:bg-info/80 text-white rounded-curvy
-                       transition-all duration-200 hover-lift font-medium"
+              className="px-4 py-2 bg-info hover:bg-info/80 text-white rounded-lg
+                       transition-all duration-200 font-medium"
             >
               {viewMode === 'tree' ? 'Array View' : 'Tree View'}
             </button>
             
             <button
               onClick={toggleHeapType}
-              className="px-4 py-2 bg-warning hover:bg-warning/80 text-white rounded-curvy
-                       transition-all duration-200 hover-lift font-medium"
+              className="px-4 py-2 bg-warning hover:bg-warning/80 text-white rounded-lg
+                       transition-all duration-200 font-medium"
             >
               Switch to {heapType === 'max' ? 'Min' : 'Max'} Heap
             </button>
@@ -434,30 +434,30 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
 
       {/* Heap Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-bg-card rounded-curvy p-4 shadow-curvy text-center">
-          <div className="text-2xl font-bold text-primary">{heap.length}</div>
+        <div className="bg-bg-card rounded-lg p-4 shadow-sm text-center">
+          <div className="text-2xl font-bold text-accent">{heap.length}</div>
           <div className="text-sm text-text-muted">Elements</div>
         </div>
-        <div className="bg-bg-card rounded-curvy p-4 shadow-curvy text-center">
+        <div className="bg-bg-card rounded-lg p-4 shadow-sm text-center">
           <div className="text-2xl font-bold text-info">
             {heap.length > 0 ? Math.floor(Math.log2(heap.length)) + 1 : 0}
           </div>
           <div className="text-sm text-text-muted">Height</div>
         </div>
-        <div className="bg-bg-card rounded-curvy p-4 shadow-curvy text-center">
+        <div className="bg-bg-card rounded-lg p-4 shadow-sm text-center">
           <div className="text-2xl font-bold text-success">
             {heap.length > 0 ? heap[0] : '-'}
           </div>
           <div className="text-sm text-text-muted">Root ({heapType === 'max' ? 'Max' : 'Min'})</div>
         </div>
-        <div className="bg-bg-card rounded-curvy p-4 shadow-curvy text-center">
+        <div className="bg-bg-card rounded-lg p-4 shadow-sm text-center">
           <div className="text-2xl font-bold text-text-primary">Complete</div>
           <div className="text-sm text-text-muted">Tree Type</div>
         </div>
       </div>
 
       {/* Heap Visualization */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-medium text-text-primary">
             {viewMode === 'tree' ? 'Tree Structure' : 'Array Representation'}
@@ -484,10 +484,10 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
                   <div
                     key={element.id}
                     className={`
-                      w-16 h-16 border-2 rounded-curvy flex items-center justify-center
-                      transition-all duration-300 hover-lift relative
+                      w-16 h-16 border-2 rounded-lg flex items-center justify-center
+                      transition-all duration-300 relative
                       ${highlightedIndices.includes(index) 
-                        ? 'bg-primary/20 border-primary shadow-glow' 
+                        ? 'bg-accent/20 border-accent ' 
                         : 'bg-accent border-accent/60'
                       }
                     `}
@@ -516,7 +516,7 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
         )}
 
         {/* Current Operation Display */}
-        <div className="mt-6 bg-accent/10 rounded-curvy p-4 border border-accent/20 min-h-[60px] flex items-center justify-center">
+        <div className="mt-6 bg-bg-elevated/20 rounded-lg p-4 border border-border min-h-[60px] flex items-center justify-center">
           <p className="text-text-primary text-center font-medium">
             {currentOperation || 'Select an operation to begin...'}
           </p>
@@ -526,7 +526,7 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
       {/* Controls */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Operation Controls */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
           <h3 className="text-lg font-medium text-text-primary mb-4">Heap Operations</h3>
           
           <div className="space-y-4">
@@ -539,9 +539,9 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
                   value={newValue}
                   onChange={(e) => setNewValue(e.target.value)}
                   placeholder="Value"
-                  className="flex-1 p-3 bg-accent/20 border border-accent/40 rounded-curvy
+                  className="flex-1 p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
                            text-text-primary placeholder-text-muted
-                           focus:border-primary focus:ring-2 focus:ring-primary/20"
+                           focus:border-accent focus:ring-2 focus:ring-primary/20"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && newValue) {
                       insertValue();
@@ -551,9 +551,9 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
                 <button
                   onClick={insertValue}
                   disabled={!newValue || isAnimating}
-                  className="px-6 py-3 bg-primary hover:bg-hover text-secondary rounded-curvy
+                  className="px-6 py-3 bg-accent hover:bg-accent-hover text-white rounded-lg
                            disabled:opacity-50 disabled:cursor-not-allowed
-                           transition-all duration-200 hover-lift font-medium"
+                           transition-all duration-200 font-medium"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
@@ -565,9 +565,9 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
               <button
                 onClick={extractRoot}
                 disabled={heap.length === 0 || isAnimating}
-                className="px-4 py-3 bg-error hover:bg-error/80 text-white rounded-curvy
+                className="px-4 py-3 bg-error hover:bg-error/80 text-white rounded-lg
                          disabled:opacity-50 disabled:cursor-not-allowed
-                         transition-all duration-200 hover-lift font-medium"
+                         transition-all duration-200 font-medium"
               >
                 <Minus className="h-4 w-4 inline mr-2" />
                 Extract {heapType === 'max' ? 'Max' : 'Min'}
@@ -576,9 +576,9 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
               <button
                 onClick={peekRoot}
                 disabled={heap.length === 0 || isAnimating}
-                className="px-4 py-3 bg-info hover:bg-info/80 text-white rounded-curvy
+                className="px-4 py-3 bg-info hover:bg-info/80 text-white rounded-lg
                          disabled:opacity-50 disabled:cursor-not-allowed
-                         transition-all duration-200 hover-lift font-medium"
+                         transition-all duration-200 font-medium"
               >
                 <Eye className="h-4 w-4 inline mr-2" />
                 Peek
@@ -589,9 +589,9 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
             <button
               onClick={randomizeHeap}
               disabled={isAnimating}
-              className="w-full px-4 py-3 bg-warning hover:bg-warning/80 text-white rounded-curvy
+              className="w-full px-4 py-3 bg-warning hover:bg-warning/80 text-white rounded-lg
                        disabled:opacity-50 disabled:cursor-not-allowed
-                       transition-all duration-200 hover-lift font-medium"
+                       transition-all duration-200 font-medium"
             >
               <Shuffle className="h-4 w-4 inline mr-2" />
               Randomize Heap
@@ -600,8 +600,8 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
             {/* Reset */}
             <button
               onClick={resetHeap}
-              className="w-full px-4 py-3 bg-accent hover:bg-primary hover:text-secondary 
-                       text-text-primary rounded-curvy transition-all duration-200 hover-lift font-medium"
+              className="w-full px-4 py-3 bg-accent hover:bg-accent-hover hover:text-secondary 
+                       text-text-primary rounded-lg transition-all duration-200 font-medium"
             >
               <RotateCcw className="h-4 w-4 inline mr-2" />
               Reset Heap
@@ -618,7 +618,7 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
           />
           
           {/* Heap Properties */}
-          <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+          <div className="bg-bg-card rounded-lg p-6 shadow-sm">
             <h3 className="text-lg font-medium text-text-primary mb-4">Heap Properties</h3>
             
             <div className="space-y-3 text-sm">
@@ -644,7 +644,7 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
               </div>
             </div>
             
-            <div className="mt-4 p-3 bg-accent/10 rounded-curvy">
+            <div className="mt-4 p-3 bg-bg-elevated/20 rounded-lg">
               <p className="text-xs text-text-muted leading-relaxed">
                 Heaps are perfect for priority queues. {heapType === 'max' ? 'Max' : 'Min'} heap ensures 
                 the {heapType === 'max' ? 'largest' : 'smallest'} element is always at the root.
@@ -657,11 +657,11 @@ const HeapVisualization: React.FC<HeapVisualizationProps> = ({
               <div className="mt-4 space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-text-muted">Current Size:</span>
-                  <span className="text-primary font-medium">{heap.length}</span>
+                  <span className="text-accent font-medium">{heap.length}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-muted">Root Value:</span>
-                  <span className="text-primary font-medium">{heap[0]}</span>
+                  <span className="text-accent font-medium">{heap[0]}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-muted">Last Element:</span>

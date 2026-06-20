@@ -24,7 +24,7 @@ const DataStructuresPage: React.FC = () => {
       icon: <GitBranch className="h-6 w-6" />,
       description: 'Dynamic structure with pointer-based connections',
       complexity: 'Access: O(n), Insert/Delete: O(1)*',
-      color: 'text-primary'
+      color: 'text-accent'
     },
     {
       id: 'stack' as const,
@@ -60,11 +60,11 @@ const DataStructuresPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <>
+      
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-4">Data Structures</h1>
+          <h1 className="text-4xl font-bold text-text-accent mb-4">Data Structures</h1>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto">
             Explore fundamental data structures through interactive visualizations. 
             Understand how data is organized, stored, and accessed in different structures.
@@ -78,14 +78,14 @@ const DataStructuresPage: React.FC = () => {
               <button
                 key={structure.id}
                 onClick={() => setSelectedStructure(structure.id)}
-                className={`p-6 rounded-curvy border-2 transition-all duration-200 text-left hover-lift ${
+                className={`p-6 rounded-lg border-2 transition-all duration-200 text-left ${
                   selectedStructure === structure.id
-                    ? 'bg-primary/20 border-primary text-primary shadow-glow'
-                    : 'bg-bg-card border-accent/40 text-text-secondary hover:bg-primary/10 hover:border-primary/60'
+                    ? 'bg-accent/20 border-accent text-text-accent '
+                    : 'bg-bg-card border-border-hover text-text-secondary hover:bg-accent-hover/10 hover:border-accent/60'
                 }`}
               >
                 <div className="flex items-center space-x-3 mb-3">
-                  <div className={`${selectedStructure === structure.id ? 'text-primary' : structure.color}`}>
+                  <div className={`${selectedStructure === structure.id ? 'text-accent' : structure.color}`}>
                     {structure.icon}
                   </div>
                   <h3 className="text-lg font-semibold">{structure.name}</h3>
@@ -95,7 +95,7 @@ const DataStructuresPage: React.FC = () => {
                 <p className="text-xs font-mono opacity-70">{structure.complexity}</p>
                 
                 {selectedStructure === structure.id && (
-                  <div className="mt-3 text-xs text-primary font-medium">
+                  <div className="mt-3 text-xs text-accent font-medium">
                     ✓ Currently Active
                   </div>
                 )}
@@ -110,8 +110,8 @@ const DataStructuresPage: React.FC = () => {
         </div>
 
         {/* Educational Content */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
-          <h2 className="text-2xl font-semibold text-primary mb-6">Understanding Data Structures</h2>
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
+          <h2 className="text-2xl font-semibold text-text-accent mb-6">Understanding Data Structures</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Arrays */}
@@ -131,7 +131,7 @@ const DataStructuresPage: React.FC = () => {
 
             {/* Linked Lists */}
             <div className="space-y-3">
-              <h3 className="text-lg font-medium text-primary flex items-center space-x-2">
+              <h3 className="text-lg font-medium text-accent flex items-center space-x-2">
                 <GitBranch className="h-5 w-5" />
                 <span>Linked Lists</span>
               </h3>
@@ -177,12 +177,12 @@ const DataStructuresPage: React.FC = () => {
 
           {/* Comparison Table */}
           <div className="mt-8">
-            <h3 className="text-lg font-medium text-text-primary mb-4">Performance Comparison</h3>
+            <h3 className="text-lg font-medium text-text-accent mb-4">Performance Comparison</h3>
             
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-accent/20">
+                  <tr className="border-b border-border">
                     <th className="text-left py-3 px-4 text-text-secondary font-semibold">Data Structure</th>
                     <th className="text-left py-3 px-4 text-text-secondary font-semibold">Access</th>
                     <th className="text-left py-3 px-4 text-text-secondary font-semibold">Search</th>
@@ -203,7 +203,7 @@ const DataStructuresPage: React.FC = () => {
                     <td className="py-3 px-4 text-text-muted text-xs">Math operations, lookup tables</td>
                   </tr>
                   <tr className="border-b border-accent/10 hover:bg-accent/5">
-                    <td className="py-3 px-4 font-medium text-primary">Linked List</td>
+                    <td className="py-3 px-4 font-medium text-accent">Linked List</td>
                     <td className="py-3 px-4 text-error font-mono">O(n)</td>
                     <td className="py-3 px-4 text-error font-mono">O(n)</td>
                     <td className="py-3 px-4 text-success font-mono font-bold">O(1)*</td>
@@ -240,29 +240,28 @@ const DataStructuresPage: React.FC = () => {
 
           {/* Key Concepts */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-accent/10 rounded-curvy p-4">
-              <h4 className="text-md font-medium text-primary mb-3">When to Use Each Structure</h4>
+            <div className="bg-bg-elevated/20 rounded-lg p-4">
+              <h4 className="text-md font-medium text-accent mb-3">When to Use Each Structure</h4>
               <ul className="space-y-2 text-sm text-text-muted">
                 <li><strong className="text-info">Arrays:</strong> When you need fast random access and know the size</li>
-                <li><strong className="text-primary">Linked Lists:</strong> When size varies and you insert/delete frequently</li>
+                <li><strong className="text-accent">Linked Lists:</strong> When size varies and you insert/delete frequently</li>
                 <li><strong className="text-success">Stacks:</strong> For LIFO operations like parsing, recursion</li>
                 <li><strong className="text-warning">Queues:</strong> For FIFO operations like scheduling, buffering</li>
               </ul>
             </div>
             
-            <div className="bg-accent/10 rounded-curvy p-4">
-              <h4 className="text-md font-medium text-primary mb-3">Memory Considerations</h4>
+            <div className="bg-bg-elevated/20 rounded-lg p-4">
+              <h4 className="text-md font-medium text-accent mb-3">Memory Considerations</h4>
               <ul className="space-y-2 text-sm text-text-muted">
                 <li><strong className="text-info">Arrays:</strong> Contiguous memory, cache-friendly</li>
-                <li><strong className="text-primary">Linked Lists:</strong> Scattered memory, extra pointer overhead</li>
+                <li><strong className="text-accent">Linked Lists:</strong> Scattered memory, extra pointer overhead</li>
                 <li><strong className="text-success">Stacks:</strong> Can use arrays or linked lists as backing</li>
                 <li><strong className="text-warning">Queues:</strong> Circular arrays or linked lists for efficiency</li>
               </ul>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+  </>
   );
 };
 

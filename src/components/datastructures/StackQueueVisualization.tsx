@@ -330,11 +330,11 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
 
   const getElementColor = (element: StackQueueElement, index: number) => {
     if (element.state === 'current') {
-      return 'bg-current border-primary shadow-glow animate-pulse-glow';
+      return 'bg-current border-accent  ';
     }
     
     if (element.state === 'peeking') {
-      return 'bg-info border-info shadow-glow';
+      return 'bg-info border-info ';
     }
     
     if (element.state === 'pushing') {
@@ -343,9 +343,9 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
     
     // Highlight top/front element
     if (dataStructure === 'stack' && index === elements.length - 1) {
-      return 'bg-primary/30 border-primary/60';
+      return 'bg-accent/20 border-accent/60';
     } else if (dataStructure === 'queue' && index === 0) {
-      return 'bg-primary/30 border-primary/60';
+      return 'bg-accent/20 border-accent/60';
     }
     
     return 'bg-accent border-accent/60';
@@ -361,10 +361,10 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
   return (
     <div className={`space-y-6 ${className}`}>
       {/* Header */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-primary mb-2">
+            <h2 className="text-2xl font-semibold text-text-primary mb-2">
               {dataStructure === 'stack' ? 'Stack (LIFO)' : 'Queue (FIFO)'}
             </h2>
             <p className="text-text-secondary">
@@ -386,9 +386,9 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
         
         {/* Capacity Bar */}
         <div className="mt-4">
-          <div className="w-full bg-accent/20 rounded-curvy h-2">
+          <div className="w-full bg-bg-elevated/50 rounded-lg h-2">
             <div
-              className={`h-full rounded-curvy transition-all duration-300 ${
+              className={`h-full rounded-lg transition-all duration-300 ${
                 elements.length >= maxSize ? 'bg-error' :
                 elements.length >= maxSize * 0.8 ? 'bg-warning' : 'bg-success'
               }`}
@@ -400,7 +400,7 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
 
       {/* Warning Messages */}
       {showOverflowWarning && (
-        <div className="bg-error/20 border border-error rounded-curvy p-4 animate-slide-up">
+        <div className="bg-error/20 border border-error rounded-lg p-4 animate-slide-up">
           <div className="flex items-center space-x-2">
             <AlertCircle className="h-5 w-5 text-error" />
             <span className="text-error font-medium">
@@ -411,7 +411,7 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
       )}
 
       {showUnderflowWarning && (
-        <div className="bg-warning/20 border border-warning rounded-curvy p-4 animate-slide-up">
+        <div className="bg-warning/20 border border-warning rounded-lg p-4 animate-slide-up">
           <div className="flex items-center space-x-2">
             <AlertCircle className="h-5 w-5 text-warning" />
             <span className="text-warning font-medium">
@@ -422,7 +422,7 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
       )}
 
       {/* Visualization */}
-      <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+      <div className="bg-bg-card rounded-lg p-6 shadow-sm">
         <div className="space-y-6">
           <h3 className="text-lg font-medium text-text-primary">
             {dataStructure === 'stack' ? 'Stack Structure' : 'Queue Structure'}
@@ -433,9 +433,9 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
             <div className="flex flex-col items-center space-y-4">
               {/* Top indicator */}
               <div className="flex items-center space-x-2">
-                <ArrowDown className="h-5 w-5 text-primary" />
+                <ArrowDown className="h-5 w-5 text-accent" />
                 <span className="text-sm font-medium text-primary">TOP (Push/Pop)</span>
-                <ArrowDown className="h-5 w-5 text-primary" />
+                <ArrowDown className="h-5 w-5 text-accent" />
               </div>
               
               {/* Stack elements */}
@@ -444,8 +444,8 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
                   <div
                     key={element.id}
                     className={`
-                      w-32 h-16 border-2 rounded-curvy flex items-center justify-center
-                      transition-all duration-500 hover-lift relative
+                      w-32 h-16 border-2 rounded-lg flex items-center justify-center
+                      transition-all duration-500 relative
                       ${getElementColor(element, index)}
                     `}
                   >
@@ -456,7 +456,7 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
                     
                     {/* Top indicator */}
                     {index === elements.length - 1 && (
-                      <div className="absolute -top-2 -right-2 bg-primary text-secondary text-xs px-2 py-1 rounded-curvy">
+                      <div className="absolute -top-2 -right-2 bg-accent text-white text-xs px-2 py-1 rounded-lg">
                         TOP
                       </div>
                     )}
@@ -465,7 +465,7 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
               </div>
               
               {/* Base */}
-              <div className="w-40 h-3 bg-accent rounded-curvy shadow-inner"></div>
+              <div className="w-40 h-3 bg-accent rounded-lg shadow-inner"></div>
               <span className="text-sm text-text-muted font-medium">Base</span>
             </div>
           )}
@@ -477,10 +477,10 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2">
                   <span className="text-sm font-medium text-primary">FRONT (Dequeue)</span>
-                  <ArrowLeft className="h-5 w-5 text-primary" />
+                  <ArrowLeft className="h-5 w-5 text-accent" />
                 </div>
                 <div className="flex items-center space-x-2">
-                  <ArrowRight className="h-5 w-5 text-primary" />
+                  <ArrowRight className="h-5 w-5 text-accent" />
                   <span className="text-sm font-medium text-primary">REAR (Enqueue)</span>
                 </div>
               </div>
@@ -492,8 +492,8 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
                     <div
                       key={element.id}
                       className={`
-                        w-20 h-20 border-2 rounded-curvy flex items-center justify-center
-                        transition-all duration-500 hover-lift flex-shrink-0 relative
+                        w-20 h-20 border-2 rounded-lg flex items-center justify-center
+                        transition-all duration-500 flex-shrink-0 relative
                         ${getElementColor(element, index)}
                       `}
                     >
@@ -504,14 +504,14 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
                       
                       {/* Front indicator */}
                       {index === 0 && (
-                        <div className="absolute -top-2 -left-2 bg-primary text-secondary text-xs px-2 py-1 rounded-curvy">
+                        <div className="absolute -top-2 -left-2 bg-accent text-white text-xs px-2 py-1 rounded-lg">
                           FRONT
                         </div>
                       )}
                       
                       {/* Rear indicator */}
                       {index === elements.length - 1 && elements.length > 1 && (
-                        <div className="absolute -top-2 -right-2 bg-info text-white text-xs px-2 py-1 rounded-curvy">
+                        <div className="absolute -top-2 -right-2 bg-info text-white text-xs px-2 py-1 rounded-lg">
                           REAR
                         </div>
                       )}
@@ -538,7 +538,7 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
           )}
 
           {/* Current Operation Display */}
-          <div className="bg-accent/10 rounded-curvy p-4 border border-accent/20 min-h-[60px] flex items-center justify-center">
+          <div className="bg-bg-elevated/20 rounded-lg p-4 border border-border min-h-[60px] flex items-center justify-center">
             <p className="text-text-primary text-center font-medium">
               {currentOperation || 'Select an operation to begin...'}
             </p>
@@ -549,7 +549,7 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
       {/* Controls */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Operation Controls */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
           <h3 className="text-lg font-medium text-text-primary mb-4">
             {dataStructure === 'stack' ? 'Stack' : 'Queue'} Operations
           </h3>
@@ -566,9 +566,9 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
                   value={newValue}
                   onChange={(e) => setNewValue(e.target.value)}
                   placeholder="Value"
-                  className="flex-1 p-3 bg-accent/20 border border-accent/40 rounded-curvy
+                  className="flex-1 p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
                            text-text-primary placeholder-text-muted
-                           focus:border-primary focus:ring-2 focus:ring-primary/20
+                           focus:border-accent focus:ring-2 focus:ring-accent/20
                            transition-colors duration-200"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && newValue) {
@@ -579,9 +579,9 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
                 <button
                   onClick={pushOrEnqueue}
                   disabled={!newValue || isAnimating}
-                  className="px-6 py-3 bg-primary hover:bg-hover text-secondary rounded-curvy
+                  className="px-6 py-3 bg-accent hover:bg-accent-hover text-white rounded-lg
                            disabled:opacity-50 disabled:cursor-not-allowed
-                           transition-all duration-200 hover-lift font-medium"
+                           transition-all duration-200 font-medium"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
@@ -598,9 +598,9 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
             <button
               onClick={popOrDequeue}
               disabled={elements.length === 0 || isAnimating}
-              className="w-full px-4 py-3 bg-error hover:bg-error/80 text-white rounded-curvy
+              className="w-full px-4 py-3 bg-error hover:bg-error/80 text-white rounded-lg
                        disabled:opacity-50 disabled:cursor-not-allowed
-                       transition-all duration-200 hover-lift font-medium"
+                       transition-all duration-200 font-medium"
             >
               <Minus className="h-4 w-4 inline mr-2" />
               {dataStructure === 'stack' ? 'Pop' : 'Dequeue'}
@@ -618,9 +618,9 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
             <button
               onClick={peek}
               disabled={elements.length === 0 || isAnimating}
-              className="w-full px-4 py-3 bg-info hover:bg-info/80 text-white rounded-curvy
+              className="w-full px-4 py-3 bg-info hover:bg-info/80 text-white rounded-lg
                        disabled:opacity-50 disabled:cursor-not-allowed
-                       transition-all duration-200 hover-lift font-medium"
+                       transition-all duration-200 font-medium"
             >
               <Eye className="h-4 w-4 inline mr-2" />
               Peek {dataStructure === 'stack' ? 'Top' : 'Front'}
@@ -637,8 +637,8 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
             {/* Reset */}
             <button
               onClick={reset}
-              className="w-full px-4 py-3 bg-accent hover:bg-primary hover:text-secondary 
-                       text-text-primary rounded-curvy transition-all duration-200 hover-lift font-medium"
+              className="w-full px-4 py-3 bg-accent hover:bg-accent-hover hover:text-secondary 
+                       text-text-primary rounded-lg transition-all duration-200 font-medium"
             >
               <RotateCcw className="h-4 w-4 inline mr-2" />
               Reset {dataStructure === 'stack' ? 'Stack' : 'Queue'}
@@ -655,7 +655,7 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
           />
           
           {/* Properties */}
-          <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+          <div className="bg-bg-card rounded-lg p-6 shadow-sm">
             <h3 className="text-lg font-medium text-text-primary mb-4">
               {dataStructure === 'stack' ? 'Stack' : 'Queue'} Properties
             </h3>
@@ -681,7 +681,7 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
               </div>
             </div>
             
-            <div className="mt-4 p-3 bg-accent/10 rounded-curvy">
+            <div className="mt-4 p-3 bg-bg-elevated/20 rounded-lg">
               <p className="text-xs text-text-muted leading-relaxed">
                 {dataStructure === 'stack' 
                   ? 'Stacks follow LIFO principle - perfect for function calls, undo operations, expression evaluation, and backtracking algorithms.'
@@ -693,13 +693,13 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
             <div className="mt-4 space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-text-muted">Current Size:</span>
-                <span className="text-primary font-medium">{elements.length} / {maxSize}</span>
+                <span className="text-accent font-medium">{elements.length} / {maxSize}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-text-muted">
                   {dataStructure === 'stack' ? 'Top Element:' : 'Front Element:'}
                 </span>
-                <span className="text-primary font-medium">
+                <span className="text-accent font-medium">
                   {elements.length > 0 
                     ? (dataStructure === 'stack' 
                         ? elements[elements.length - 1].value 
@@ -719,14 +719,14 @@ const StackQueueVisualization: React.FC<StackQueueVisualizationProps> = ({
 
           {/* Operation History */}
           {operationHistory.length > 0 && (
-            <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+            <div className="bg-bg-card rounded-lg p-6 shadow-sm">
               <h3 className="text-lg font-medium text-text-primary mb-4">Operation History</h3>
               
               <div className="space-y-2 max-h-40 overflow-y-auto">
                 {operationHistory.slice(-5).map((op, index) => (
                   <div
                     key={index}
-                    className={`flex items-center space-x-2 p-2 rounded-curvy text-sm ${
+                    className={`flex items-center space-x-2 p-2 rounded-lg text-sm ${
                       op.success ? 'bg-success/10 text-success' : 'bg-error/10 text-error'
                     }`}
                   >

@@ -20,11 +20,11 @@ const SortingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <>
+      
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-4">Sorting Algorithms</h1>
+          <h1 className="text-4xl font-bold text-text-primary mb-4">Sorting Algorithms</h1>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto">
             Explore how different sorting algorithms work through interactive visualizations. 
             Compare their performance and understand their step-by-step execution.
@@ -63,8 +63,8 @@ const SortingPage: React.FC = () => {
         </div>
 
         {/* Educational Content */}
-        <div className="mt-12 bg-bg-card rounded-curvy p-6 shadow-curvy">
-          <h2 className="text-2xl font-semibold text-primary mb-4">Understanding Sorting Algorithms</h2>
+        <div className="mt-12 bg-bg-card rounded-lg p-6 shadow-sm">
+          <h2 className="text-2xl font-semibold text-text-primary mb-4">Understanding Sorting Algorithms</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Basic Algorithms */}
@@ -163,8 +163,7 @@ const SortingPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+  </>
   );
 };
 

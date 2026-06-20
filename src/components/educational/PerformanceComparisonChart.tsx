@@ -152,9 +152,9 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
 
   return (
     <div className={`${isFullscreen ? 'fixed inset-0 z-50 bg-bg-primary p-4 overflow-auto' : ''} ${className}`}>
-      <div className={`bg-bg-card rounded-curvy shadow-curvy ${isFullscreen ? 'h-full overflow-auto' : ''}`}>
+      <div className={`bg-bg-card rounded-lg shadow-sm ${isFullscreen ? 'h-full overflow-auto' : ''}`}>
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-accent/20">
+        <div className="flex items-center justify-between p-6 border-b border-border">
           <div className="flex items-center space-x-3">
             <BarChart3 className="h-6 w-6 text-primary" />
             <h3 className="text-xl font-semibold text-primary">Performance Comparison</h3>
@@ -164,7 +164,7 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
             {onRefresh && (
               <button
                 onClick={onRefresh}
-                className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+                className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                          transition-colors duration-200"
                 title="Refresh Data"
               >
@@ -174,7 +174,7 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
             
             <button
               onClick={exportData}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title="Export Data"
             >
@@ -183,7 +183,7 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
             
             <button
               onClick={toggleFullscreen}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        transition-colors duration-200"
               title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
             >
@@ -193,7 +193,7 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
         </div>
 
         {/* Controls */}
-        <div className="p-6 border-b border-accent/20">
+        <div className="p-6 border-b border-border">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
               <div className="text-sm text-text-secondary">
@@ -211,8 +211,8 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
                 <select
                   value={chartType}
                   onChange={(e) => setChartType(e.target.value as any)}
-                  className="p-2 bg-accent/20 border border-accent/40 rounded-curvy text-text-primary
-                           focus:border-primary focus:ring-1 focus:ring-primary/20"
+                  className="p-2 bg-bg-elevated/50 border border-border-hover rounded-lg text-text-primary
+                           focus:border-accent focus:ring-1 focus:ring-primary/20"
                 >
                   <option value="comparisons">Comparisons</option>
                   <option value="time">Execution Time</option>
@@ -225,8 +225,8 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="p-2 bg-accent/20 border border-accent/40 rounded-curvy text-text-primary
-                           focus:border-primary focus:ring-1 focus:ring-primary/20"
+                  className="p-2 bg-bg-elevated/50 border border-border-hover rounded-lg text-text-primary
+                           focus:border-accent focus:ring-1 focus:ring-primary/20"
                 >
                   <option value="performance">Sort by Performance</option>
                   <option value="name">Sort by Name</option>
@@ -259,9 +259,9 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
                   </span>
                 </div>
                 
-                <div className="w-full bg-accent/20 rounded-curvy h-6 overflow-hidden">
+                <div className="w-full bg-bg-elevated/50 rounded-lg h-6 overflow-hidden">
                   <div
-                    className={`h-full ${getBarColor(algorithm)} rounded-curvy transition-all duration-500 flex items-center px-2`}
+                    className={`h-full ${getBarColor(algorithm)} rounded-lg transition-all duration-500 flex items-center px-2`}
                     style={{
                       width: `${Math.max(5, getPercentage(
                         chartType === 'comparisons' ? algorithm.metrics.comparisons :
@@ -296,9 +296,9 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
         </div>
 
         {/* Summary */}
-        <div className="p-6 border-t border-accent/20 bg-accent/5">
+        <div className="p-6 border-t border-border bg-accent/5">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-accent/10 rounded-curvy p-3 border border-accent/20">
+            <div className="bg-bg-elevated/20 rounded-lg p-3 border border-border">
               <div className="flex items-center space-x-2 mb-2">
                 <TrendingDown className="h-4 w-4 text-success" />
                 <h5 className="font-medium text-text-primary text-sm">Best Performance</h5>
@@ -318,7 +318,7 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
               )}
             </div>
             
-            <div className="bg-accent/10 rounded-curvy p-3 border border-accent/20">
+            <div className="bg-bg-elevated/20 rounded-lg p-3 border border-border">
               <div className="flex items-center space-x-2 mb-2">
                 <TrendingUp className="h-4 w-4 text-error" />
                 <h5 className="font-medium text-text-primary text-sm">Worst Performance</h5>
@@ -338,7 +338,7 @@ const PerformanceComparisonChart: React.FC<PerformanceComparisonChartProps> = ({
               )}
             </div>
             
-            <div className="bg-accent/10 rounded-curvy p-3 border border-accent/20">
+            <div className="bg-bg-elevated/20 rounded-lg p-3 border border-border">
               <div className="flex items-center space-x-2 mb-2">
                 <Zap className="h-4 w-4 text-primary" />
                 <h5 className="font-medium text-text-primary text-sm">Performance Ratio</h5>

@@ -136,9 +136,9 @@ export const PulseEffect: React.FC<PulseEffectProps> = ({
       case 'low':
         return 'animate-pulse opacity-80';
       case 'medium':
-        return 'animate-pulse-glow';
+        return '';
       case 'high':
-        return 'animate-pulse-glow scale-105';
+        return ' scale-105';
       default:
         return 'animate-pulse';
     }

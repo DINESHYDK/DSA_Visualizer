@@ -44,26 +44,26 @@ const AlgorithmComparison: React.FC<AlgorithmComparisonProps> = ({
         {algorithms.map((algorithm) => (
           <div
             key={algorithm.id}
-            className={`bg-bg-card rounded-curvy p-4 shadow-curvy border-2 cursor-pointer
-                       transition-all duration-200 hover:shadow-glow ${
+            className={`bg-bg-card rounded-lg p-4 border-2 cursor-pointer
+                       transition-colors duration-150 ${
               selectedAlgorithm === algorithm.id
-                ? 'border-primary bg-primary/5'
-                : 'border-transparent hover:border-primary/40'
+                ? 'border-accent bg-accent/5'
+                : 'border-border hover:border-border-hover'
             }`}
             onClick={() => onAlgorithmSelect(algorithm.id)}
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-3">
-                <h4 className="text-md font-semibold text-text-primary">
+                <h4 className="text-sm font-semibold text-text-primary">
                   {algorithm.info.name}
                 </h4>
-                <span className={`text-xs px-2 py-1 rounded-curvy-sm bg-accent/20 ${getCategoryColor(algorithm.category)}`}>
+                <span className={`text-xs px-2 py-0.5 rounded bg-bg-elevated ${getCategoryColor(algorithm.category)}`}>
                   {algorithm.category}
                 </span>
               </div>
               {selectedAlgorithm === algorithm.id && (
-                <div className="w-3 h-3 bg-primary rounded-full animate-pulse-glow" />
+                <div className="w-2 h-2 bg-accent rounded-full" />
               )}
             </div>
 
@@ -77,7 +77,7 @@ const AlgorithmComparison: React.FC<AlgorithmComparisonProps> = ({
               {/* Time Complexity */}
               <div>
                 <div className="flex items-center space-x-1 mb-1">
-                  <Clock className="h-3 w-3 text-primary" />
+                  <Clock className="h-3 w-3 text-accent" />
                   <span className="text-text-muted">Time</span>
                 </div>
                 <div className="space-y-1">
@@ -108,7 +108,7 @@ const AlgorithmComparison: React.FC<AlgorithmComparisonProps> = ({
             </div>
 
             {/* Properties */}
-            <div className="flex items-center justify-between mt-3 pt-2 border-t border-accent/20">
+            <div className="flex items-center justify-between mt-3 pt-2 border-t border-border">
               <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-1">
                   {algorithm.info.stable ? (
@@ -135,8 +135,8 @@ const AlgorithmComparison: React.FC<AlgorithmComparisonProps> = ({
 
       {/* Selection Indicator */}
       {selectedAlgorithm && (
-        <div className="bg-primary/10 border border-primary/20 rounded-curvy p-3">
-          <p className="text-sm text-primary font-medium">
+        <div className="bg-accent/10 border border-accent/30 rounded-lg p-3">
+          <p className="text-sm text-accent font-medium">
             {algorithms.find(alg => alg.id === selectedAlgorithm)?.info.name} selected
           </p>
         </div>

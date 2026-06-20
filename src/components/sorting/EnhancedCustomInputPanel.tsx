@@ -244,13 +244,13 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
   };
 
   return (
-    <div className="bg-bg-card rounded-curvy p-6 shadow-curvy space-y-6">
+    <div className="bg-bg-card rounded-lg p-6 shadow-sm space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-primary">Custom Input System</h3>
         <button
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+          className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                    transition-colors duration-200"
           title="Advanced Settings"
         >
@@ -278,14 +278,13 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
           max={maxSize}
           value={arraySize}
           onChange={(e) => handleSizeChange(parseInt(e.target.value))}
-          className="w-full h-3 bg-accent rounded-curvy appearance-none cursor-pointer
-                   focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="w-full h-1.5 rounded-full appearance-none cursor-pointer focus:outline-none"
           style={{
-            background: `linear-gradient(to right, 
-              var(--color-primary) 0%, 
-              var(--color-primary) ${((arraySize - 3) / (maxSize - 3)) * 100}%, 
-              var(--color-accent) ${((arraySize - 3) / (maxSize - 3)) * 100}%, 
-              var(--color-accent) 100%)`
+            background: `linear-gradient(to right,
+              var(--color-accent) 0%,
+              var(--color-accent) ${((arraySize - 3) / (maxSize - 3)) * 100}%,
+              var(--color-bg-elevated) ${((arraySize - 3) / (maxSize - 3)) * 100}%,
+              var(--color-bg-elevated) 100%)`
           }}
         />
         
@@ -298,7 +297,7 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
 
       {/* Advanced Settings */}
       {showAdvanced && (
-        <div className="space-y-4 p-4 bg-accent/10 rounded-curvy border border-accent/20">
+        <div className="space-y-4 p-4 bg-bg-elevated/20 rounded-lg border border-border">
           <h4 className="text-md font-medium text-text-secondary">Advanced Settings</h4>
           
           {/* Value Range Controls */}
@@ -309,8 +308,8 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
                 type="number"
                 value={customMinValue}
                 onChange={(e) => handleValueRangeChange(parseInt(e.target.value) || 1, customMaxValue)}
-                className="w-full p-2 bg-accent/20 border border-accent/40 rounded-curvy
-                         text-text-primary focus:border-primary focus:ring-1 focus:ring-primary/20"
+                className="w-full p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
+                         text-text-primary focus:border-accent focus:ring-1 focus:ring-accent/20"
                 min="1"
                 max={customMaxValue - 1}
               />
@@ -321,8 +320,8 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
                 type="number"
                 value={customMaxValue}
                 onChange={(e) => handleValueRangeChange(customMinValue, parseInt(e.target.value) || 99)}
-                className="w-full p-2 bg-accent/20 border border-accent/40 rounded-curvy
-                         text-text-primary focus:border-primary focus:ring-1 focus:ring-primary/20"
+                className="w-full p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
+                         text-text-primary focus:border-accent focus:ring-1 focus:ring-accent/20"
                 min={customMinValue + 1}
                 max="999"
               />
@@ -339,10 +338,10 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
             <button
               key={preset.id}
               onClick={() => generatePresetArray(preset.id)}
-              className={`p-3 rounded-curvy border transition-all duration-200 text-left hover-lift ${
+              className={`p-3 rounded-lg border transition-all duration-200 text-left ${
                 activePreset === preset.id
-                  ? 'bg-primary/20 border-primary text-primary'
-                  : 'bg-accent/20 border-accent/40 text-text-secondary hover:bg-primary/10 hover:border-primary/60'
+                  ? 'bg-accent/20 border-accent text-primary'
+                  : 'bg-bg-elevated/50 border-border-hover text-text-secondary hover:bg-accent-hover/10 hover:border-accent/60'
               }`}
             >
               <div className="flex items-center space-x-2 mb-2">
@@ -364,7 +363,7 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
           <h4 className="text-md font-medium text-text-secondary">Custom Values</h4>
           <div className="flex items-center space-x-2">
             {/* Import */}
-            <label className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+            <label className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                            cursor-pointer transition-colors duration-200" title="Import Array">
               <Upload className="h-4 w-4" />
               <input
@@ -379,7 +378,7 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
             <button
               onClick={exportArray}
               disabled={currentArray.length === 0}
-              className="p-2 rounded-curvy text-text-muted hover:text-primary hover:bg-accent/20 
+              className="p-2 rounded-lg text-text-muted hover:text-accent hover:bg-bg-elevated/50 
                        disabled:opacity-50 disabled:cursor-not-allowed
                        transition-colors duration-200"
               title="Export Array"
@@ -394,9 +393,9 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
             value={customInput}
             onChange={(e) => handleCustomInput(e.target.value)}
             placeholder="Enter comma-separated numbers (e.g., 64, 34, 25, 12, 22, 11, 90)"
-            className="w-full p-3 bg-accent/20 border border-accent/40 rounded-curvy
+            className="w-full p-3 bg-bg-elevated/50 border border-border-hover rounded-lg
                      text-text-primary placeholder-text-muted resize-none
-                     focus:border-primary focus:ring-1 focus:ring-primary/20
+                     focus:border-accent focus:ring-1 focus:ring-accent/20
                      transition-colors duration-200"
             rows={3}
           />
@@ -432,16 +431,16 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
             value={arrayName}
             onChange={(e) => setArrayName(e.target.value)}
             placeholder="Array name..."
-            className="flex-1 p-2 bg-accent/20 border border-accent/40 rounded-curvy
+            className="flex-1 p-2 bg-bg-elevated/50 border border-border-hover rounded-lg
                      text-text-primary placeholder-text-muted
-                     focus:border-primary focus:ring-1 focus:ring-primary/20"
+                     focus:border-accent focus:ring-1 focus:ring-accent/20"
           />
           <button
             onClick={saveCurrentArray}
             disabled={!arrayName.trim() || currentArray.length === 0}
-            className="px-4 py-2 bg-primary hover:bg-hover text-secondary rounded-curvy
+            className="px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg
                      disabled:opacity-50 disabled:cursor-not-allowed
-                     transition-all duration-200 hover-lift"
+                     transition-all duration-200"
           >
             <Save className="h-4 w-4" />
           </button>
@@ -453,7 +452,7 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
             {savedArrays.map((saved, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-2 bg-accent/10 rounded-curvy border border-accent/20"
+                className="flex items-center justify-between p-2 bg-bg-elevated/20 rounded-lg border border-border"
               >
                 <div className="flex-1">
                   <div className="text-sm font-medium text-text-primary">{saved.name}</div>
@@ -464,7 +463,7 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
                 <div className="flex space-x-1">
                   <button
                     onClick={() => loadSavedArray(saved.array)}
-                    className="p-1 text-primary hover:bg-primary/20 rounded transition-colors duration-200"
+                    className="p-1 text-primary hover:bg-accent-hover/20 rounded transition-colors duration-200"
                     title="Load Array"
                   >
                     <RefreshCw className="h-3 w-3" />
@@ -484,7 +483,7 @@ const EnhancedCustomInputPanel: React.FC<EnhancedCustomInputPanelProps> = ({
       </div>
 
       {/* Current Array Info */}
-      <div className="bg-accent/10 rounded-curvy p-3 border border-accent/20">
+      <div className="bg-bg-elevated/20 rounded-lg p-3 border border-border">
         <div className="flex justify-between items-center text-sm">
           <span className="text-text-muted">Current Array:</span>
           <div className="flex items-center space-x-2">

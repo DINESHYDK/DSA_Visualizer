@@ -160,11 +160,11 @@ const ComplexityAnalysisPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <>
+      
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-4">Complexity Analysis</h1>
+          <h1 className="text-4xl font-bold text-text-accent mb-4">Complexity Analysis</h1>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto">
             Understand algorithm performance through comprehensive complexity analysis, 
             real-time metrics, and interactive visualizations.
@@ -172,10 +172,10 @@ const ComplexityAnalysisPage: React.FC = () => {
         </div>
 
         {/* Controls */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy mb-8">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm mb-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h2 className="text-lg font-medium text-text-primary mb-4">Analysis Configuration</h2>
+              <h2 className="text-lg font-medium text-text-accent mb-4">Analysis Configuration</h2>
               
               <div className="flex flex-wrap items-center gap-4">
                 {/* Algorithm Selection */}
@@ -186,8 +186,8 @@ const ComplexityAnalysisPage: React.FC = () => {
                   <select
                     value={selectedAlgorithm}
                     onChange={(e) => setSelectedAlgorithm(e.target.value)}
-                    className="p-2 bg-accent/20 border border-accent/40 rounded-curvy text-text-primary
-                             focus:border-primary focus:ring-1 focus:ring-primary/20"
+                    className="p-2 bg-bg-elevated/50 border border-border-hover rounded-lg text-text-accent
+                             focus:border-accent focus:ring-1 focus:ring-primary/20"
                   >
                     {algorithms.map((alg) => (
                       <option key={alg.id} value={alg.id}>
@@ -208,7 +208,7 @@ const ComplexityAnalysisPage: React.FC = () => {
                     max="100"
                     value={inputSize}
                     onChange={(e) => setInputSize(parseInt(e.target.value))}
-                    className="w-48 h-3 bg-accent rounded-curvy appearance-none cursor-pointer
+                    className="w-48 h-3 bg-accent rounded-lg appearance-none cursor-pointer
                              focus:outline-none focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
@@ -217,8 +217,8 @@ const ComplexityAnalysisPage: React.FC = () => {
                 <div className="self-end">
                   <button
                     onClick={generateNewArray}
-                    className="px-4 py-2 bg-primary hover:bg-hover text-bg-primary rounded-curvy
-                             transition-all duration-200 hover-lift font-medium"
+                    className="px-4 py-2 bg-accent hover:bg-accent-hover text-white rounded-lg
+                             transition-all duration-200 font-medium"
                   >
                     <RefreshCw className="h-4 w-4 inline mr-2" />
                     Regenerate Data
@@ -285,13 +285,13 @@ const ComplexityAnalysisPage: React.FC = () => {
         </div>
 
         {/* Educational Content */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
-          <h2 className="text-2xl font-semibold text-primary mb-6">Understanding Algorithm Complexity</h2>
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm">
+          <h2 className="text-2xl font-semibold text-text-accent mb-6">Understanding Algorithm Complexity</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Time Complexity */}
             <div className="space-y-4">
-              <h3 className="text-lg font-medium text-primary flex items-center space-x-2">
+              <h3 className="text-lg font-medium text-accent flex items-center space-x-2">
                 <Clock className="h-5 w-5" />
                 <span>Time Complexity</span>
               </h3>
@@ -393,12 +393,12 @@ const ComplexityAnalysisPage: React.FC = () => {
           </div>
 
           {/* Additional Resources */}
-          <div className="mt-8 bg-accent/10 rounded-curvy p-4 border border-accent/20">
-            <h3 className="text-lg font-medium text-text-primary mb-3">Additional Resources</h3>
+          <div className="mt-8 bg-bg-elevated/20 rounded-lg p-4 border border-border">
+            <h3 className="text-lg font-medium text-text-accent mb-3">Additional Resources</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-bg-secondary/30 rounded-curvy p-3">
-                <h4 className="font-medium text-primary mb-2">Books</h4>
+              <div className="bg-bg-secondary/30 rounded-lg p-3">
+                <h4 className="font-medium text-accent mb-2">Books</h4>
                 <ul className="space-y-1 text-sm text-text-muted">
                   <li>• "Introduction to Algorithms" by CLRS</li>
                   <li>• "Algorithm Design Manual" by Skiena</li>
@@ -406,8 +406,8 @@ const ComplexityAnalysisPage: React.FC = () => {
                 </ul>
               </div>
               
-              <div className="bg-bg-secondary/30 rounded-curvy p-3">
-                <h4 className="font-medium text-primary mb-2">Online Courses</h4>
+              <div className="bg-bg-secondary/30 rounded-lg p-3">
+                <h4 className="font-medium text-accent mb-2">Online Courses</h4>
                 <ul className="space-y-1 text-sm text-text-muted">
                   <li>• MIT OpenCourseWare - Algorithms</li>
                   <li>• Stanford Algorithms Specialization</li>
@@ -415,8 +415,8 @@ const ComplexityAnalysisPage: React.FC = () => {
                 </ul>
               </div>
               
-              <div className="bg-bg-secondary/30 rounded-curvy p-3">
-                <h4 className="font-medium text-primary mb-2">Interactive Tools</h4>
+              <div className="bg-bg-secondary/30 rounded-lg p-3">
+                <h4 className="font-medium text-accent mb-2">Interactive Tools</h4>
                 <ul className="space-y-1 text-sm text-text-muted">
                   <li>• VisuAlgo.net</li>
                   <li>• Big-O Cheat Sheet</li>
@@ -426,8 +426,7 @@ const ComplexityAnalysisPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+  </>
   );
 };
 

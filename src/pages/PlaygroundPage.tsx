@@ -163,7 +163,7 @@ const PlaygroundPage: React.FC = () => {
       );
     } else if (algorithmCategory === 'search') {
       return (
-        <div className="bg-bg-card rounded-curvy p-12 shadow-curvy text-center">
+        <div className="bg-bg-card rounded-lg p-12 shadow-sm text-center">
           <div className="text-text-muted">
             <Target className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <p>Search algorithm visualization coming soon...</p>
@@ -172,7 +172,7 @@ const PlaygroundPage: React.FC = () => {
       );
     } else {
       return (
-        <div className="bg-bg-card rounded-curvy p-12 shadow-curvy text-center">
+        <div className="bg-bg-card rounded-lg p-12 shadow-sm text-center">
           <div className="text-text-muted">
             <Network className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <p>Graph algorithm visualization coming soon...</p>
@@ -183,11 +183,11 @@ const PlaygroundPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <>
+      
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-4">Interactive Algorithm Playground</h1>
+          <h1 className="text-4xl font-bold text-text-accent mb-4">Interactive Algorithm Playground</h1>
           <p className="text-xl text-text-secondary max-w-4xl mx-auto">
             Advanced testing environment for comprehensive algorithm analysis. Create custom data structures, 
             run extensive test suites, and customize algorithm parameters for deep performance insights.
@@ -195,18 +195,18 @@ const PlaygroundPage: React.FC = () => {
         </div>
 
         {/* Algorithm Selection */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy mb-8">
-          <h2 className="text-lg font-medium text-text-primary mb-4">Select Algorithm</h2>
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm mb-8">
+          <h2 className="text-lg font-medium text-text-accent mb-4">Select Algorithm</h2>
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {algorithms.map((algorithm) => (
               <button
                 key={algorithm.id}
                 onClick={() => setSelectedAlgorithm(algorithm.id)}
-                className={`p-3 rounded-curvy border-2 transition-all duration-200 text-left hover-lift ${
+                className={`p-3 rounded-lg border-2 transition-all duration-200 text-left ${
                   selectedAlgorithm === algorithm.id
-                    ? 'bg-primary/20 border-primary text-primary shadow-glow'
-                    : 'bg-accent/20 border-accent/40 text-text-secondary hover:bg-primary/10 hover:border-primary/60'
+                    ? 'bg-accent/20 border-accent text-text-accent '
+                    : 'bg-bg-elevated/50 border-border-hover text-text-secondary hover:bg-accent-hover/10 hover:border-accent/60'
                 }`}
               >
                 <div className="flex items-center space-x-2 mb-1">
@@ -220,17 +220,17 @@ const PlaygroundPage: React.FC = () => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-bg-card rounded-curvy p-6 shadow-curvy mb-8">
-          <div className="flex space-x-1 bg-accent/20 rounded-curvy p-1">
+        <div className="bg-bg-card rounded-lg p-6 shadow-sm mb-8">
+          <div className="flex space-x-1 bg-bg-elevated/50 rounded-lg p-1">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-curvy
+                className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg
                          transition-all duration-200 font-medium ${
                   activeTab === tab.id
-                    ? 'bg-primary text-bg-primary shadow-glow'
-                    : 'text-text-secondary hover:text-text-primary hover:bg-accent/40'
+                    ? 'bg-accent text-white '
+                    : 'text-text-secondary hover:text-text-accent hover:bg-bg-elevated'
                 }`}
               >
                 {tab.icon}
@@ -276,16 +276,16 @@ const PlaygroundPage: React.FC = () => {
           {/* Visualization Panel */}
           <div className="space-y-6">
             {/* Run Controls */}
-            <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
-              <h3 className="text-lg font-medium text-text-primary mb-4">Visualization</h3>
+            <div className="bg-bg-card rounded-lg p-6 shadow-sm">
+              <h3 className="text-lg font-medium text-text-accent mb-4">Visualization</h3>
               
               <div className="space-y-4">
                 <button
                   onClick={runVisualization}
                   disabled={isRunning}
-                  className="w-full px-6 py-3 bg-primary hover:bg-hover text-bg-primary rounded-curvy
+                  className="w-full px-6 py-3 bg-accent hover:bg-accent-hover text-white rounded-lg
                            disabled:opacity-50 disabled:cursor-not-allowed
-                           transition-all duration-200 hover-lift font-medium"
+                           transition-all duration-200 font-medium"
                 >
                   {isRunning ? (
                     <>
@@ -301,12 +301,12 @@ const PlaygroundPage: React.FC = () => {
                 </button>
 
                 {/* Current Configuration */}
-                <div className="p-4 bg-accent/10 rounded-curvy border border-accent/20">
-                  <h4 className="font-medium text-text-primary mb-2">Current Setup</h4>
+                <div className="p-4 bg-bg-elevated/20 rounded-lg border border-border">
+                  <h4 className="font-medium text-text-accent mb-2">Current Setup</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-text-muted">Algorithm:</span>
-                      <span className="text-primary font-medium">
+                      <span className="text-accent font-medium">
                         {algorithms.find(a => a.id === selectedAlgorithm)?.name}
                       </span>
                     </div>
@@ -330,13 +330,13 @@ const PlaygroundPage: React.FC = () => {
             </div>
 
             {/* Quick Stats */}
-            <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
-              <h3 className="text-lg font-medium text-text-primary mb-4">Quick Stats</h3>
+            <div className="bg-bg-card rounded-lg p-6 shadow-sm">
+              <h3 className="text-lg font-medium text-text-accent mb-4">Quick Stats</h3>
               
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-text-muted">Data Elements:</span>
-                  <span className="text-primary font-bold">{currentDataStructure.size}</span>
+                  <span className="text-accent font-bold">{currentDataStructure.size}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-text-muted">Algorithm Type:</span>
@@ -358,15 +358,15 @@ const PlaygroundPage: React.FC = () => {
             </div>
 
             {/* Mini Visualization */}
-            <div className="bg-bg-card rounded-curvy p-4 shadow-curvy">
-              <h4 className="text-md font-medium text-text-primary mb-3">Preview</h4>
+            <div className="bg-bg-card rounded-lg p-4 shadow-sm">
+              <h4 className="text-md font-medium text-text-accent mb-3">Preview</h4>
               
               {currentDataStructure.values && (
                 <div className="flex space-x-1 justify-center">
                   {currentDataStructure.values.slice(0, 8).map((value, index) => (
                     <div
                       key={index}
-                      className="w-8 h-8 bg-accent border border-accent/60 rounded flex items-center justify-center text-xs text-text-primary"
+                      className="w-8 h-8 bg-accent border border-accent/60 rounded flex items-center justify-center text-xs text-text-accent"
                     >
                       {value}
                     </div>
@@ -384,9 +384,9 @@ const PlaygroundPage: React.FC = () => {
 
         {/* Full Visualization */}
         <div className="mt-12">
-          <div className="bg-bg-card rounded-curvy p-6 shadow-curvy">
+          <div className="bg-bg-card rounded-lg p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-primary">Live Visualization</h2>
+              <h2 className="text-2xl font-semibold text-text-accent">Live Visualization</h2>
               <div className="text-sm text-text-muted">
                 {algorithms.find(a => a.id === selectedAlgorithm)?.name} on {currentDataStructure.type}
               </div>
@@ -395,8 +395,7 @@ const PlaygroundPage: React.FC = () => {
             {renderVisualization()}
           </div>
         </div>
-      </div>
-    </div>
+  </>
   );
 };
 

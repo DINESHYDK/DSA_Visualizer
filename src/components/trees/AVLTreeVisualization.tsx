@@ -240,7 +240,7 @@ const AVLTreeVisualization: React.FC<AVLTreeVisualizationProps> = ({ className =
           cy={y}
           r="20"
           fill={nodeColor}
-          stroke="#1f2937"
+          stroke="#525252"
           strokeWidth="2"
           className="transition-colors duration-300"
         />
@@ -274,7 +274,7 @@ const AVLTreeVisualization: React.FC<AVLTreeVisualizationProps> = ({ className =
   return (
     <div className={`bg-white rounded-lg shadow-lg p-6 ${className}`}>
       <div className="mb-6">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">AVL Tree Visualization</h3>
+        <h3 className="text-xl font-bold text-text-primary mb-4">AVL Tree Visualization</h3>
         
         <div className="flex flex-wrap gap-4 items-center mb-4">
           <div className="flex gap-2">
@@ -307,27 +307,27 @@ const AVLTreeVisualization: React.FC<AVLTreeVisualizationProps> = ({ className =
           <button
             onClick={handleReset}
             disabled={isAnimating}
-            className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors"
+            className="px-4 py-2 bg-bg-elevated text-text-secondary border border-border rounded hover:border-border-hover disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 transition-colors"
           >
             <RotateCcw size={16} />
             Reset
           </button>
         </div>
 
-        <div className="text-sm text-gray-600 mb-4">
+        <div className="text-sm text-text-muted mb-4">
           <p><strong>Balance Factor:</strong> Numbers next to nodes show balance factor (left height - right height)</p>
           <p><strong>Red nodes:</strong> Indicate imbalanced nodes (|balance| &gt; 1)</p>
           <p><strong>Blue nodes:</strong> Balanced nodes</p>
         </div>
       </div>
 
-      <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 min-h-[400px] flex items-center justify-center">
+      <div className="border border-border rounded-lg p-4 bg-bg-card min-h-[400px] flex items-center justify-center">
         {root ? (
           <svg width="800" height="400" className="overflow-visible">
             {renderNode(root, 400, 50, 0)}
           </svg>
         ) : (
-          <div className="text-gray-500 text-center">
+          <div className="text-text-muted text-center">
             <p className="text-lg mb-2">Empty AVL Tree</p>
             <p className="text-sm">Insert a value to start building the tree</p>
           </div>

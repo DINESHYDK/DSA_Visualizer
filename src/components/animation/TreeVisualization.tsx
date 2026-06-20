@@ -125,7 +125,7 @@ const TreeVisualization: React.FC<TreeVisualizationProps> = ({
       <svg
         width={width}
         height={height}
-        className="border border-accent/20 rounded-curvy bg-bg-secondary/20"
+        className="border border-border rounded-lg bg-bg-secondary/20"
         viewBox={`0 0 ${width} ${height}`}
       >
         {/* Render edges first (so they appear behind nodes) */}
@@ -179,7 +179,7 @@ const TreeVisualization: React.FC<TreeVisualizationProps> = ({
                   stroke="var(--color-primary)"
                   strokeWidth="1"
                   opacity="0.3"
-                  className="animate-pulse-glow"
+                  className=""
                 />
               )}
               
@@ -245,18 +245,18 @@ const TreeVisualization: React.FC<TreeVisualizationProps> = ({
       </svg>
 
       {/* Array representation below tree */}
-      <div className="mt-4 p-4 bg-bg-card rounded-curvy border border-accent/20">
+      <div className="mt-4 p-4 bg-bg-card rounded-lg border border-border">
         <h4 className="text-sm font-medium text-text-secondary mb-3">Array Representation</h4>
         <div className="flex flex-wrap gap-2 justify-center">
           {elements.map((element, index) => (
             <div
               key={element.id}
               className={`
-                w-12 h-12 rounded-curvy border-2 flex items-center justify-center
+                w-12 h-12 rounded-lg border-2 flex items-center justify-center
                 text-sm font-semibold cursor-pointer transition-all duration-300
                 ${highlightedIndices.includes(index) 
-                  ? 'border-primary bg-primary/20 text-primary' 
-                  : 'border-accent bg-accent/20 text-text-primary hover:border-primary/60'
+                  ? 'border-accent bg-accent/20 text-primary' 
+                  : 'border-accent bg-bg-elevated/50 text-text-primary hover:border-accent/60'
                 }
               `}
               onClick={() => onElementClick?.(index)}
